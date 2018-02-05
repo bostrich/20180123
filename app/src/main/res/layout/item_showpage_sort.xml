@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/bg_rl"
+        android:layout_centerInParent="true"
+        android:background="?attr/wenjianjia_background"
+        android:layout_width="135dp"
+        android:layout_height="90dp">
+        <RelativeLayout
+            android:layout_marginTop="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:text="健身"
+                android:lines="1"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="18sp"
+                android:id="@+id/sort_name_tv"
+                android:background="@android:color/transparent"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:text="(15)"
+                android:layout_marginTop="3dp"
+                android:id="@+id/sort_num_tv"
+                android:layout_below="@+id/sort_name_tv"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="visible"
+            android:id="@+id/shadow_rl"
+            android:background="@drawable/shadow_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:src="@mipmap/delete_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

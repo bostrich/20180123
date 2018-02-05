@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
+    android:background="?attr/custom_actionbar_color"
+    tools:context="com.syezon.note_xh.activity.HotspotActivity">
+
+    <RelativeLayout
+        style="@style/my_actionbar_style"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ActionBarHeight"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
+        <ImageView
+            android:layout_width="@dimen/ActionBarHeight"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:id="@+id/iv_back"
+            android:src="@mipmap/back"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:text=""
+            android:textSize="@dimen/titlesize"
+            android:textColor="@color/title_text_color"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/relativeLayout">
+        <com.syezon.note_xh.view.RadarLayout
+            android:id="@+id/radarLayout"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+
+        <ImageView
+            android:id="@+id/iv_device"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/tv_device_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_device"
+            style="@style/style_common_text"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="设备名称"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/style_common_text"
+            android:gravity="center"
+            android:text="描述"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/tv_device_name" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

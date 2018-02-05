@@ -1,0 +1,96 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="theme_color">@color/green</item>
+        <item name="custom_actionbar_color">@color/top_green</item>
+        <item name="add_background">@mipmap/add_green</item>
+        <item name="menu_background">@mipmap/caidan_green</item>
+        <item name="wenjianjia_background">@mipmap/wenjianjia_green</item>
+        <item name="wenjianjia_collect_background">@mipmap/collect_wenjianjia_green</item>
+        <item name="time_item_background">@drawable/green_bg</item>
+        <item name="edit_complete_background">@mipmap/editcomplete_green</item>
+    </style>
+
+    <style name="take_photo_anim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
+    </style>
+
+    <style name="pop_move_window_anim" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/pop_appear_anim</item>
+        <item name="android:windowExitAnimation">@anim/pop_disappear_anim</item>
+    </style>
+
+    <style name="my_actionbar_style">
+        <item name="android:paddingLeft">0dp</item>
+    </style>
+
+    <style name="style_common_text">
+        <!--<item name="android:text">@string/str_name</item>-->
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="PinkStyle">
+        <item name="theme_color">@color/pink</item>
+        <item name="custom_actionbar_color">@color/top_pink</item>
+        <item name="add_background">@mipmap/add_pink</item>
+        <item name="menu_background">@mipmap/caidan_pink</item>
+        <item name="wenjianjia_background">@mipmap/wenjianjia_pink</item>
+        <item name="wenjianjia_collect_background">@mipmap/collect_wenjianjia_pink</item>
+        <item name="time_item_background">@drawable/pink_bg</item>
+        <item name="edit_complete_background">@mipmap/editcomplete_pink</item>
+    </style>
+
+    <style name="GrayStyle">
+        <item name="theme_color">@color/grayy</item>
+        <item name="custom_actionbar_color">@color/top_gray</item>
+        <item name="add_background">@mipmap/add_gray</item>
+        <item name="menu_background">@mipmap/caidan_gray</item>
+        <item name="wenjianjia_background">@mipmap/wenjianjia_gray</item>
+        <item name="wenjianjia_collect_background">@mipmap/collect_wenjianjia_gray</item>
+        <item name="time_item_background">@drawable/gray_bg</item>
+        <item name="edit_complete_background">@mipmap/editcomplete_gray</item>
+    </style>
+
+    <style name="GreenStyle">
+        <item name="theme_color">@color/green</item>
+        <item name="custom_actionbar_color">@color/top_green</item>
+        <item name="add_background">@mipmap/add_green</item>
+        <item name="menu_background">@mipmap/caidan_green</item>
+        <item name="wenjianjia_background">@mipmap/wenjianjia_green</item>
+        <item name="wenjianjia_collect_background">@mipmap/collect_wenjianjia_green</item>
+        <item name="time_item_background">@drawable/green_bg</item>
+        <item name="edit_complete_background">@mipmap/editcomplete_green</item>
+    </style>
+
+    <style name="BlueStyle">
+        <item name="theme_color">@color/blue</item>
+        <item name="custom_actionbar_color">@color/top_blue</item>
+        <item name="add_background">@mipmap/add_blue</item>
+        <item name="menu_background">@mipmap/caidan_blue</item>
+        <item name="wenjianjia_background">@mipmap/wenjianjia_blue</item>
+        <item name="wenjianjia_collect_background">@mipmap/collect_wenjianjia_blue</item>
+        <item name="time_item_background">@drawable/blue_bg</item>
+        <item name="edit_complete_background">@mipmap/editcomplete_blue</item>
+    </style>
+
+    <style name="DialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+    </style>
+
+</resources>

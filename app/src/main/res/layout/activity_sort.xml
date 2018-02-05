@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_time_main"
+    android:background="@color/activity_backGround"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.syezon.note_xh.activity.SortActivity">
+    <RelativeLayout
+        style="@style/my_actionbar_style"
+        android:background="?attr/custom_actionbar_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ActionBarHeight"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
+        <ImageView
+            android:layout_width="@dimen/ActionBarHeight"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:id="@+id/iv_back"
+            android:src="@mipmap/back"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:text="冲浪"
+            android:id="@+id/tv_title"
+            android:textSize="@dimen/titlesize"
+            android:textColor="@color/title_text_color"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_showpage"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <ImageView
+        android:background="?attr/add_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="25dp"
+        android:id="@+id/iv_add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"  />
+
+    <LinearLayout
+        android:background="#EDEBEC"
+        android:visibility="gone"
+        android:id="@+id/ll_edit"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="删除"
+            android:textSize="16sp"
+            android:textColor="?attr/custom_actionbar_color"
+            android:id="@+id/tv_delete" />
+
+        <LinearLayout
+            android:id="@+id/ll_move"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="移动至"
+                android:textSize="16sp"
+                android:textColor="?attr/custom_actionbar_color"/>
+            <TextView
+                android:id="@+id/tv_move_up"
+                android:layout_marginLeft="10dp"
+                android:text="@string/up"
+                android:textSize="14sp"
+                android:textColor="?attr/custom_actionbar_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_mark"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="标记为"
+                android:textSize="16sp"
+                android:textColor="?attr/custom_actionbar_color"/>
+            <TextView
+                android:id="@+id/tv_mark_up"
+                android:layout_marginLeft="10dp"
+                android:text="@string/up"
+                android:textSize="14sp"
+                android:textColor="?attr/custom_actionbar_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="取消"
+            android:textSize="16sp"
+            android:textColor="?attr/custom_actionbar_color"
+            android:id="@+id/tv_cancel" />
+    </LinearLayout>
+
+</RelativeLayout>

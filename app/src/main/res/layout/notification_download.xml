@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="#111111">
+
+    <ImageView
+        android:id="@+id/iv_notify"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:contentDescription="@null"
+        android:src="@mipmap/ic_game" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/llyt_download"
+        android:layout_toRightOf="@+id/iv_notify"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/tv_percent"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ProgressBar
+            android:id="@+id/pb_percent"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginTop="4dp"
+            android:max="100"
+            android:progress="50" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llyt_download"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <ImageView
+            android:id="@+id/iv_download"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@null"
+            android:src="@mipmap/ic_notify_pause" />
+
+        <TextView
+            android:id="@+id/tv_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="暂停"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,98 @@
+<resources>
+    <string name="app_name">简易便签</string>
+    <string name="bianqian">便签</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <!--iconfont矢量图-->
+
+    <string name="leidian">&#xe60a;</string>
+    <string name="xiaoyu">&#xe60b;</string>
+    <string name="xue">&#xe60c;</string>
+    <string name="duoyun">&#xe60d;</string>
+    <string name="tianqi">&#xe617;</string>
+    <string name="qingtian">&#xe618;</string>
+
+    <string name="carmer">&#xe607;</string>
+    <string name="editnote">&#xe61a;</string>
+    <string name="collect_null">&#xe603;</string>
+    <string name="collect">&#xe60e;</string>
+    <string name="caidan">&#xe619;</string>
+    <string name="add">&#xe606;</string>
+    <string name="sortadd">&#xe606;</string>
+    <string name="sortName">&#xe600;</string>
+    <string name="about">&#xe614;</string>
+    <string name="lock">&#xe601;</string>
+    <string name="email">&#xe608;</string>
+    <string name="warn">&#xe609;</string>
+    <string name="apostrophe">&#xe602;</string>
+    <string name="calender">&#xe605;</string>
+    <string name="skin">&#xe61b;</string>
+    <string name="font">&#xe61e;</string>
+    <string name="migration">&#xe622;</string>
+    <string name="clock">&#xe612;</string>
+    <string name="down">&#xe60f;</string>
+    <string name="up">&#xe61d;</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="aboutus">\©2014 Hangzhou Hodanet. All rights reserved</string>
+    <string name="feedback">用户反馈</string>
+    <string name="contactinfo">联系方式:</string>
+    <string name="privacy">隐私保护</string>
+    <string name="privacy_into">提示：当您需要保护笔记隐私的时候，请打开隐私保护开关，设置四位数密码,下次启动需要输入密码验证</string>
+    <string name="weixin">微信</string>
+    <string name="xinlang">新浪</string>
+    <string name="qq">QQ</string>
+    <string name="login">登录</string>
+    <string name="protect">只有第三方账户登录后，隐私保护才生效。</string>
+    <string name="addsort">添加分类</string>
+    <string name="inputsort">请输入分类名称</string>
+    <string name="confirm">确定</string>
+    <string name="cancle">取消</string>
+    <string name="save">保存</string>
+    <string name="input_title">请输入标题...</string>
+    <string name="input_content">请输入内容...</string>
+    <string name="choose_sort">选择分类</string>
+    <string name="fenlei">分类</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
+    <string name="addpic">添加图片</string>
+    <string name="aboutus_title">关于我们</string>
+    <string name="changename">修改分类</string>
+    <string name="setting">设置</string>
+    <string name="inputpassword">请输入密码</string>
+    <string name="resetpassword">重置</string>
+    <string name="deletepassword">删除</string>
+    <string name="password_promot">密码提示</string>
+    <string name="complete">完成</string>
+    <string name="promot_message">当您忘记密码时，帮助您记起密码</string>
+    <string name="set_success">密码设置成功</string>
+    <string name="ifsetquestion">是否设置密码提示？</string>
+    <string name="jianyibianqian">简易便签</string>
+    <string name="clearpassword">清空</string>
+    <string name="set_password">设置密码</string>
+    <string name="isback">编辑未保存，确定退出？</string>
+    <string name="change_skin">换肤</string>
+    <string name="whether_delete_note">确定要删除此便签？</string>
+    <string name="input_sort_name">请输入分类名称</string>
+    <string name="whether_delete_sort">是否确定删除“XX”分类？</string>
+    <string name="whether_delete_this_sort">确定要删除此分类？</string>
+    <string name="advice_feedback">
+        <u>意见反馈</u>
+    </string>
+    <string name="textfont">文字大小</string>
+    <string name="data_transfer">数据迁移</string>
+    <string name="data_import">数据导入</string>
+    <string name="data_output">数据导出</string>
+    <string name="data_output_file">导出到文件</string>
+    <string name="data_output_phone">导出</string>
+    <string name="data_import_phone_title">数据导入</string>
+    <string name="data_transfer_import">导入</string>
+    <string name="data_import_phone">另一部手机</string>
+    <string name="data_import_file">文件</string>
+    <string name="data_transfer_output">导出</string>
+    <string name="output">导出</string>
+    <string name="output_note">请将目标手机导入功能开启</string>
+    <string name="data_migration_wait">等待连接...</string>
+    <string name="dialog_bluetooth_title">请选择要导入的设备</string>
+    <string name="migration_on_progress">正在导出...</string>
+</resources>

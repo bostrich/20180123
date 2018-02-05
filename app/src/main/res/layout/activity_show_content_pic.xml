@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context="com.syezon.note_xh.activity.ShowContentPicActivity">
+
+    <RelativeLayout
+        android:id="@+id/top_rl"
+        android:layout_marginTop="5dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:src="@mipmap/back"
+            android:layout_width="@dimen/ActionBarHeight"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"/>
+    </RelativeLayout>
+
+    <com.syezon.note_xh.view.ExtendedViewPager
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/top_rl"
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

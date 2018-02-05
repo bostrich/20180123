@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_no_wifi"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/view_fill"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@android:color/transparent" />
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="?attr/custom_actionbar_color">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@mipmap/back" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="网络错误"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_clean_total_tip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <View
+            android:id="@+id/layout_center"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/surfing_nowifi_reload"
+            android:layout_width="100dp"
+            android:layout_height="27dp"
+            android:layout_below="@id/layout_center"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+
+            android:scaleType="centerInside" />
+
+        <ImageView
+            android:id="@+id/surfing_nowifi_image"
+            android:layout_width="175dp"
+            android:layout_height="150dp"
+            android:layout_above="@id/layout_center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+
+            android:scaleType="centerInside" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/activity_backGround"
+    tools:context="com.syezon.note_xh.activity.DataImportFileActivity">
+
+    <RelativeLayout
+        style="@style/my_actionbar_style"
+        android:background="?attr/custom_actionbar_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ActionBarHeight"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/rl_title"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+        <ImageView
+            android:layout_width="@dimen/ActionBarHeight"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:id="@+id/iv_cancel"
+            android:src="@mipmap/back"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:text="@string/data_import"
+            android:textSize="@dimen/titlesize"
+            android:textColor="@color/title_text_color"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_floder"
+        android:layout_below="@id/rl_title"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_folder"
+        android:layout_below="@id/ll_floder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+</RelativeLayout>

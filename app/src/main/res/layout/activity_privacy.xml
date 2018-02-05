@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/activity_backGround"
+    tools:context="com.syezon.note_xh.activity.PrivacyActivity">
+    <RelativeLayout
+        style="@style/my_actionbar_style"
+        android:background="?attr/custom_actionbar_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ActionBarHeight"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
+        <TextView
+            android:text="@string/privacy"
+            android:textSize="@dimen/titlesize"
+            android:textColor="@color/title_text_color"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="@dimen/ActionBarHeight"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:id="@+id/iv_back"
+            android:src="@mipmap/back"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@android:color/white"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_marginTop="23dp">
+
+            <ImageView
+                android:layout_marginRight="15dp"
+                android:id="@+id/iv_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/btnc"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true" />
+
+        <TextView
+            android:text="@string/lock"
+            android:textSize="30sp"
+            android:textColor="?attr/custom_actionbar_color"
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_privacy_lock"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="@color/mygray"
+        android:text="@string/privacy_into"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/textView5"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

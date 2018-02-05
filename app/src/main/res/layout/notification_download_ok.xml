@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:background="#111111">
+
+    <ImageView
+        android:id="@+id/iv_notify"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:contentDescription="@null"
+        android:src="@mipmap/ic_game" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/iv_notify"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginTop="4dp"
+            android:textColor="#cccccc"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

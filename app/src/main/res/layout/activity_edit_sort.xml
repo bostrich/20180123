@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_sort_activity_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/activity_backGround"
+    tools:context="com.syezon.note_xh.activity.EditSortActivity">
+    <RelativeLayout
+        style="@style/my_actionbar_style"
+        android:background="?attr/custom_actionbar_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ActionBarHeight"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
+        <TextView
+            android:text="@string/fenlei"
+            android:textSize="@dimen/titlesize"
+            android:textColor="@color/title_text_color"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="@dimen/ActionBarHeight"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:id="@+id/iv_back"
+            android:src="@mipmap/back"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <CheckBox
+            android:textColor="@android:color/white"
+            android:button="@null"
+            android:checked="false"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit"
+            android:textSize="15sp"
+            android:id="@+id/cb_edit"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+
+    <ListView
+        android:listSelector="@android:color/transparent"
+        android:id="@+id/lv_showsort"
+        android:layout_below="@+id/relativeLayout"
+        android:divider="@color/activity_backGround"
+        android:dividerHeight="1px"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
+
+
+    <TextView
+        android:visibility="gone"
+        android:layout_margin="15dp"
+        android:text="@string/sortadd"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/theme_color"
+        android:id="@+id/tv_add"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

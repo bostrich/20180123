@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:background="@drawable/white_bg"
+        android:layout_width="150dp"
+        android:layout_height="223dp">
+
+        <LinearLayout
+            android:layout_marginRight="2dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="?attr/time_item_background"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/relativeLayout2">
+
+            <TextView
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="@string/tianqi"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gv_weather_tv"
+                android:layout_marginLeft="8dp"/>
+
+            <TextView
+                android:id="@+id/gv_time_tv"
+                android:text="2016-7-7"
+                android:textColor="@android:color/white"
+                android:background="@android:color/transparent"
+                android:layout_marginLeft="15dp"
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/pic_iv"
+            android:layout_marginRight="2dp"
+            android:layout_below="@+id/relativeLayout2"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="116dp" />
+
+        <RelativeLayout
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/pic_iv"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/mydark"
+                android:textSize="13sp"
+                android:layout_marginBottom="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="练习唱歌"
+                android:maxLength="5"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:id="@+id/gv_title_tv" />
+
+            <ImageView
+                android:visibility="gone"
+                android:src="@mipmap/complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_complete"
+                android:layout_alignBottom="@+id/gv_title_tv"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:lines="2"
+                android:ellipsize="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:layout_below="@+id/gv_title_tv"
+                android:text="让我们荡起双桨，小船儿推开波浪，海面倒映着美丽的白塔"
+                android:id="@+id/gv_content_tv" />
+
+            <TextView
+                android:id="@+id/gv_collect_tv"
+                android:visibility="gone"
+                android:text="@string/collect"
+                android:textSize="11sp"
+                android:textColor="@android:color/holo_orange_light"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/gv_content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="3dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:src="@mipmap/hastxt"
+                android:layout_below="@+id/gv_content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:id="@+id/gv_hastxt_iv" />
+
+        </RelativeLayout>
+
+        <CheckBox
+            android:visibility="gone"
+            android:button="@null"
+            android:id="@+id/time_shadow_cb"
+            android:background="@drawable/shadow_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_selectedItem"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/item_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

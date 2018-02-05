@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:id="@+id/rl_add_note"
+    android:background="@color/activity_backGround"
+    tools:context="com.syezon.note_xh.activity.AddNoteActivity">
+
+
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            style="@style/my_actionbar_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ActionBarHeight"
+            android:background="?attr/custom_actionbar_color"
+            android:id="@+id/rl_addnote_top">
+
+            <ImageView
+                android:layout_width="@dimen/ActionBarHeight"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@mipmap/back"
+                android:id="@+id/iv_cancel"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:textSize="15sp"
+                android:gravity="right|center_vertical"
+                android:paddingRight="13dp"
+                android:textColor="@android:color/white"
+                android:background="@android:color/transparent"
+                android:id="@+id/btn_save"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@mipmap/xiangxia"
+                android:drawablePadding="3dp"
+                android:text="@string/choose_sort"
+                android:textColor="@color/title_text_color"
+                android:textSize="@dimen/titlesize"
+                android:id="@+id/tv_choose_sort"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/title_rl"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_below="@+id/relativeLayout5"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="?attr/theme_color"
+                android:textSize="22sp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_weather"
+                android:text="@string/tianqi"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <EditText
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:textSize="15sp"
+                android:textColor="@color/mydark2"
+                android:hint="@string/input_title"
+                android:textColorHint="@color/hintcolor"
+                android:id="@+id/et_addnote_title"
+                android:layout_toLeftOf="@+id/tv_weather"
+                android:layout_toStartOf="@+id/tv_weather" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:id="@+id/ll_weather"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="22sp"
+                android:gravity="center"
+                android:id="@+id/tv_leidian"
+                android:text="@string/leidian"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="22sp"
+                android:gravity="center"
+                android:id="@+id/tv_xiaoyu"
+                android:text="@string/xiaoyu"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="22sp"
+                android:gravity="center"
+                android:id="@+id/tv_xue"
+                android:text="@string/xue"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="22sp"
+                android:gravity="center"
+                android:id="@+id/tv_duoyun"
+                android:text="@string/duoyun"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="22sp"
+                android:gravity="center"
+                android:id="@+id/tv_qingtian"
+                android:text="@string/qingtian"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_weather_describe"
+            android:visibility="gone"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="12sp"
+                android:gravity="center"
+                android:text="雷"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="12sp"
+                android:gravity="center"
+                android:text="雨"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="12sp"
+                android:gravity="center"
+                android:text="雪"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="12sp"
+                android:gravity="center"
+                android:text="多云"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="12sp"
+                android:gravity="center"
+                android:text="晴"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0.5px"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/line"
+        android:layout_below="@+id/linearlayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ScrollView
+        android:layout_margin="15dp"
+        android:layout_below="@+id/line"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView">
+        <LinearLayout
+            android:id="@+id/content_ll"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:inputType="text|textMultiLine"
+                android:background="@null"
+                android:minLines="18"
+                android:textSize="15sp"
+                android:textColor="@color/mydark"
+                android:gravity="top|start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_content"
+                android:textColorHint="@color/hintcolor"
+                android:id="@+id/et_addnote_content"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <!--<EditText-->
+        <!--android:layout_margin="15dp"-->
+        <!--android:layout_below="@+id/line"-->
+        <!--android:inputType="text|textMultiLine"-->
+        <!--android:background="@null"-->
+        <!--android:minLines="18"-->
+        <!--android:textSize="15sp"-->
+        <!--android:textColor="@color/mydark"-->
+        <!--android:gravity="top|start"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="@string/input_content"-->
+        <!--android:textColorHint="@color/hintcolor"-->
+        <!--android:id="@+id/addnote_content_et"/>-->
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:visibility="gone"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:text="@string/carmer"
+            android:textColor="?attr/theme_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_addpic" />
+
+        <TextView
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textColor="?attr/theme_color"
+            android:text="@string/editnote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_edit"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:gravity="center"
+        android:textSize="30sp"
+        android:textColor="?attr/theme_color"
+        android:text="@string/collect_null"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_collect"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
+
+</RelativeLayout>

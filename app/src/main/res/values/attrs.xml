@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ResourceStyle">
+        <attr name="theme_color" format="reference|color"/>
+        <attr name="custom_actionbar_color" format="reference|color"/>
+        <attr name="add_background" format="reference|color"/>
+        <attr name="menu_background" format="reference|color"/>
+        <attr name="wenjianjia_background" format="reference|color"/>
+        <attr name="wenjianjia_collect_background" format="reference|color"/>
+        <attr name="time_item_background" format="reference|color"/>
+        <attr name="edit_complete_background" format="reference|color"/>
+    </declare-styleable>
+
+    <!--<attr name="theme_color" format="reference"></attr>-->
+    <!--<attr name="add_background" format="reference"></attr>-->
+    <!--<attr name="menu_background" format="reference"></attr>-->
+    <!--<attr name="wenjianjia_background" format="reference"></attr>-->
+    <!--<attr name="wenjianjia_pink_background" format="reference"></attr>-->
+
+</resources>

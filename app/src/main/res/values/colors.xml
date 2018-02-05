@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="actionBar">#33b5e5</color>
+    <color name="activity_backGround">#F0F0F3</color>
+    <color name="shadow">#55000000</color>
+    <color name="blue">#53B7E9</color>
+    <color name="gray">#6e6c6c</color>
+    <color name="hintcolor">#d2d7d7</color>
+    <color name="title_text_color">#ffffff</color>
+    <color name="lightgray">#efebeb</color>
+    <color name="shadow_background">#88000000</color>
+    <color name="unselected_color">#dfdcdc</color>
+    <color name="mygray">#8f8c8c</color>
+    <color name="inputbox_background">#cecaca</color>
+    <color name="mydark">#5c5959</color>
+    <color name="myblack">#2b2b2b</color>
+    <color name="mydark2">#1e1e1e</color>
+    <color name="pink">#FFA89E</color>
+    <color name="grayy">#AAB2BD</color>
+    <color name="green">#67b9b0</color>
+    <color name="top_pink">#F47D79</color>
+    <color name="top_gray">#434A54</color>
+    <color name="top_green">#3E9E90</color>
+    <color name="top_blue">#3398CC</color>
+    <color name="seekbar_bg">#d0ced9</color>
+    <color name="grade_bg">#F9F9F9</color>
+    <color name="progress">#a19c9c</color>
+    <color name="grade_text_color">#18B5ED</color>
+    <color name="myTransparentBlack">#a4000000</color>
+</resources>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.syezon.note_xh">
+
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:name=".application.NoteApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/logo_note"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
+
+        <!-- 添加UmengAppkey -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="515abb3056240b1ec1009b3b" />
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="754d2ede7e7bb11cf32f7404c0184d80" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
+        <activity
+            android:name=".activity.ShowPageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".activity.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PrivacyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddNoteActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.EditSortActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LockToProtectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SortActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.QuestionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShowContentPicActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activity.ChooseSkinActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SetFontActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NoteMigrationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HotspotActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FileReceiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DataMigration"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DataImportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DataOutputActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DataOutputPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DataImportPhoneActivity"
+            android:screenOrientation="portrait" />
+
+        <receiver android:name=".receiver.BluetoothReceiver">
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.FOUND" />
+                <action android:name="android.bluetooth.device.action.BOND_STATE_CHANGED" />
+                <action android:name="android.bluetooth.adapter.action.SCAN_MODE_CHANGED" />
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.WifiBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".activity.DataOutputFileActivity" />
+        <activity android:name=".activity.DataImportFileActivity" />
+        <activity android:name=".activity.WebActivity"></activity>
+    </application>
+
+</manifest>

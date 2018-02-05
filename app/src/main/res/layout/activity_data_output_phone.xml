@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/activity_backGround"
+    tools:context="com.syezon.note_xh.activity.DataOutputPhoneActivity">
+
+    <RelativeLayout
+        style="@style/my_actionbar_style"
+        android:background="?attr/custom_actionbar_color"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ActionBarHeight"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+        <ImageView
+            android:layout_width="@dimen/ActionBarHeight"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:id="@+id/iv_cancel"
+            android:src="@mipmap/back"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        <TextView
+            android:text="@string/data_output_phone"
+            android:textSize="@dimen/titlesize"
+            android:textColor="@color/title_text_color"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_first"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <RelativeLayout
+            android:id="@+id/rl_img"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true">
+
+            <View
+                android:id="@+id/view_scale"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bg_output_anim"/>
+
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/data_import_phone"/>
+
+            <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/bg_migration_output_dot"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="40dp"/>
+
+
+            <View
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/bg_migration_output_dot"
+                android:layout_marginTop="120dp"
+                android:layout_marginLeft="160dp"/>
+
+
+
+
+        </RelativeLayout>
+        
+        <TextView
+            android:id="@+id/tv_output"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/bg_btn_data_output"
+            android:textColor="#94e4d6"
+            android:textSize="18dp"
+            android:text="@string/output"
+            android:gravity="center"
+            android:layout_width="125dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/rl_img"
+            android:layout_centerHorizontal="true" />
+
+
+        <LinearLayout
+            android:layout_below="@id/tv_output"
+            android:layout_marginTop="70dp"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_desc"
+                android:text="@string/output_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_connect"
+        android:visibility="gone"
+        android:layout_marginTop="135dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="42dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/img_phone1"
+                    android:layout_width="42dp"
+                    android:layout_height="74dp"
+                    android:src="@mipmap/img_migration_output_phone"/>
+
+                <TextView
+                    android:id="@+id/tv_phone1"
+                    android:layout_below="@id/img_phone1"
+                    android:layout_marginTop="5dp"
+                    android:text="手机1"
+                    android:textSize="14sp"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
+            
+            <LinearLayout
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="120dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_percent"
+                    android:textColor="#95e2d7"
+                    android:textSize="14sp"
+                    android:text="30%"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ProgressBar
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/pb"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:progressDrawable="@drawable/pb_migration"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_scrip"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    android:text="@string/migration_on_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="42dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/img_phone2"
+                    android:layout_width="42dp"
+                    android:layout_height="74dp"
+                    android:src="@mipmap/img_migration_output_phone"/>
+
+                <TextView
+                    android:id="@+id/tv_phone2"
+                    android:layout_below="@id/img_phone2"
+                    android:layout_marginTop="5dp"
+                    android:text="手机1"
+                    android:textSize="14sp"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </RelativeLayout>
+            
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/img_success"
+        android:visibility="gone"
+        android:layout_marginTop="145dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="138dp"
+        android:layout_height="240dp"
+        android:src="@mipmap/img_migration_output_success"/>
+
+</RelativeLayout>
