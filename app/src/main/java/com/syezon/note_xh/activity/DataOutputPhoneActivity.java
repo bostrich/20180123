@@ -264,7 +264,7 @@ public class DataOutputPhoneActivity extends BaseUmengAnalysisActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e(TAG, "错误信息：" + e.getMessage());
-                    if (listener != null) listener.end();
+                    if (listener != null) listener.error();
                 }
             }
         }.start();

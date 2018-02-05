@@ -65,8 +65,6 @@ public class FileUtils {
         }else{
             delFile.delete();
         }
-        //如果不执行下面这句，目录下所有文件都删除了，但是还剩下子目录空文件夹
-        delFile.delete();
     }
 
 }

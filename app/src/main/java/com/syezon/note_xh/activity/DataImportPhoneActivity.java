@@ -148,6 +148,9 @@ public class DataImportPhoneActivity extends BaseUmengAnalysisActivity {
                                     tvState.setText("合并数据中...");
                                 }
                             });
+                            //删除解压文件中的文件，避免干扰
+                            File decompress = new File(Conts.FOLDER_DECOMPRESS);
+                            if(decompress.exists()) FileUtils.deleteFile(decompress);
                             //解压文件
                             ZipUtils.unZipFolder(Conts.MIGRATION_ZIP_RECEIVED, Conts.FOLDER_DECOMPRESS);
                             //移动文件夹
@@ -161,7 +164,7 @@ public class DataImportPhoneActivity extends BaseUmengAnalysisActivity {
 
                             LogUtil.e(TAG, "解压成功");
 
-                            DataMigrationUtil.dataMerge(Environment.getExternalStorageDirectory() + "/briefnote");
+                            DataMigrationUtil.dataMerge(Conts.FOLDER_DECOMPRESS);
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {

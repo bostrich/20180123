@@ -687,7 +687,7 @@ public class AddNoteActivity extends BaseActivity implements View.OnClickListene
             String content = Html.toHtml(etAddnoteContent.getEditableText());
             noteEntity.setContent(content);
             //是否有图片
-            boolean hasImage = content.contains(".png");
+            boolean hasImage = content.contains(".png") || content.contains(".jpg");
             noteEntity.setHasImage(hasImage);
             //简略内容
             String[] strings = etAddnoteContent.getText().toString().split("\n");

@@ -86,7 +86,7 @@ public class DataMigrationUtil {
             final String file_path = Conts.FOLDER_COMPRESS;
             File files = new File(file_path);
             if(files.exists()){
-                if(files.isDirectory()) deleteDirWihtFile(files);
+                if(files.isDirectory()) FileUtils.deleteFile(files);
             }else{
                 files.mkdirs();
             }
@@ -132,6 +132,7 @@ public class DataMigrationUtil {
                         }, null);
                     }
                     obj_note.put(CONTENT, content);
+                    LogUtil.e(TAG, "链接地址：" + imgPath);
                     obj_note.put(IMAGEPATH, imgPath);
                     obj_note.put(WEATHER, model.getString(WEATHER));
                     obj_note.put(ISCOMPLETE, model.getBoolean(ISCOMPLETE));
@@ -163,7 +164,7 @@ public class DataMigrationUtil {
 
 
     public static void dataMerge(String path) throws Exception{
-        File file = new File(path + "/notes/briefnote.txt");
+        File file = new File(path + "/compress/briefnote.txt");
         FileInputStream fis = new FileInputStream(file);
         BufferedReader br = new BufferedReader(new InputStreamReader(fis));
         String result = br.readLine();
@@ -218,8 +219,19 @@ public class DataMigrationUtil {
                     if (dbModel.getString(TIME).equals(noteEntity.getTime())) {
                         if (dbModel.getInt(VERSION) < noteEntity.getVersion()) {
                             try {
-                                NoteApplication.dbManager.update(noteEntity, "weather", "sortname", "title", "content", "hasimage"
+                                NoteEntity tempEntity = NoteApplication.dbManager.findById(NoteEntity.class, dbModel.getInt("_id"));
+                                tempEntity.setWeatherStr(noteEntity.getWeatherStr());
+                                tempEntity.setSortName(noteEntity.getSortName());
+                                tempEntity.setTitle(noteEntity.getTitle());
+                                tempEntity.setContent(noteEntity.getContent());
+                                tempEntity.setHasImage(noteEntity.isHasImage());
+                                tempEntity.setCollect(noteEntity.isCollect());
+                                tempEntity.setImagePath(noteEntity.getImagePath());
+                                tempEntity.setBriefContent(noteEntity.getBriefContent());
+                                tempEntity.setVersion(noteEntity.getVersion());
+                                NoteApplication.dbManager.update(tempEntity, "weather", "sortname", "title", "content", "hasimage"
                                         , "iscollect", "imagepath", "briefcontent", "version");
+                                LogUtil.e(TAG, "替换数据成功：--");
                             } catch (DbException e) {
                                 e.printStackTrace();
                             }
@@ -240,6 +252,16 @@ public class DataMigrationUtil {
             }
         }
         LogUtil.e(TAG, "解析添加完成笔记");
+        //迁移图片
+        File folder = new File(path + "/compress");
+        File[] files = folder.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            File temp = files[i];
+            if(temp.getName().endsWith(".jpg")){
+                FileUtils.copyFileToDir(temp.getAbsolutePath(), Conts.FOLDER_PIC, true);
+            }
+        }
+        LogUtil.e(TAG, "复制图片成功");
 
     }
 
@@ -278,14 +300,4 @@ public class DataMigrationUtil {
         return file.exists();
     }
 
-    public static void deleteDirWihtFile(File dir) {
-        if (dir == null || !dir.exists() || !dir.isDirectory())
-            return;
-        for (File file : dir.listFiles()) {
-            if (file.isFile())
-                file.delete(); // 删除所有文件
-            else if (file.isDirectory())
-                deleteDirWihtFile(file); // 递规的方式删除文件夹
-        }
-    }
 }

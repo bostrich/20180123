@@ -13,10 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.syezon.note_xh.Config.Conts;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.adapter.FileFolderAdapter;
 import com.syezon.note_xh.utils.DataMigrationUtil;
 import com.syezon.note_xh.utils.DialogUtils;
+import com.syezon.note_xh.utils.FileUtils;
 import com.syezon.note_xh.utils.LogUtil;
 import com.syezon.note_xh.utils.ZipUtils;
 import com.syezon.note_xh.view.CustomDialog;
@@ -87,13 +89,12 @@ public class DataImportFileActivity extends AppCompatActivity {
                             tvDialog.setText("正在导入数据...");
                             dialogMigration.show();
                             try {
-                                File temp = new File(Environment.getExternalStorageDirectory() + "/briefnote2/notes");
-                                if(!temp.exists()) temp.mkdirs();
-                                ZipUtils.unZipFolder(bean.getAbsolutePath()
-                                        , Environment.getExternalStorageDirectory() + "/briefnote2");
+                                //删除解压文件中的文件，避免干扰
+                                File file = new File(Conts.FOLDER_DECOMPRESS);
+                                if(file.exists()) FileUtils.deleteFile(file);
+                                ZipUtils.unZipFolder(bean.getAbsolutePath(), Conts.FOLDER_DECOMPRESS);
                                 LogUtil.e(TAG, "解压成功");
-//
-                                DataMigrationUtil.dataMerge(Environment.getExternalStorageDirectory() + "/briefnote2");
+                                DataMigrationUtil.dataMerge(Conts.FOLDER_DECOMPRESS);
                                 tvDialog.setText("导入文件成功");
                                 if(!dialogMigration.isShowing()) dialogMigration.show();
                             } catch (Exception e) {

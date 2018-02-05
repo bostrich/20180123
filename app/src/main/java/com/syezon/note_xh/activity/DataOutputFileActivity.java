@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.syezon.note_xh.Config.Conts;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.adapter.FileFolderAdapter;
 import com.syezon.note_xh.utils.DataMigrationUtil;
@@ -149,7 +150,7 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
         if (DataMigrationUtil.migrationData()) {
 
             try {
-                ZipUtils.zipFolder(Environment.getExternalStorageDirectory() + "/" + DataMigrationUtil.BRIEFNOTE
+                ZipUtils.zipFolder(Conts.FOLDER_COMPRESS
                         , file.getAbsolutePath() + "/briefnote.zip");
                 LogUtil.e(TAG, "文件压缩成功：");
                 //显示压缩成功动画
@@ -161,7 +162,7 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
             }
         }
         //显示迁移失败动画
-        tvDialog.setText("导出到问价失败");
+        tvDialog.setText("导出到文件失败");
         if(!dialogMigration.isShowing()) dialogMigration.show();
 
     }

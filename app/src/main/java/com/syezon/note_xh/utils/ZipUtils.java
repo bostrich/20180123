@@ -90,6 +90,7 @@ public class ZipUtils {
                 folder.mkdirs();
             } else {
                 File file = new File(outPathString + File.separator + szName);
+                if(!file.getParentFile().exists()) file.getParentFile().mkdirs();
                 boolean success = file.createNewFile();
                 LogUtil.e(TAG, "创建文件是否成功：" + String.valueOf(success) + "文件路径：" + outPathString + File.separator + szName);
                 // get the output stream of the file
