@@ -38,8 +38,10 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
     ImageView ivCancel;
     @BindView(R.id.rv_folder)
     RecyclerView rvFolder;
-    @BindView(R.id.ll_floder)
-    LinearLayout llFolder;
+    @BindView(R.id.img_folder)
+    ImageView imgFolder;
+    @BindView(R.id.ll_title)
+    LinearLayout llTitle;
 
 
     private RecyclerView.Adapter adapter;
@@ -57,6 +59,7 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
     }
 
     private void initData() {
+        files.clear();
         File file = Environment.getExternalStorageDirectory();
         File[] folders = file.listFiles();
         for (int i = 0; i < folders.length; i++) {
@@ -66,14 +69,12 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
         }
         files.add(0,file);
         adapter.notifyDataSetChanged();
-        addFolder(file);
     }
 
-    private void addFolder(File file) {
-        llFolder.removeAllViews();
-        do{
-            ViewGroup view = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.item_bluetooth_device, null, false);
-            TextView folder = (TextView) view.findViewById(R.id.tv_bluetooth);
+    private void addFolder(File file, boolean addbefore) {
+
+            ViewGroup view = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.item_folder_title, null, false);
+            TextView folder = (TextView) view.findViewById(R.id.tv_name);
             folder.setText(file.getName());
             view.setTag(file);
             view.setOnClickListener(new View.OnClickListener() {
@@ -89,13 +90,24 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
                     }
                     files.add(0,file);
                     adapter.notifyDataSetChanged();
-                    addFolder(file);
+                    initTitle(file);
                 }
             });
-            llFolder.addView(view, 0);
-            file = file.getParentFile();
 
-        }while(!file.getAbsoluteFile().equals(Environment.getExternalStorageDirectory().getParentFile()));
+        if(addbefore){
+            llTitle.addView(view,0);
+        }else{
+            llTitle.addView(view);
+        }
+
+    }
+
+    private void initTitle(File file) {
+        llTitle.removeAllViews();
+        while(!file.equals(Environment.getExternalStorageDirectory())){
+            addFolder(file, true);
+            file = file.getParentFile();
+        }
     }
 
     private void initView() {
@@ -118,7 +130,7 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
                 if(hasDirectory && position != 0){
                     files.add(0,file);
                     adapter.notifyDataSetChanged();
-                    addFolder(file);
+                    addFolder(file, false);
                 }else{
 
                     DialogUtils.showMigrationConfirmFolder(DataOutputFileActivity.this, file, new DialogUtils.DialogListener<File>() {
@@ -167,9 +179,18 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
 
     }
 
-    @OnClick(R.id.iv_cancel)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.iv_cancel, R.id.img_folder})
+    public void onViewClicked(View v) {
+        switch (v.getId()){
+            case R.id.iv_cancel:
+                finish();
+                break;
+            case R.id.img_folder:
+                initTitle(Environment.getExternalStorageDirectory());
+                initData();
+                break;
+        }
+
     }
 
 }
