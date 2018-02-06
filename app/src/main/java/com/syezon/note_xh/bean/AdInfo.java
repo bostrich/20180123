@@ -135,6 +135,7 @@ public class AdInfo extends BaseNoteBean{
                 @Override
                 public void loadComplete(String url) {
 
+
                 }
             });
         }else if(type.equals(AdConfig.TYPE_APK.getName())){
