@@ -1,12 +1,14 @@
 package com.syezon.note_xh.bean;
 
+import android.content.Context;
+
 import org.xutils.db.table.DbModel;
 
 /**
- * Created by June on 2018/2/4.
+ *
  */
 
-public class AdInfo {
+public class AdInfo extends BaseNoteBean{
     private String id;
     private String name;
     private String type;
@@ -65,14 +67,6 @@ public class AdInfo {
         this.pic = pic;
     }
 
-    public DbModel getDbModel() {
-        return dbModel;
-    }
-
-    public void setDbModel(DbModel dbModel) {
-        this.dbModel = dbModel;
-    }
-
     public boolean isHasImage() {
         return hasImage;
     }
@@ -80,4 +74,55 @@ public class AdInfo {
     public void setHasImage(boolean hasImage) {
         this.hasImage = hasImage;
     }
+
+    @Override
+    public String getTime() {
+        return System.currentTimeMillis() + "";
+    }
+
+    @Override
+    public String getWeather() {
+        return null;
+    }
+
+    @Override
+    public String getPicUrl() {
+        return pic;
+    }
+
+    @Override
+    public String getTitle() {
+        return name;
+    }
+
+    @Override
+    public String getDesc() {
+        return name;
+    }
+
+    @Override
+    public boolean hasImage() {
+        return !pic.equals("");
+    }
+
+    @Override
+    public boolean isCollected() {
+        return false;
+    }
+
+    @Override
+    public boolean isCompleted() {
+        return false;
+    }
+
+    @Override
+    public DbModel getDbModel() {
+        return null;
+    }
+
+    @Override
+    public void click(Context context) {
+
+    }
+
 }

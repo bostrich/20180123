@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 public class SharedPerferencesUtil {
     public static String CONFIG = "config";
     private static SharedPreferences sharedPreferences;
+    private static final String SPLASH_ORDER = "splash_order";
 
 
     public static void saveStringData(Context context, String key, String value) {
@@ -62,6 +63,20 @@ public class SharedPerferencesUtil {
             sharedPreferences = context.getSharedPreferences(CONFIG, Context.MODE_PRIVATE);
         }
         return sharedPreferences.getBoolean(key, defValue);
+    }
+
+    public static void saveSplashOrder(Context context,int order) {
+        if (sharedPreferences == null) {
+            sharedPreferences = context.getSharedPreferences(CONFIG, Context.MODE_PRIVATE);
+        }
+        sharedPreferences.edit().putInt(SPLASH_ORDER, order).commit();
+    }
+
+    public static int getSplashOrder(Context context) {
+        if (sharedPreferences == null) {
+            sharedPreferences = context.getSharedPreferences(CONFIG, Context.MODE_PRIVATE);
+        }
+        return sharedPreferences.getInt(SPLASH_ORDER, 0);
     }
 
 }

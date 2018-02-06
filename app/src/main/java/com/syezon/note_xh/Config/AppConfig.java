@@ -3,6 +3,7 @@ package com.syezon.note_xh.Config;
 import android.util.Log;
 
 import com.syezon.note_xh.bean.AdInfo;
+import com.syezon.note_xh.utils.SharedPerferencesUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,8 @@ public class AppConfig {
     public static boolean isGetParams = false;
     public static String version = "";
     public static List<AdInfo> listAd = new ArrayList<>();
+    public static List<AdInfo> listSplash = new ArrayList<>();
+
 
     public static void getParams(){
         x.http().get(new RequestParams("http://res.ipingke.com/adsw/note.html"), new Callback.CommonCallback<String>() {
@@ -75,6 +78,20 @@ public class AppConfig {
                 }
                 listAd.add(info);
             }
+//            JSONArray ary_splash =  obj.optJSONArray("splash");
+//            listSplash.clear();
+//            for (int i = 0; i < ary_splash.length(); i++) {
+//                JSONObject temp = aryMain.optJSONObject(i);
+//                AdInfo info = new AdInfo();
+//                info.setId(temp.optString("id"));
+//                info.setName(temp.optString("name"));
+//                info.setType(temp.optString("type"));
+//                info.setPic(temp.optString("pic"));
+//                info.setUrl(temp.optString("url"));
+//                listSplash.add(info);
+//            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

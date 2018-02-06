@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.syezon.note_xh.Config.AdConfig;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.bean.AdInfo;
+import com.syezon.note_xh.bean.BaseNoteBean;
 import com.syezon.note_xh.utils.DateUtils;
 import com.syezon.note_xh.utils.StringUtils;
 
@@ -32,7 +33,7 @@ import java.util.List;
  */
 public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAdRecyclerViewAdapter.MyViewHolder> implements View.OnClickListener, View.OnLongClickListener {
     private Context mContext;
-    private List<AdInfo> mList;
+    private List<BaseNoteBean> mList;
     private List<Integer> selectedPositionList;
 
     private static final int UNEDITED = 1;//非编辑状态
@@ -43,7 +44,7 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
     private OnRecyclerViewItemLongClickListener mOnItemLongClickListener = null;
 
-    public TimeAndAdRecyclerViewAdapter(Context context, List<AdInfo> list) {
+    public TimeAndAdRecyclerViewAdapter(Context context, List<BaseNoteBean> list) {
         this.mContext = context;
         this.mList = list;
         this.selectedPositionList=new ArrayList<>();
@@ -72,7 +73,7 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
 
     @Override
     public int getItemViewType(int position) {
-        return mList.get(position).isHasImage()?Type_HASIMA:Type_NOIMA;
+        return mList.get(position).hasImage() ? Type_HASIMA:Type_NOIMA;
     }
 
     @Override
@@ -93,22 +94,20 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        if(mList.get(position).getType().equals(AdConfig.TYPE_NOTE.getName())){
-            setNoteView(holder,position);
-        }else{
-            AdInfo info = mList.get(position);
-            holder.gvTimeTv.setText(DateUtils.getTimeByTimeStamp(System.currentTimeMillis() + "","yyyy-MM-dd"));
-            holder.itemView.setTag(position);
-            if(mList.get(position).isHasImage() && getItemViewType(position) == Type_HASIMA){
-                if(info.getPic().endsWith(".gif")){
-                    Glide.with(mContext).load(info.getPic()).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.picIv);
-                }else{
-                    Glide.with(mContext).load(info.getPic()).into(holder.picIv);
-                }
+        BaseNoteBean bean = mList.get(position);
+        holder.gvTimeTv.setText(DateUtils.getTimeByTimeStamp( bean.getTime(),"yyyy-MM-dd"));
+        holder.gvWeatherTv.setText(StringUtils.strToIconStr(mContext,bean.getWeather()));
+        holder.gvTitleTv.setText(bean.getTitle());
+        holder.gvContentTv.setText(bean.getDesc());
+        holder.gvCollectTv.setVisibility(bean.isCollected() ? View.VISIBLE:View.GONE);
+        holder.completeIv.setVisibility(bean.isCollected() ? View.VISIBLE:View.GONE);
+        if(bean.hasImage()){
+            String url=bean.getPicUrl();
+            if (!TextUtils.isEmpty(url)) {
+                Uri uri=Uri.parse(url);
+                Glide.with(mContext).load(uri).crossFade().into(holder.picIv);
             }
-            holder.gvTitleTv.setText(info.getName());
         }
-
         if(editState==EDITED){
             holder.shadowCb.setChecked(false);
             holder.shadowCb.setVisibility(View.VISIBLE);
@@ -138,27 +137,7 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
             holder.shadowCb.setVisibility(View.GONE);
             holder.checkedIv.setVisibility(View.GONE);
         }
-
-    }
-
-    private void setNoteView(final MyViewHolder holder, int position) {
-        DbModel dbModel=mList.get(position).getDbModel();
         holder.itemView.setTag(position);
-        holder.gvContentTv.setText(dbModel.getString("briefcontent"));
-        holder.gvTimeTv.setText(DateUtils.getTimeByTimeStamp(dbModel.getString("time"),"yyyy-MM-dd"));
-        holder.gvTitleTv.setText(dbModel.getString("title"));
-        holder.gvWeatherTv.setText(StringUtils.strToIconStr(mContext,dbModel.getString("weather")));
-        holder.gvCollectTv.setVisibility(dbModel.getBoolean("iscollect")?View.VISIBLE:View.GONE);
-        holder.completeIv.setVisibility(dbModel.getBoolean("iscomplete")?View.VISIBLE:View.GONE);
-        //分类
-        int type = getItemViewType(position);
-        if(type==Type_HASIMA){
-            String url=dbModel.getString("imagepath");
-            if (!TextUtils.isEmpty(url)) {
-                Uri uri=Uri.parse(url);
-                Glide.with(mContext).load(uri).crossFade().into(holder.picIv);
-            }
-        }
 
     }
 

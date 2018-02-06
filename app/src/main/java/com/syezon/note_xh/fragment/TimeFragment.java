@@ -19,9 +19,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.syezon.note_xh.Config.AdConfig;
 import com.syezon.note_xh.Config.AppConfig;
+import com.syezon.note_xh.Config.Conts;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.activity.AddNoteActivity;
 import com.syezon.note_xh.activity.RecycleViewDivider;
@@ -29,6 +31,9 @@ import com.syezon.note_xh.adapter.TimeAndAdRecyclerViewAdapter;
 import com.syezon.note_xh.adapter.TimeRecyclerViewAdapter;
 import com.syezon.note_xh.application.NoteApplication;
 import com.syezon.note_xh.bean.AdInfo;
+import com.syezon.note_xh.bean.BaseNoteBean;
+import com.syezon.note_xh.bean.NewsNoteInfo;
+import com.syezon.note_xh.bean.NormalNoteBean;
 import com.syezon.note_xh.db.NoteEntity;
 import com.syezon.note_xh.download.DownloadBean;
 import com.syezon.note_xh.download.DownloadManager;
@@ -38,6 +43,7 @@ import com.syezon.note_xh.event.EditEvent;
 import com.syezon.note_xh.utils.DialogUtils;
 import com.syezon.note_xh.utils.DisplayUtils;
 import com.syezon.note_xh.utils.LogUtil;
+import com.syezon.note_xh.utils.ParseUtil;
 import com.syezon.note_xh.utils.ToastUtils;
 import com.syezon.note_xh.utils.WebHelper;
 import com.syezon.note_xh.view.MarkPopWindow;
@@ -47,6 +53,8 @@ import com.umeng.analytics.MobclickAgent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.db.sqlite.SqlInfo;
 import org.xutils.db.table.DbModel;
@@ -90,7 +98,7 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
     RelativeLayout rlTimeMain;
 
     private TimeAndAdRecyclerViewAdapter timeRecyclerViewAdapter;
-    private List<AdInfo> dbModelList;
+    private List<BaseNoteBean> dbModelList;
 
     private MovePopWindow movePopWindow;
     private MarkPopWindow markPopWindow;
@@ -155,22 +163,60 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
             }
             dbModelList.clear();
             for (int i = 0; i < newDbModelList.size(); i++) {
-                AdInfo adInfo = new AdInfo();
-                adInfo.setDbModel(newDbModelList.get(i));
-                adInfo.setType(AdConfig.TYPE_NOTE.getName());
-                adInfo.setHasImage(newDbModelList.get(i).getBoolean("hasimage"));
-                dbModelList.add(adInfo);
+                NormalNoteBean bean = new NormalNoteBean(newDbModelList.get(i));
+                dbModelList.add(bean);
             }
-            if(AppConfig.listAd.size() > 0) dbModelList.addAll(AppConfig.listAd);
+            initNews();
+
             LogUtil.e(TAG, "数据量：" + dbModelList.size());
             timeRecyclerViewAdapter.notifyDataSetChanged();
         } catch (DbException e) {
             e.printStackTrace();
         }
+    }
 
-//        if (dbModelList.size() == 0) {
-//
-//        }
+    private void initNews() {
+        for (int i = 0; i < AppConfig.listAd.size(); i++) {
+            AdInfo adInfo = AppConfig.listAd.get(i);
+            if(adInfo.getType().equals(AdConfig.TYPE_NEWS.getName())){
+                if(adInfo.getUrl().equals(AdConfig.TYPE_NEWS_SOURCE_BL.getName())){//获取伴侣新闻
+                    LogUtil.e(TAG, "开始获取伴侣新闻");
+                    x.http().get(new RequestParams(Conts.URL_BL_NEWS_NORMAL), new Callback.CommonCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+                            try {
+                                NewsNoteInfo newsAd = ParseUtil.parseNews(result);
+                                if(newsAd.isValid()){
+
+                                    dbModelList.add(newsAd);
+                                    timeRecyclerViewAdapter.notifyDataSetChanged();
+                                    LogUtil.e(TAG, "显示新闻广告");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable ex, boolean isOnCallback) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(CancelledException cex) {
+
+                        }
+
+                        @Override
+                        public void onFinished() {
+
+                        }
+                    });
+
+
+                }
+            }
+        }
     }
 
     private void init() {
@@ -306,23 +352,7 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(View view, final int position) {
                 if (editState == UNEDITED) {
-                    NoteEntity noteEntity = null;
-                    if(dbModelList.get(position).getType().equals(AdConfig.TYPE_NOTE.getName())){
-                        DbModel dbModel = dbModelList.get(position).getDbModel();
-                        if(dbModel != null){
-                            try {
-                                noteEntity = NoteApplication.dbManager.findById(NoteEntity.class, dbModel.getInt("_id"));
-                            } catch (DbException e) {
-                                e.printStackTrace();
-                            }
-                            Intent intent = new Intent(getActivity(), AddNoteActivity.class);
-                            intent.putExtra("note_entity", noteEntity);
-                            startActivity(intent);
-                        }
-                    }else{
-                        AdInfo info = dbModelList.get(position);
-                        adClick(info);
-                    }
+                    dbModelList.get(position).click(getContext());
                 }
             }
         });

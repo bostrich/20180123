@@ -10,7 +10,7 @@ public enum AdConfig {
     TYPE_URL("url", Conts.TYPE_URL),
     TYPE_APK("apk", Conts.TYPE_APK),
     TYPE_NOTE("note", Conts.TYPE_NOTE),
-    TYPE_NEWS_SOURCE("bl", Conts.NEWS_SOURCE_BL);
+    TYPE_NEWS_SOURCE_BL("bl", Conts.NEWS_SOURCE_BL);
 
     private String name;
     private int value;
