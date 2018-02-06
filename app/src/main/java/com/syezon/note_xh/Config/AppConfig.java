@@ -1,5 +1,8 @@
 package com.syezon.note_xh.Config;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.syezon.note_xh.bean.AdInfo;
@@ -23,12 +26,15 @@ public class AppConfig {
 
     public static final String TAG = AppConfig.class.getName();
     public static boolean isGetParams = false;
+    public static String CHANNEL = "";
     public static String version = "";
     public static List<AdInfo> listAd = new ArrayList<>();
     public static List<AdInfo> listSplash = new ArrayList<>();
 
 
-    public static void getParams(){
+    public static void getParams(Context context){
+        CHANNEL = getChannel(context);
+
         x.http().get(new RequestParams("http://res.ipingke.com/adsw/note.html"), new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -90,12 +96,35 @@ public class AppConfig {
 //                info.setUrl(temp.optString("url"));
 //                listSplash.add(info);
 //            }
+            JSONArray ary_switchs = obj.optJSONArray("data");
+//            String channel =
+
+            for (int i = 0; i < ary_switchs.length(); i++) {
+                JSONObject temp = ary_switchs.optJSONObject(i);
+                String channel = temp.optString("channel");
+                if(CHANNEL.equals(channel)){
+                    AppSwitch.showAdInNotes = temp.optInt("interstitial") == 1 ;
+                }
+            }
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+    }
+
+
+    public static String getChannel(Context context){
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName()
+                    , PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("UMENG_CHANNEL");
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "official";
+        }
     }
 
 }

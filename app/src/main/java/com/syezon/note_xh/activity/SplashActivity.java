@@ -92,7 +92,7 @@ public class SplashActivity extends AppCompatActivity{
        }).start();
 
         //获取参数配置
-        AppConfig.getParams();
+        AppConfig.getParams(this);
     }
 
     //跳转到ShowPageActivity

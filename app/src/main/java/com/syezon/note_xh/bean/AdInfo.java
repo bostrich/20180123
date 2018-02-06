@@ -82,7 +82,7 @@ public class AdInfo extends BaseNoteBean{
 
     @Override
     public String getWeather() {
-        return null;
+        return "tianqi";
     }
 
     @Override
