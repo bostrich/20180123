@@ -2,7 +2,15 @@ package com.syezon.note_xh.bean;
 
 import android.content.Context;
 
+import com.syezon.note_xh.Config.AdConfig;
+import com.syezon.note_xh.download.DownloadBean;
+import com.syezon.note_xh.download.DownloadManager;
+import com.syezon.note_xh.download.feedback.NotificationDownloadFeedback;
+import com.syezon.note_xh.utils.WebHelper;
+
 import org.xutils.db.table.DbModel;
+
+import static com.syezon.note_xh.download.DownloadManager.DOWNLOAD_STRATERY_SERVICE;
 
 /**
  *
@@ -122,7 +130,21 @@ public class AdInfo extends BaseNoteBean{
 
     @Override
     public void click(Context context) {
+        if(type.equals(AdConfig.TYPE_URL.getName())){
+            WebHelper.showAdDetail(context, getTitle(), getUrl(), new WebHelper.SimpleWebLoadCallBack(){
+                @Override
+                public void loadComplete(String url) {
 
+                }
+            });
+        }else if(type.equals(AdConfig.TYPE_APK.getName())){
+            DownloadBean bean = new DownloadBean();
+            bean.setAppName(getTitle());
+            bean.setUrl(getUrl());
+            DownloadManager.getInstance(context).download(bean, DOWNLOAD_STRATERY_SERVICE
+                    , new NotificationDownloadFeedback(context));
+
+        }
     }
 
 }
