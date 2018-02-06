@@ -39,7 +39,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 
-public class WebActivity extends AppCompatActivity {
+public class WebActivity extends BaseUmengAnalysisActivity {
 
     // 消息
     public static final int MSG_LOAD_URL_OK = 0; // 加载成功

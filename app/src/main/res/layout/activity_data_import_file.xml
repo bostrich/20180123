@@ -40,16 +40,45 @@
     <LinearLayout
         android:id="@+id/ll_floder"
         android:layout_below="@id/rl_title"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:gravity="center_vertical"
+        android:background="#f6f6f6"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/img_folder"
+            android:layout_width="24dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="15dp"
+            android:src="@mipmap/migration_output_file_folder"/>
+
+        <HorizontalScrollView
+            android:id="@+id/sv_title"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_title"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </HorizontalScrollView>
+
+
+    </LinearLayout>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_folder"
+        android:background="@color/white"
         android:layout_below="@id/ll_floder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
 
 
 

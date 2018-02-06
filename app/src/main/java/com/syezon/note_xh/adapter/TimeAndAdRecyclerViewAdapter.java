@@ -97,6 +97,7 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
             setNoteView(holder,position);
         }else{
             AdInfo info = mList.get(position);
+            holder.gvTimeTv.setText(DateUtils.getTimeByTimeStamp(System.currentTimeMillis() + "","yyyy-MM-dd"));
             holder.itemView.setTag(position);
             if(mList.get(position).isHasImage() && getItemViewType(position) == Type_HASIMA){
                 if(info.getPic().endsWith(".gif")){
@@ -107,17 +108,7 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
             }
             holder.gvTitleTv.setText(info.getName());
         }
-    }
 
-    private void setNoteView(final MyViewHolder holder, int position) {
-        DbModel dbModel=mList.get(position).getDbModel();
-        holder.itemView.setTag(position);
-        holder.gvContentTv.setText(dbModel.getString("briefcontent"));
-        holder.gvTimeTv.setText(DateUtils.getTimeByTimeStamp(dbModel.getString("time"),"yyyy-MM-dd"));
-        holder.gvTitleTv.setText(dbModel.getString("title"));
-        holder.gvWeatherTv.setText(StringUtils.strToIconStr(mContext,dbModel.getString("weather")));
-        holder.gvCollectTv.setVisibility(dbModel.getBoolean("iscollect")?View.VISIBLE:View.GONE);
-        holder.completeIv.setVisibility(dbModel.getBoolean("iscomplete")?View.VISIBLE:View.GONE);
         if(editState==EDITED){
             holder.shadowCb.setChecked(false);
             holder.shadowCb.setVisibility(View.VISIBLE);
@@ -148,6 +139,17 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
             holder.checkedIv.setVisibility(View.GONE);
         }
 
+    }
+
+    private void setNoteView(final MyViewHolder holder, int position) {
+        DbModel dbModel=mList.get(position).getDbModel();
+        holder.itemView.setTag(position);
+        holder.gvContentTv.setText(dbModel.getString("briefcontent"));
+        holder.gvTimeTv.setText(DateUtils.getTimeByTimeStamp(dbModel.getString("time"),"yyyy-MM-dd"));
+        holder.gvTitleTv.setText(dbModel.getString("title"));
+        holder.gvWeatherTv.setText(StringUtils.strToIconStr(mContext,dbModel.getString("weather")));
+        holder.gvCollectTv.setVisibility(dbModel.getBoolean("iscollect")?View.VISIBLE:View.GONE);
+        holder.completeIv.setVisibility(dbModel.getBoolean("iscomplete")?View.VISIBLE:View.GONE);
         //分类
         int type = getItemViewType(position);
         if(type==Type_HASIMA){

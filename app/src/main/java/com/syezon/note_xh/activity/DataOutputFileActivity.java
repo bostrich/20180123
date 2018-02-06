@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +43,8 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
     ImageView imgFolder;
     @BindView(R.id.ll_title)
     LinearLayout llTitle;
+    @BindView(R.id.sv_title)
+    HorizontalScrollView svTitle;
 
 
     private RecyclerView.Adapter adapter;
@@ -73,32 +76,33 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
 
     private void addFolder(File file, boolean addbefore) {
 
-            ViewGroup view = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.item_folder_title, null, false);
-            TextView folder = (TextView) view.findViewById(R.id.tv_name);
-            folder.setText(file.getName());
-            view.setTag(file);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    files.clear();
-                    File file = (File) v.getTag();
-                    File[] folders = file.listFiles();
-                    for (int i = 0; i < folders.length; i++) {
-                        if (folders[i].isDirectory()) {
-                            files.add(folders[i]);
-                        }
+        ViewGroup view = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.item_folder_title, null, false);
+        TextView folder = (TextView) view.findViewById(R.id.tv_name);
+        folder.setText(file.getName());
+        view.setTag(file);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                files.clear();
+                File file = (File) v.getTag();
+                File[] folders = file.listFiles();
+                for (int i = 0; i < folders.length; i++) {
+                    if (folders[i].isDirectory()) {
+                        files.add(folders[i]);
                     }
-                    files.add(0,file);
-                    adapter.notifyDataSetChanged();
-                    initTitle(file);
                 }
-            });
+                files.add(0, file);
+                adapter.notifyDataSetChanged();
+                initTitle(file);
+            }
+        });
 
-        if(addbefore){
-            llTitle.addView(view,0);
-        }else{
+        if (addbefore) {
+            llTitle.addView(view, 0);
+        } else {
             llTitle.addView(view);
         }
+        svTitle.fullScroll(View.FOCUS_RIGHT);
 
     }
 

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.syezon.note_xh.BuildConfig;
+import com.syezon.note_xh.CrashHandler;
 import com.syezon.note_xh.db.NoteEntity;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
@@ -76,6 +77,8 @@ public class NoteApplication extends Application {
 
         /** 设置是否对日志信息进行加密,默认false(不加密). */
         MobclickAgent.enableEncrypt(true);
+        //添加错误日志
+        CrashHandler.getInstance().init(this);
 
     }
 }

@@ -31,6 +31,8 @@ public class FileUtils {
             fileDir.mkdir();
         }
         String destFile = destDir +"/" + new File(srcFile).getName();
+        //避免重复赋值
+        if(new File(destFile).exists()) return true;
         try{
             InputStream streamFrom = new FileInputStream(srcFile);
             OutputStream streamTo = new FileOutputStream(destFile);

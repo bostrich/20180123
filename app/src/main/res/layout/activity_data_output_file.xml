@@ -54,6 +54,7 @@
             android:src="@mipmap/migration_output_file_folder"/>
 
         <HorizontalScrollView
+            android:id="@+id/sv_title"
             android:scrollbars="none"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -61,6 +62,7 @@
             <LinearLayout
                 android:id="@+id/ll_title"
                 android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 

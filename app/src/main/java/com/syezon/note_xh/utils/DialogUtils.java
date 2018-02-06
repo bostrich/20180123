@@ -23,7 +23,7 @@ public class DialogUtils {
         TextView tvName = (TextView) dialog.findViewById(R.id.tv_name);
         TextView tvCancel = (TextView) dialog.findViewById(R.id.tv_cancel);
         TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
-        tvName.setText("确定将文件保存在："+ file.getAbsolutePath());
+        tvName.setText("确定将文件保存在："+ file.getName());
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +47,7 @@ public class DialogUtils {
         TextView tvName = (TextView) dialog.findViewById(R.id.tv_name);
         TextView tvCancel = (TextView) dialog.findViewById(R.id.tv_cancel);
         TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
-        tvName.setText("是否确定将导入："+ file.getAbsolutePath());
+        tvName.setText("是否确定将导入："+file.getName());
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

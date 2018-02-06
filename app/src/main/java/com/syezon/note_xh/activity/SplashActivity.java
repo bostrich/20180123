@@ -87,7 +87,7 @@ public class SplashActivity extends AppCompatActivity{
                            skipToShowPageActivity();
                        }
                    }
-               },500);
+               },4000);
            }
        }).start();
 

@@ -8,11 +8,13 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/img_arrow_right_migration_output_file"/>
+        android:layout_marginLeft="10dp"
+        android:src="@mipmap/img_arrow_triangle"/>
 
     <TextView
         android:id="@+id/tv_name"
-        android:layout_marginLeft="2dp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

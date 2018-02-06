@@ -1,6 +1,7 @@
 package com.syezon.note_xh.utils;
 
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Environment;
 import android.text.Html;
 import android.text.TextUtils;
@@ -13,7 +14,6 @@ import com.syezon.note_xh.db.NoteEntity;
 import com.syezon.note_xh.db.NoteSortEntity;
 import com.syezon.note_xh.event.EditEvent;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,7 +110,15 @@ public class DataMigrationUtil {
                                 String tag = source.substring(0, 1);
                                 String url = source.substring(2);
                                 if (tag.equals("1")) {
-                                    String path = file_path + "/" + System.currentTimeMillis() + ".jpg";
+                                    String[] split = url.split("/");
+                                    String path = "";
+                                    if(split.length > 0){
+                                        LogUtil.e(TAG, "图片名称：" + split[split.length -1]);
+                                        path = file_path + "/" + split[split.length -1];
+                                    }else{
+                                        path = file_path + "/" + System.currentTimeMillis() + ".jpg";
+                                    }
+
                                     String target_url = url;
                                     if (url.startsWith("file://")) {
                                         target_url = url.replace("file://", "");
@@ -137,7 +145,12 @@ public class DataMigrationUtil {
                     obj_note.put(WEATHER, model.getString(WEATHER));
                     obj_note.put(ISCOMPLETE, model.getBoolean(ISCOMPLETE));
                     obj_note.put(ISCOLLECT, model.getBoolean(ISCOLLECT));
-                    obj_note.put(VERSION, model.getInt(VERSION));
+                    //数据库迁移version返回null，NumberFormatException
+                    try{
+                        obj_note.put(VERSION, model.getInt(VERSION));
+                    }catch(Exception e){
+                        obj_note.put(VERSION, 1);
+                    }
                     array.put(obj_note);
                 }
                 object.put(NOTES, array);
@@ -217,7 +230,14 @@ public class DataMigrationUtil {
                 boolean isAdded = false;
                 for (DbModel dbModel: oldDbNotes) {
                     if (dbModel.getString(TIME).equals(noteEntity.getTime())) {
-                        if (dbModel.getInt(VERSION) < noteEntity.getVersion()) {
+                        int version = 0;
+                        //数据库迁移version为空，发生NumberFormatException
+                        try{
+                            version = dbModel.getInt(VERSION);
+                        }catch(Exception e){
+                            version = 1;
+                        }
+                        if (version < noteEntity.getVersion()) {
                             try {
                                 NoteEntity tempEntity = NoteApplication.dbManager.findById(NoteEntity.class, dbModel.getInt("_id"));
                                 tempEntity.setWeatherStr(noteEntity.getWeatherStr());
@@ -257,7 +277,7 @@ public class DataMigrationUtil {
         File[] files = folder.listFiles();
         for (int i = 0; i < files.length; i++) {
             File temp = files[i];
-            if(temp.getName().endsWith(".jpg")){
+            if(temp.getName().endsWith(".jpg") || temp.getName().endsWith(".png")){
                 FileUtils.copyFileToDir(temp.getAbsolutePath(), Conts.FOLDER_PIC, true);
             }
         }
