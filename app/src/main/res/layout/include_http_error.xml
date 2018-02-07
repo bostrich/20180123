@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_error"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99ffffff"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="194dp"
+        android:layout_height="135dp"
+        android:src="@mipmap/net_no_connected" />
+
+    <TextView
+        android:id="@+id/tvReload"
+        android:layout_width="179dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_surfing_no_net_tip_reload"
+        android:gravity="center"
+        android:text="重新加载"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+</LinearLayout>

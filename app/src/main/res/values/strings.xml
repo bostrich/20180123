@@ -85,6 +85,7 @@
     <string name="data_output">数据导出</string>
     <string name="data_output_file">导出到文件</string>
     <string name="data_output_phone">导出</string>
+    <string name="news">新闻</string>
     <string name="data_import_phone_title">数据导入</string>
     <string name="data_transfer_import">导入</string>
     <string name="data_import_phone">另一部手机</string>
@@ -95,4 +96,12 @@
     <string name="data_migration_wait">等待连接...</string>
     <string name="dialog_bluetooth_title">请选择要导入的设备</string>
     <string name="migration_on_progress">正在导出...</string>
+
+    <string name="listview_header_hint_normal">下拉刷新</string>
+    <string name="listview_header_last_time">上次更新：</string>
+    <string name="listview_header_hint_release">松开开始刷新</string>
+    <string name="refreshing">刷新中...</string>
+    <string name="refresh_done">刷新完成</string>
+    <string name="listview_loading">正在加载更多...</string>
+    <string name="nomore_loading">没有更多了</string>
 </resources>

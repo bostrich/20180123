@@ -83,7 +83,7 @@ public class NewsNoteInfo extends BaseNoteBean {
 
     @Override
     public void click(Context context) {
-        WebHelper.showAdDetail(context, news.get((position -1) % news.size()).getTitle()
+        WebHelper.showNoteNews(context, news.get((position -1) % news.size()).getTitle()
                 , news.get((position -1) % news.size()).getUrl(), null);
 
     }

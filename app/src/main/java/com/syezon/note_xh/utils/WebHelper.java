@@ -12,9 +12,8 @@ import com.syezon.note_xh.activity.WebActivity;
 public class WebHelper {
     public static final String ARG_URL = "url";
     public static final String ARG_TITLE = "title";
-    public static final String ARG_AD_TYPE = "ad_type";
-    public static final String ARG_SHOW_AD = "show_bottom_ad";
-    public static final String WEB_AD_INSIDE_SHOW_REPORT_TAG = "Web_Ad_Inside_Show";
+    public static final String ARG_BACK_NEWS = "back_to_news";
+
 
     /**
      * @param callBack
@@ -28,14 +27,15 @@ public class WebHelper {
     }
 
     /**
+     *
      * @param callBack
      */
-    public static void showLogoAdDetail(Context context, String title, String url, boolean showAd, WebLoadCallBack callBack) {
+    public static void showNoteNews(Context context, String title, String url, WebLoadCallBack callBack) {
         WebActivity.setWebLoadCallBack(callBack);
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra(ARG_TITLE, title);
         intent.putExtra(ARG_URL, url);
-        intent.putExtra(ARG_SHOW_AD, showAd);
+        intent.putExtra(ARG_BACK_NEWS, true);
         context.startActivity(intent);
     }
 

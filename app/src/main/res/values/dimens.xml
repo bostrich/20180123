@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="ActionBarHeight">50dp</dimen>
     <dimen name="titlesize">19sp</dimen>
+
+    <dimen name="textandiconmargin">10dp</dimen>
 </resources>

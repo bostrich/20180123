@@ -1,0 +1,40 @@
+<ViewSwitcher xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/viewSwitcherSurfingHotNewsError"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ViewSwitcher
+        android:id="@+id/viewSwitcherSurfingJokeLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_refresh_tip"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#f0f0f0"
+                android:gravity="center"
+                android:text="已为您更新10条内容"
+                android:textColor="#ff888888"
+                android:textSize="12sp" />
+
+            <com.syezon.note_xh.view.refreshview.RefreshRecyclerView
+                android:id="@+id/refreshRecyclerViewNews"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tv_refresh_tip"/>
+
+        </RelativeLayout>
+
+
+
+        <include layout="@layout/include_loading" />
+    </ViewSwitcher>
+
+    <include layout="@layout/include_http_error" />
+</ViewSwitcher>

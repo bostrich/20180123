@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
+    <color name="gray_btn">#E7E7E7</color>
+
     <color name="black">#000000</color>
     <color name="actionBar">#33b5e5</color>
     <color name="activity_backGround">#F0F0F3</color>

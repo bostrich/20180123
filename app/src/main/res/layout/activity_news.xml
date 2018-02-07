@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/activity_backGround"
-    tools:context="com.syezon.note_xh.activity.WebActivity">
+    tools:context="com.syezon.note_xh.activity.NewsActivity">
 
     <RelativeLayout
         style="@style/my_actionbar_style"
@@ -30,53 +30,21 @@
             android:layout_alignParentStart="true" />
         <TextView
             android:id="@+id/tv_title"
-            android:text="@string/data_output_phone"
+            android:text="@string/news"
             android:textSize="@dimen/titlesize"
             android:textColor="@color/title_text_color"
             android:layout_centerInParent="true"
             android:layout_width="200dp"
             android:gravity="center"
-            android:singleLine="true"
             android:layout_height="match_parent" />
     </RelativeLayout>
 
-    <FrameLayout
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_below="@id/rl_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rl_title"
-        android:background="@android:color/white">
+        android:layout_height="match_parent"/>
 
-        <FrameLayout
-            android:id="@+id/layout_webView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
-        <RelativeLayout
-            android:id="@+id/rlyt_load"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#f0f0f0"
-            android:gravity="center_vertical"
-            android:visibility="gone">
-
-            <View
-                android:id="@+id/v_load"
-                android:layout_width="41dp"
-                android:layout_height="41dp"
-                android:layout_centerHorizontal="true"
-                android:background="@mipmap/ic_web_load" />
-
-            <TextView
-                android:id="@+id/tv_load"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/v_load"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
-                android:text="正在加载..."
-                android:textColor="#777777"
-                android:textSize="12sp" />
-        </RelativeLayout>
-    </FrameLayout>
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.os.Environment;
 public class Conts {
 
    public static final String URL_BL_NEWS_NORMAL = "http://newscdn.wlanbanlv.com/webapi/external/lists?from=zengqiangqi&channelId=170&num=20&page=1";
+   public static final String URL_BL_NEWS= "http://newscdn.wlanbanlv.com/webapi/external/lists?from=zengqiangqi&channelId=131&num=20&page=";
 
    public static final String FOLDER_COMPRESS = Environment.getExternalStorageDirectory() + "/note_pic/compress";
    public static final String FOLDER_PIC = Environment.getExternalStorageDirectory() + "/note_pic";

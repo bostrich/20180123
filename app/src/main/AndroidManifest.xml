@@ -119,6 +119,18 @@
             android:name=".activity.DataImportPhoneActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".activity.DataOutputFileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.DataImportFileActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.WebActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".activity.NewsActivity"
+            android:screenOrientation="portrait" />
+
         <receiver android:name=".receiver.BluetoothReceiver">
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.FOUND" />
@@ -134,9 +146,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.DataOutputFileActivity" />
-        <activity android:name=".activity.DataImportFileActivity" />
-        <activity android:name=".activity.WebActivity"></activity>
+
     </application>
 
 </manifest>

@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_btn_hot_click"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/item_news_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/item_news_tuiguang"
+                android:gravity="center|left"
+                android:maxLines="2"
+                android:text=""
+                android:textColor="#373737"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/item_news_tuiguang"
+                android:layout_width="22dp"
+                android:layout_height="13dp"
+                android:layout_alignParentRight="true"
+                android:background="@mipmap/bg_tv_tuiguang1"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:textSize="8sp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/item_news_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:scaleType="fitXY" />
+
+
+        <TextView
+            android:id="@+id/item_news_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:text=""
+            android:textColor="#cec5c5"
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#e5e5e5" />
+</LinearLayout>

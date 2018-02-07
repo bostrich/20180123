@@ -215,7 +215,8 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onSuccess(String result) {
                         try {
-                            NewsNoteInfo newsAd = ParseUtil.parseNews(result);
+                            NewsNoteInfo newsAd = new NewsNoteInfo();
+                            newsAd.setNews(ParseUtil.parseNews(result));
                             if(newsAd.isValid()){
                                 if(type == 0){
                                     dbModelList.add(newsAd);

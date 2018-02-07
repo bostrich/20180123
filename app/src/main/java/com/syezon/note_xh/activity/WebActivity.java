@@ -63,6 +63,7 @@ public class WebActivity extends BaseUmengAnalysisActivity {
     private String mTitle;
     private String mUrl;
     private ImageView imgBack;
+    private boolean backToNews;
 
 
     private Handler mHandler;
@@ -81,6 +82,7 @@ public class WebActivity extends BaseUmengAnalysisActivity {
 
         mTitle = getIntent().getStringExtra(WebHelper.ARG_TITLE);
         mUrl = getIntent().getStringExtra(WebHelper.ARG_URL);
+        backToNews = getIntent().getBooleanExtra(WebHelper.ARG_BACK_NEWS, false);
         initView();
         initHandler();
 
@@ -130,6 +132,12 @@ public class WebActivity extends BaseUmengAnalysisActivity {
                 if (webView != null && webView.canGoBack()) {
                     webView.goBack();
                 } else {
+                    if (backToNews) {
+                        // 跳转到新闻页面
+                        Intent intent = new Intent(WebActivity.this, NewsActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                     finish();
                 }
             }
@@ -179,6 +187,7 @@ public class WebActivity extends BaseUmengAnalysisActivity {
         webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSetting.setBlockNetworkImage(true);
     }
+
 
 
     /**
@@ -283,6 +292,13 @@ public class WebActivity extends BaseUmengAnalysisActivity {
         try {
             if (webView != null && webView.canGoBack()) {
                 webView.goBack();
+                return true;
+            }
+            if(backToNews){
+                // 跳转到新闻页面
+                Intent intent = new Intent(WebActivity.this, NewsActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
             }
         } catch (Exception e) {
