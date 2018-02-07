@@ -3,6 +3,9 @@ package com.syezon.note_xh.activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,12 +19,15 @@ import android.widget.TextView;
 import com.syezon.note_xh.Config.Conts;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.adapter.FileFolderAdapter;
+import com.syezon.note_xh.event.EditEvent;
 import com.syezon.note_xh.utils.DataMigrationUtil;
 import com.syezon.note_xh.utils.DialogUtils;
 import com.syezon.note_xh.utils.FileUtils;
 import com.syezon.note_xh.utils.LogUtil;
 import com.syezon.note_xh.utils.ZipUtils;
 import com.syezon.note_xh.view.CustomDialog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,6 +40,9 @@ import butterknife.OnClick;
 public class DataImportFileActivity extends BaseUmengAnalysisActivity {
 
     private static final String TAG = DataImportFileActivity.class.getName();
+    private static final int MIGRATION_SUCCESS = 1;
+    private static final int MIGRATION_FAILED = 2;
+
     @BindView(R.id.iv_cancel)
     ImageView ivCancel;
     @BindView(R.id.ll_floder)
@@ -57,9 +66,28 @@ public class DataImportFileActivity extends BaseUmengAnalysisActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_import_file);
         ButterKnife.bind(this);
+        initHandler();
         initView();
         initData();
 
+    }
+
+
+    @Override
+    public void initHandler() {
+        mHandler = new Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                switch(msg.what){
+                    case MIGRATION_SUCCESS:
+                        tvDialog.setText("导入成功");
+                        break;
+                    case MIGRATION_FAILED:
+                        tvDialog.setText("导入失败");
+                        break;
+                }
+            }
+        };
     }
 
     private void initData() {
@@ -93,23 +121,22 @@ public class DataImportFileActivity extends BaseUmengAnalysisActivity {
 
                     DialogUtils.showMigrationImportFile(DataImportFileActivity.this, file, new DialogUtils.DialogListener<File>() {
                         @Override
-                        public void confirm(File bean) {
+                        public void confirm(final File bean) {
                             tvDialog.setText("正在导入数据...");
                             dialogMigration.show();
-                            try {
-                                //删除解压文件中的文件，避免干扰
-                                File file = new File(Conts.FOLDER_DECOMPRESS);
-                                if (file.exists()) FileUtils.deleteFile(file);
-                                ZipUtils.unZipFolder(bean.getAbsolutePath(), Conts.FOLDER_DECOMPRESS);
-                                LogUtil.e(TAG, "解压成功");
-                                DataMigrationUtil.dataMerge(Conts.FOLDER_DECOMPRESS);
-                                tvDialog.setText("导入文件成功");
-                                if (!dialogMigration.isShowing()) dialogMigration.show();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                tvDialog.setText("导入文件失败");
-                                if (!dialogMigration.isShowing()) dialogMigration.show();
-                            }
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        //删除解压文件中的文件，避免干扰
+                                        dataImport(bean);
+                                        mHandler.sendEmptyMessage(MIGRATION_SUCCESS);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        mHandler.sendEmptyMessage(MIGRATION_FAILED);
+                                    }
+                                }
+                            }).start();
                         }
 
                         @Override
@@ -127,6 +154,15 @@ public class DataImportFileActivity extends BaseUmengAnalysisActivity {
         dialogMigration = new CustomDialog(this, R.style.DialogTheme);
         dialogMigration.setContentView(R.layout.dialog_output_file_progress);
         tvDialog = (TextView) dialogMigration.findViewById(R.id.tv);
+    }
+
+    private void dataImport(File bean) throws Exception {
+        File file = new File(Conts.FOLDER_DECOMPRESS);
+        if (file.exists()) FileUtils.deleteFile(file);
+        ZipUtils.unZipFolder(bean.getAbsolutePath(), Conts.FOLDER_DECOMPRESS);
+        LogUtil.e(TAG, "解压成功");
+        DataMigrationUtil.dataMerge(Conts.FOLDER_DECOMPRESS);
+
     }
 
     private void addFolder(File file, boolean addbefore) {

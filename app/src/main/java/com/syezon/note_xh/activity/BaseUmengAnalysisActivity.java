@@ -1,5 +1,7 @@
 package com.syezon.note_xh.activity;
 
+import android.os.Handler;
+
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -8,6 +10,9 @@ import com.umeng.analytics.MobclickAgent;
 
 public class BaseUmengAnalysisActivity extends BaseActivity {
 
+    public Handler mHandler;
+
+    public void initHandler(){}
 
     @Override
     protected void onResume() {

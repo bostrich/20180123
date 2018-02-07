@@ -88,7 +88,7 @@ public class DataOutputPhoneActivity extends BaseUmengAnalysisActivity {
 
     }
 
-    private void initHandler() {
+    public void initHandler() {
         mHandler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {

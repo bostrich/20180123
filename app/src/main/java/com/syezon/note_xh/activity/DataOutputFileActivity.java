@@ -3,6 +3,9 @@ package com.syezon.note_xh.activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +25,7 @@ import com.syezon.note_xh.utils.DialogUtils;
 import com.syezon.note_xh.utils.LogUtil;
 import com.syezon.note_xh.utils.ZipUtils;
 import com.syezon.note_xh.view.CustomDialog;
+import com.syezon.note_xh.view.refreshview.progressindicator.AVLoadingIndicatorView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,6 +38,8 @@ import butterknife.OnClick;
 public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
 
     private static final String TAG = DataOutputFileActivity.class.getName();
+    private static final int MIGRATION_SUCCESS = 1;
+    private static final int MIGRATION_FAILED = 2;
 
     @BindView(R.id.iv_cancel)
     ImageView ivCancel;
@@ -51,14 +57,42 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
     private List<File> files = new ArrayList<>();
     private Dialog dialogMigration;
     private TextView tvDialog;
+    private AVLoadingIndicatorView avLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_output_file);
         ButterKnife.bind(this);
+        initHandler();
         initView();
         initData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mHandler != null) mHandler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void initHandler() {
+        mHandler = new Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                switch(msg.what){
+                    case MIGRATION_SUCCESS:
+                        tvDialog.setText("导出到文件夹成功");
+                        avLoading.setVisibility(View.INVISIBLE);
+                        break;
+                    case MIGRATION_FAILED:
+                        tvDialog.setText("导出到文件失败");
+                        avLoading.setVisibility(View.INVISIBLE);
+                        break;
+                }
+            }
+        };
+
     }
 
     private void initData() {
@@ -136,7 +170,6 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
                     adapter.notifyDataSetChanged();
                     addFolder(file, false);
                 }else{
-
                     DialogUtils.showMigrationConfirmFolder(DataOutputFileActivity.this, file, new DialogUtils.DialogListener<File>() {
                         @Override
                         public void confirm(File bean) {
@@ -157,29 +190,33 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
         dialogMigration = new CustomDialog(this, R.style.DialogTheme);
         dialogMigration.setContentView(R.layout.dialog_output_file_progress);
         tvDialog = (TextView) dialogMigration.findViewById(R.id.tv);
+        avLoading = (AVLoadingIndicatorView) dialogMigration.findViewById(R.id.avloading);
     }
 
 
-    private void dataMigration(File file) {
+    private void dataMigration(final File file) {
         //显示压缩等待动画
-        dialogMigration.show();
-        if (DataMigrationUtil.migrationData()) {
-
-            try {
-                ZipUtils.zipFolder(Conts.FOLDER_COMPRESS
-                        , file.getAbsolutePath() + "/briefnote.zip");
-                LogUtil.e(TAG, "文件压缩成功：");
-                //显示压缩成功动画
-                tvDialog.setText("导出到文件夹成功");
-                if(!dialogMigration.isShowing()) dialogMigration.show();
-                return;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        //显示迁移失败动画
-        tvDialog.setText("导出到文件失败");
         if(!dialogMigration.isShowing()) dialogMigration.show();
+        tvDialog.setText("正在导出...");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (DataMigrationUtil.migrationData()) {
+                    try {
+                        ZipUtils.zipFolder(Conts.FOLDER_COMPRESS
+                                , file.getAbsolutePath() + "/briefnote.zip");
+                        LogUtil.e(TAG, "文件压缩成功：");
+                        //显示压缩成功动画
+                        mHandler.sendEmptyMessage(MIGRATION_SUCCESS);
+                        return;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    mHandler.sendEmptyMessage(MIGRATION_FAILED);
+
+                }
+            }
+        }).start();
 
     }
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.syezon.note_xh.Config.Conts;
 import com.syezon.note_xh.R;
+import com.syezon.note_xh.event.EditEvent;
 import com.syezon.note_xh.receiver.WifiAPBroadcastReceiver;
 import com.syezon.note_xh.utils.ApMgr;
 import com.syezon.note_xh.utils.DataMigrationUtil;
@@ -20,6 +21,8 @@ import com.syezon.note_xh.utils.FileUtils;
 import com.syezon.note_xh.utils.LogUtil;
 import com.syezon.note_xh.utils.WifiMgr;
 import com.syezon.note_xh.utils.ZipUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -55,7 +58,7 @@ public class DataImportPhoneActivity extends BaseUmengAnalysisActivity {
         initState();
     }
 
-    private void initHandler() {
+    public void initHandler() {
         mHandler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {
@@ -171,6 +174,7 @@ public class DataImportPhoneActivity extends BaseUmengAnalysisActivity {
                                     tvState.setText("导入成功...");
                                 }
                             });
+                            EventBus.getDefault().post(new EditEvent());
                             receivedData = true;
                         }catch(Exception e){
                             e.printStackTrace();

@@ -149,6 +149,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initViews(View contentView) {
+
         mViewSwitcherNewsError = (ViewSwitcher) contentView.findViewById(R.id.viewSwitcherSurfingHotNewsError);
         mViewSwitcherNewsLoading = (ViewSwitcher) contentView.findViewById(R.id.viewSwitcherSurfingJokeLoading);
         mRefreshRecyclerView = (RefreshRecyclerView) contentView.findViewById(R.id.refreshRecyclerViewNews);
@@ -252,7 +253,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
     }
 
     private void loadData() {
-        mViewSwitcherNewsError.setDisplayedChild(1);
+        displayNewsLoadingView();
         refreshNews(INIT, true);
     }
 
