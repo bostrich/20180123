@@ -180,6 +180,7 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
     private void addNoteAd() {
         int totalPosition = 0;
         listPosition.clear();
+        int num = 0;
         for (int i = 0; i < dbModelList.size(); i++) {
             if(dbModelList.get(i).hasImage()){
                 totalPosition += 2;
@@ -188,7 +189,9 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
             }
             if(totalPosition % 10 >= 5 ){
                 listPosition.add(i);
-                totalPosition = -3;
+                num ++;
+                i--;
+                totalPosition = -3 - num * 2;
             }
         }
 

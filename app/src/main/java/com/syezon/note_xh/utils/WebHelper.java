@@ -12,7 +12,7 @@ import com.syezon.note_xh.activity.WebActivity;
 public class WebHelper {
     public static final String ARG_URL = "url";
     public static final String ARG_TITLE = "title";
-    public static final String ARG_BACK_NEWS = "back_to_news";
+    public static final String ARG_BACK_USUALLY = "back_usually";
 
 
     /**
@@ -35,7 +35,7 @@ public class WebHelper {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra(ARG_TITLE, title);
         intent.putExtra(ARG_URL, url);
-        intent.putExtra(ARG_BACK_NEWS, true);
+        intent.putExtra(ARG_BACK_USUALLY, true);
         context.startActivity(intent);
     }
 
@@ -46,6 +46,8 @@ public class WebHelper {
         void loadComplete(String url);
 
         void loadError(String url);
+
+        void backClick();
     }
 
     public static class SimpleWebLoadCallBack implements WebLoadCallBack {
@@ -61,6 +63,11 @@ public class WebHelper {
 
         @Override
         public void loadError(String url) {
+
+        }
+
+        @Override
+        public void backClick() {
 
         }
     }

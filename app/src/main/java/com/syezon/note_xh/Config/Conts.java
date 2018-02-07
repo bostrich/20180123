@@ -14,6 +14,7 @@ public class Conts {
    public static final String FOLDER_COMPRESS = Environment.getExternalStorageDirectory() + "/note_pic/compress";
    public static final String FOLDER_PIC = Environment.getExternalStorageDirectory() + "/note_pic";
    public static final String FOLDER_DECOMPRESS = Environment.getExternalStorageDirectory() + "/note_pic/decompress";
+   public static final String FOLDER_SPLASH = Environment.getExternalStorageDirectory() + "/note_pic/splash/";
    public static final String MIGRATION_ZIP_SEND = Environment.getExternalStorageDirectory() + "/note_pic/send.zip";
    public static final String MIGRATION_ZIP_RECEIVED = Environment.getExternalStorageDirectory() + "/note_pic/received.zip";
 

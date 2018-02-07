@@ -7,6 +7,7 @@ public class SharedPerferencesUtil {
     public static String CONFIG = "config";
     private static SharedPreferences sharedPreferences;
     private static final String SPLASH_ORDER = "splash_order";
+    private static final String SPLASH_INFO = "splash_info";
 
 
     public static void saveStringData(Context context, String key, String value) {
@@ -77,6 +78,20 @@ public class SharedPerferencesUtil {
             sharedPreferences = context.getSharedPreferences(CONFIG, Context.MODE_PRIVATE);
         }
         return sharedPreferences.getInt(SPLASH_ORDER, 0);
+    }
+
+    public static void saveSplashInfo(Context context, String jsonInfo) {
+        if (sharedPreferences == null) {
+            sharedPreferences = context.getSharedPreferences(CONFIG, Context.MODE_PRIVATE);
+        }
+        sharedPreferences.edit().putString(SPLASH_INFO, jsonInfo).commit();
+    }
+
+    public static String getSplashInfo(Context context) {
+        if (sharedPreferences == null) {
+            sharedPreferences = context.getSharedPreferences(CONFIG, Context.MODE_PRIVATE);
+        }
+        return sharedPreferences.getString(SPLASH_INFO,  "");
     }
 
 }

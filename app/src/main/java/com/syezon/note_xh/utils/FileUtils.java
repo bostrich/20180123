@@ -54,7 +54,7 @@ public class FileUtils {
 
 
     /**
-     * 删除文件（包括目录）
+     * 删除文件（不包括目录）
      * @param delFile
      */
     public static void deleteFile(File delFile) {

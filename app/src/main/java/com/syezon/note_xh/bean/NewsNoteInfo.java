@@ -1,7 +1,9 @@
 package com.syezon.note_xh.bean;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.syezon.note_xh.activity.NewsActivity;
 import com.syezon.note_xh.utils.WebHelper;
 
 import org.xutils.db.table.DbModel;
@@ -82,9 +84,14 @@ public class NewsNoteInfo extends BaseNoteBean {
     }
 
     @Override
-    public void click(Context context) {
+    public void click(final Context context) {
         WebHelper.showNoteNews(context, news.get((position -1) % news.size()).getTitle()
-                , news.get((position -1) % news.size()).getUrl(), null);
-
+                , news.get((position -1) % news.size()).getUrl(), new WebHelper.SimpleWebLoadCallBack(){
+                    @Override
+                    public void backClick() {
+                        Intent intent = new Intent(context, NewsActivity.class);
+                        context.startActivity(intent);
+                    }
+                });
     }
 }

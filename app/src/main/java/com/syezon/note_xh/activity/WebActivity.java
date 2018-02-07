@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -33,11 +32,6 @@ import android.widget.TextView;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.utils.DisplayUtils;
 import com.syezon.note_xh.utils.WebHelper;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.ButterKnife;
 
 public class WebActivity extends BaseUmengAnalysisActivity {
 
@@ -63,7 +57,7 @@ public class WebActivity extends BaseUmengAnalysisActivity {
     private String mTitle;
     private String mUrl;
     private ImageView imgBack;
-    private boolean backToNews;
+    private boolean backUsually;
 
 
     private Handler mHandler;
@@ -82,7 +76,7 @@ public class WebActivity extends BaseUmengAnalysisActivity {
 
         mTitle = getIntent().getStringExtra(WebHelper.ARG_TITLE);
         mUrl = getIntent().getStringExtra(WebHelper.ARG_URL);
-        backToNews = getIntent().getBooleanExtra(WebHelper.ARG_BACK_NEWS, false);
+        backUsually = getIntent().getBooleanExtra(WebHelper.ARG_BACK_USUALLY, false);
         initView();
         initHandler();
 
@@ -132,11 +126,8 @@ public class WebActivity extends BaseUmengAnalysisActivity {
                 if (webView != null && webView.canGoBack()) {
                     webView.goBack();
                 } else {
-                    if (backToNews) {
-                        // 跳转到新闻页面
-                        Intent intent = new Intent(WebActivity.this, NewsActivity.class);
-                        startActivity(intent);
-                        finish();
+                    if (backUsually) {
+                       if(webLoadCallBack != null) webLoadCallBack.backClick();
                     }
                     finish();
                 }
@@ -294,10 +285,10 @@ public class WebActivity extends BaseUmengAnalysisActivity {
                 webView.goBack();
                 return true;
             }
-            if(backToNews){
-                // 跳转到新闻页面
-                Intent intent = new Intent(WebActivity.this, NewsActivity.class);
-                startActivity(intent);
+            if(backUsually) {
+                if (webLoadCallBack != null) {
+                    webLoadCallBack.backClick();
+                }
                 finish();
                 return true;
             }
