@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.syezon.note_xh.Config.AdConfig;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.fragment.NewsFragment;
 
@@ -24,7 +25,7 @@ public class NewsActivity extends BaseUmengAnalysisActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         ButterKnife.bind(this);
-        Fragment fragment = NewsFragment.newInstance();
+        Fragment fragment = NewsFragment.newInstance(AdConfig.TYPE_NEWS_SOURCE_BL.getName());
         getSupportFragmentManager().beginTransaction().add(R.id.rl_content, fragment).show(fragment).commit();
     }
 

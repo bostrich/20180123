@@ -14,15 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.syezon.note_xh.Config.AdConfig;
 import com.syezon.note_xh.R;
-import com.syezon.note_xh.bean.AdInfo;
 import com.syezon.note_xh.bean.BaseNoteBean;
 import com.syezon.note_xh.utils.DateUtils;
 import com.syezon.note_xh.utils.StringUtils;
-
-import org.xutils.db.table.DbModel;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -148,7 +143,8 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
 
     @Override
     public void onClick(View v) {
-        mOnItemClickListener.onItemClick(v, (Integer) v.getTag());
+        int position = (int) v.getTag();
+        mOnItemClickListener.onItemClick(v, position);
     }
 
     @Override

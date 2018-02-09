@@ -12,12 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.syezon.note_xh.Config.AdConfig;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.application.NoteApplication;
 import com.syezon.note_xh.db.NoteSortEntity;
 import com.syezon.note_xh.event.BySortEvent;
 import com.syezon.note_xh.event.ByTimeEvent;
 import com.syezon.note_xh.event.ThemeChangeEvent;
+import com.syezon.note_xh.fragment.NewsFragment;
 import com.syezon.note_xh.fragment.SortFragment;
 import com.syezon.note_xh.fragment.TimeFragment;
 import com.syezon.note_xh.utils.DisplayUtils;
@@ -41,20 +43,28 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
     RelativeLayout rlShowpageTime;
     @BindView(R.id.rl_showpage_sort)
     RelativeLayout rlShowpageSort;
+    @BindView(R.id.rl_news)
+    RelativeLayout rlNews;
     @BindView(R.id.showpage_container)
     RelativeLayout showpagecontainer;
     @BindView(R.id.tv_time)
     TextView tvTime;
     @BindView(R.id.tv_sort)
     TextView tvSort;
+    @BindView(R.id.tv_news)
+    TextView tvNews;
     @BindView(R.id.tv_time_ima)
     TextView tvTimeIma;
     @BindView(R.id.tv_sort_ima)
     TextView tvSortIma;
+    @BindView(R.id.tv_news_ima)
+    TextView tvNewsIma;
     @BindView(R.id.tv_time_arrow)
     TextView tvTimeArrow;
     @BindView(R.id.tv_sort_arrow)
     TextView tvSortArrow;
+    @BindView(R.id.tv_news_arrow)
+    TextView tvNewsArrow;
     @BindView(R.id.tv_menu)
     TextView tvMenu;
 
@@ -62,12 +72,14 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
 
     private static final int BY_TIME = 1;
     private static final int BY_SORT = 2;
+    private static final int BY_NEWS = 3;
     private static final int DOWN = 1;
     private static final int UP = 2;
 
     private FragmentManager fragmentManager;
     private SortFragment sortFragment;
     private TimeFragment timeFragment;
+    private NewsFragment newsFragment;
     //BY_TIME.按时间显示的 BY_SORT.按分类显示的
     private int tag = BY_TIME;
     //判断时间箭头此时的方向
@@ -145,6 +157,7 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
         Typeface iconfont = Typeface.createFromAsset(getAssets(), "iconfont.ttf");
         tvTimeIma.setTypeface(iconfont);
         tvSortIma.setTypeface(iconfont);
+        tvNewsIma.setTypeface(iconfont);
         tvTimeArrow.setTypeface(iconfont);
         tvSortArrow.setTypeface(iconfont);
         tvMenu.setTypeface(iconfont);
@@ -208,6 +221,7 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
         rlShowpageSort.setOnClickListener(this);
         tvTimeArrow.setOnClickListener(this);
         tvSortArrow.setOnClickListener(this);
+        rlNews.setOnClickListener(this);
     }
 
     @Override
@@ -223,20 +237,23 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
                     //改变背景颜色
                     rlShowpageTime.setBackgroundColor(getResources().getColor(R.color.activity_backGround));
                     rlShowpageSort.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+                    rlNews.setBackgroundColor(getResources().getColor(R.color.unselected_color));
                     tvTimeArrow.setVisibility(View.VISIBLE);
                     tvSortArrow.setVisibility(View.INVISIBLE);
 
                     tvTimeIma.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
                     tvTime.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
                     tvSortIma.setTextColor(getResources().getColor(themeColorSourceId));
+                    tvNewsIma.setTextColor(getResources().getColor(themeColorSourceId));
                     tvSort.setTextColor(getResources().getColor(themeColorSourceId));
+                    tvNews.setTextColor(getResources().getColor(themeColorSourceId));
 
                 } else {
                     timeOrderChange();
                 }
                 break;
             case R.id.rl_showpage_sort:
-                if (tag != BY_SORT) {
+                if (tag != BY_SORT ) {
                     tag = BY_SORT;
                     FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
 //                    fragmentTransaction1.replace(R.id.showpage_container,sortFragment).commit();
@@ -250,17 +267,46 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
                     //改变背景颜色
                     rlShowpageSort.setBackgroundColor(getResources().getColor(R.color.activity_backGround));
                     rlShowpageTime.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+                    rlNews.setBackgroundColor(getResources().getColor(R.color.unselected_color));
                     tvSortArrow.setVisibility(View.VISIBLE);
                     tvTimeArrow.setVisibility(View.INVISIBLE);
 
                     tvTimeIma.setTextColor(getResources().getColor(themeColorSourceId));
+                    tvNewsIma.setTextColor(getResources().getColor(themeColorSourceId));
                     tvTime.setTextColor(getResources().getColor(themeColorSourceId));
+                    tvNews.setTextColor(getResources().getColor(themeColorSourceId));
                     tvSortIma.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
                     tvSort.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
 
                 } else {
                     sortOrderChange();
                 }
+                break;
+            case R.id.rl_news:
+                tag = BY_NEWS;
+                FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
+                hideFragment(fragmentTransaction1);
+                if (newsFragment != null && newsFragment.isAdded()) {
+                    fragmentTransaction1.show(newsFragment).commit();
+                } else {
+                    newsFragment = NewsFragment.newInstance(AdConfig.TYPE_NEWS_SOURCE_TT.getName());
+                    fragmentTransaction1.add(R.id.showpage_container, newsFragment).commit();
+                }
+                rlShowpageSort.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+                rlShowpageTime.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+                rlNews.setBackgroundColor(getResources().getColor(R.color.activity_backGround));
+
+                tvSortArrow.setVisibility(View.INVISIBLE);
+                tvTimeArrow.setVisibility(View.INVISIBLE);
+
+                tvTimeIma.setTextColor(getResources().getColor(themeColorSourceId));
+                tvTime.setTextColor(getResources().getColor(themeColorSourceId));
+                tvSortIma.setTextColor(getResources().getColor(themeColorSourceId));
+                tvSort.setTextColor(getResources().getColor(themeColorSourceId));
+                tvNewsIma.setTextColor(getResources().getColor(R.color.news_tag));
+
+                tvNews.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
+
                 break;
             case R.id.tv_time_arrow:
                 timeOrderChange();
@@ -315,6 +361,7 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
         if (sortFragment != null) {
             fragmentTransaction.hide(sortFragment);
         }
+        if(newsFragment != null) fragmentTransaction.hide(newsFragment);
 
     }
 

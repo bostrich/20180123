@@ -77,6 +77,8 @@ public class StringUtils {
                 return context.getResources().getString(R.string.duoyun);
             case "qingtian":
                 return context.getResources().getString(R.string.qingtian);
+            case "note_new":
+                return context.getResources().getString(R.string.note_new);
             default:
                 return null;
         }

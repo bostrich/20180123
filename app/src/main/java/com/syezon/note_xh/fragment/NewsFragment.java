@@ -16,25 +16,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.syezon.note_xh.Config.AdConfig;
+import com.syezon.note_xh.Config.AppSwitch;
 import com.syezon.note_xh.Config.Conts;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.adapter.NewsAdapter;
-import com.syezon.note_xh.bean.BLNewsBean;
 import com.syezon.note_xh.bean.BaseNewInfo;
-import com.syezon.note_xh.bean.NewsNoteInfo;
 import com.syezon.note_xh.utils.DisplayUtils;
 import com.syezon.note_xh.utils.ParseUtil;
 import com.syezon.note_xh.view.refreshview.RefreshRecyclerView;
-import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONException;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class NewsFragment extends Fragment implements View.OnClickListener{
@@ -46,6 +42,8 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
     private static final int INIT = 10;
     private static final int REFRESH = 11;
     private static final int LOAD_MORE = 12;
+
+    public static final String NEWS_SOURCE = "source";
 
     private int pageNum = 1;
 
@@ -63,6 +61,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
     private boolean isFirstVisibleToUser = true;
 
     private boolean mIsLoadData;
+    private String newsSource;
 
 
     private Handler mDataHandler = new Handler() {
@@ -122,10 +121,15 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
 
 
     public NewsFragment() {
+
     }
 
-    public static NewsFragment newInstance() {
+
+    public static NewsFragment newInstance(String source) {
         NewsFragment fragment = new NewsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(NEWS_SOURCE, source);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -134,6 +138,8 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        newsSource = bundle.getString(NEWS_SOURCE) != null ? bundle.getString(NEWS_SOURCE): AdConfig.TYPE_NEWS_SOURCE_TT.getName();
     }
 
     @Override
@@ -211,45 +217,94 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
      * 刷新新闻数据
      */
     private void refreshNews(final int type, final boolean isFirstTime) {
-        x.http().get(new RequestParams(Conts.URL_BL_NEWS + pageNum++), new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                List<BLNewsBean> news = new ArrayList<BLNewsBean>();
-                try {
-                    news = ParseUtil.parseNews(result);
-                } catch (Exception e) {
-                    if(isFirstTime) mDataHandler.sendEmptyMessage(MES_GET_NEWS_FAIL);
+        if(newsSource.equals(AdConfig.TYPE_NEWS_SOURCE_BL.getName())){
+            x.http().get(new RequestParams(Conts.URL_BL_NEWS + pageNum++), new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    List<BaseNewInfo> news = new ArrayList<>();
+                    try {
+                        news = ParseUtil.parseBLNews(result);
+                    } catch (Exception e) {
+                        if(isFirstTime) mDataHandler.sendEmptyMessage(MES_GET_NEWS_FAIL);
+                    }
+                    switch(type){
+                        case REFRESH:
+                            for (int i = news.size() -1 ; i >= 0; i--) {
+                                mNewsInfo.add(0, news.get(i));
+                            }
+                            showGetNewsView(news.size());
+                            break;
+                        default:
+                            mNewsInfo.addAll(news);
+                            showGetNewsView(news.size());
+                            break;
+                    }
+
                 }
-                switch(type){
-                    case REFRESH:
-                        for (int i = news.size() -1 ; i >= 0; i--) {
-                            mNewsInfo.add(0, news.get(i));
-                        }
-                        showGetNewsView(news.size());
-                        break;
-                    default:
-                        mNewsInfo.addAll(news);
-                        showGetNewsView(news.size());
-                        break;
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+
                 }
 
+                @Override
+                public void onCancelled(CancelledException cex) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }else{
+            String url = "";
+            if(type == INIT){
+                url = Conts.URL_TT_NEWS;
+            }else{
+                url = Conts.URL_TT_NEWS_DYNAMIC;
             }
+            x.http().get(new RequestParams(url), new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    List<BaseNewInfo> news = new ArrayList<>();
+                    try {
+                        news = ParseUtil.parseTTNews(result, AppSwitch.showAdInNotes);
+                    } catch (Exception e) {
+                        if(isFirstTime) mDataHandler.sendEmptyMessage(MES_GET_NEWS_FAIL);
+                    }
+                    switch(type){
+                        case REFRESH:
+                            for (int i = news.size() -1 ; i >= 0; i--) {
+                                mNewsInfo.add(0, news.get(i));
+                            }
+                            showGetNewsView(news.size());
+                            break;
+                        default:
+                            mNewsInfo.addAll(news);
+                            showGetNewsView(news.size());
+                            break;
+                    }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
+                }
 
-            }
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
 
-            @Override
-            public void onCancelled(CancelledException cex) {
+                }
 
-            }
+                @Override
+                public void onCancelled(CancelledException cex) {
 
-            @Override
-            public void onFinished() {
+                }
 
-            }
-        });
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }
+
     }
 
     private void loadData() {

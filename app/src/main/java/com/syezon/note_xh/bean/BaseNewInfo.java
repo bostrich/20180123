@@ -10,7 +10,7 @@ import java.util.List;
 public class BaseNewInfo {
 
     private String url;
-    private String title;
+    public String title;
     private String description;
     private String date;
     private String source;

@@ -72,6 +72,11 @@ public class DataImportFileActivity extends BaseUmengAnalysisActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mHandler != null) mHandler.removeCallbacksAndMessages(null);
+    }
 
     @Override
     public void initHandler() {
@@ -81,6 +86,7 @@ public class DataImportFileActivity extends BaseUmengAnalysisActivity {
                 switch(msg.what){
                     case MIGRATION_SUCCESS:
                         tvDialog.setText("导入成功");
+                        EventBus.getDefault().post(new EditEvent());
                         break;
                     case MIGRATION_FAILED:
                         tvDialog.setText("导入失败");
@@ -162,7 +168,6 @@ public class DataImportFileActivity extends BaseUmengAnalysisActivity {
         ZipUtils.unZipFolder(bean.getAbsolutePath(), Conts.FOLDER_DECOMPRESS);
         LogUtil.e(TAG, "解压成功");
         DataMigrationUtil.dataMerge(Conts.FOLDER_DECOMPRESS);
-
     }
 
     private void addFolder(File file, boolean addbefore) {

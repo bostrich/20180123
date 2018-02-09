@@ -7,7 +7,6 @@ import java.util.List;
  *
  */
 
-public class BLNewsBean extends BaseNewInfo{
-
+public class NewsBLBean extends BaseNewInfo{
 
 }

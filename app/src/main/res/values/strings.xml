@@ -32,6 +32,8 @@
     <string name="clock">&#xe612;</string>
     <string name="down">&#xe60f;</string>
     <string name="up">&#xe61d;</string>
+    <string name="note_new">&#xe624;</string>
+    <string name="newsTag">&#xe626;</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="aboutus">\©2014 Hangzhou Hodanet. All rights reserved</string>

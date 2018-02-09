@@ -29,22 +29,17 @@ import com.syezon.note_xh.activity.AddNoteActivity;
 import com.syezon.note_xh.activity.RecycleViewDivider;
 import com.syezon.note_xh.adapter.TimeAndAdRecyclerViewAdapter;
 import com.syezon.note_xh.application.NoteApplication;
-import com.syezon.note_xh.bean.AdInfo;
+import com.syezon.note_xh.bean.NoteAdInfo;
 import com.syezon.note_xh.bean.BaseNoteBean;
-import com.syezon.note_xh.bean.NewsNoteInfo;
+import com.syezon.note_xh.bean.NoteNewsInfo;
 import com.syezon.note_xh.bean.NormalNoteBean;
 import com.syezon.note_xh.db.NoteEntity;
-import com.syezon.note_xh.download.DownloadBean;
-import com.syezon.note_xh.download.DownloadManager;
-import com.syezon.note_xh.download.feedback.NotificationDownloadFeedback;
 import com.syezon.note_xh.event.ByTimeEvent;
 import com.syezon.note_xh.event.EditEvent;
-import com.syezon.note_xh.utils.DialogUtils;
 import com.syezon.note_xh.utils.DisplayUtils;
 import com.syezon.note_xh.utils.LogUtil;
 import com.syezon.note_xh.utils.ParseUtil;
 import com.syezon.note_xh.utils.ToastUtils;
-import com.syezon.note_xh.utils.WebHelper;
 import com.syezon.note_xh.view.MarkPopWindow;
 import com.syezon.note_xh.view.MovePopWindow;
 import com.umeng.analytics.MobclickAgent;
@@ -112,10 +107,11 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
     private int editState = UNEDITED;
 
     private List<Integer> listPosition = new ArrayList<>();
+    private NoteNewsInfo newsAd;
 
 
     public TimeFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -180,86 +176,152 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
     private void addNoteAd() {
         int totalPosition = 0;
         listPosition.clear();
-        int num = 0;
-        for (int i = 0; i < dbModelList.size(); i++) {
-            if(dbModelList.get(i).hasImage()){
-                totalPosition += 2;
-            }else{
-                totalPosition += 1;
-            }
-            if(totalPosition % 10 >= 5 ){
-                listPosition.add(i);
-                num ++;
-                i--;
-                totalPosition = -3 - num * 2;
-            }
-        }
-
-        if(listPosition.size() > 0){
-            for (int i = 0; i < listPosition.size(); i++) {
-                if(AppConfig.listAd.size() >= i + 1){
-                    addAdInfo(AppConfig.listAd.get(i), 1, listPosition.get(i));
-                }
+        if(dbModelList.size() < 6){
+            if(AppConfig.listAd.size() > 0){
+                addAdInfo(AppConfig.listAd.get(0), 0, 0);
             }
         }else{
             if(AppConfig.listAd.size() > 0){
-                AdInfo adInfo = AppConfig.listAd.get(0);
-                addAdInfo(adInfo, 0, 0);
+                addAdInfo(AppConfig.listAd.get(0), 1, 5);
+            }
+            if(dbModelList.size() > 11 && AppConfig.listAd.size() >= 2){
+                addAdInfo(AppConfig.listAd.get(1), 0, 0);
             }
         }
+//        int num = 0;
+//        for (int i = 0; i < dbModelList.size(); i++) {
+//            if(dbModelList.get(i).hasImage()){
+//                totalPosition += 2;
+//            }else{
+//                totalPosition += 1;
+//            }
+//            if(totalPosition >=10 ){
+//                listPosition.add(i);
+//            }
+//        }
+//
+//        if(dbModelList.size() >)
+//
+//        if(listPosition.size() > 0){
+//            for (int i = 0; i < listPosition.size(); i++) {
+//                if(AppConfig.listAd.size() >= i + 1){
+//                    addAdInfo(AppConfig.listAd.get(i), 1, listPosition.get(i));
+//                }
+//            }
+//        }else{
+//            if(AppConfig.listAd.size() > 0){
+//                NoteAdInfo adInfo = AppConfig.listAd.get(0);
+//                addAdInfo(adInfo, 0, 0);
+//            }
+//        }
 
     }
 
-    private void addAdInfo(AdInfo adInfo, final int type, final int position){
-        if(adInfo.getType().equals(AdConfig.TYPE_NEWS.getName())){
-            if(adInfo.getUrl().equals(AdConfig.TYPE_NEWS_SOURCE_BL.getName())){//获取伴侣新闻
-                LogUtil.e(TAG, "开始获取伴侣新闻");
-                x.http().get(new RequestParams(Conts.URL_BL_NEWS_NORMAL), new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String result) {
-                        try {
-                            NewsNoteInfo newsAd = new NewsNoteInfo();
-                            newsAd.setNews(ParseUtil.parseNews(result));
-                            if(newsAd.isValid()){
-                                if(type == 0){
-                                    dbModelList.add(newsAd);
-                                }else if(type ==1){
-                                    dbModelList.add(position, newsAd);
-                                }
-                                timeRecyclerViewAdapter.notifyDataSetChanged();
-                                LogUtil.e(TAG, "显示新闻广告");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-            }
+    private void addAdInfo(NoteAdInfo noteAdInfo, final int type, final int position){
+        if(noteAdInfo.getType().equals(AdConfig.TYPE_NEWS.getName())){
+//            noteAdInfo.setUrl(AdConfig.TYPE_NEWS_SOURCE_TT.getName());
+            addNewNote(noteAdInfo, type, position);
         }else{
             if (type == 0) {
-                dbModelList.add(adInfo);
+                dbModelList.add(noteAdInfo);
             }else if(type ==1){
-                dbModelList.add(position, adInfo);
+                dbModelList.add(position, noteAdInfo);
             }
             timeRecyclerViewAdapter.notifyDataSetChanged();
         }
 
 
+    }
+
+    /**
+     * 添加新闻标签
+     * @param noteAdInfo
+     */
+    private void addNewNote(NoteAdInfo noteAdInfo, final int type, final int position) {
+        if(newsAd != null && newsAd.isValid()){
+            if(type == 0){
+                dbModelList.add(newsAd);
+            }else if(type ==1){
+                dbModelList.add(position, newsAd);
+            }
+            timeRecyclerViewAdapter.notifyDataSetChanged();
+            LogUtil.e(TAG, "显示新闻广告");
+            return;
+        }
+        if(noteAdInfo.getUrl().equals(AdConfig.TYPE_NEWS_SOURCE_BL.getName())){//获取伴侣新闻
+            LogUtil.e(TAG, "开始获取新闻");
+            x.http().get(new RequestParams(Conts.URL_BL_NEWS_NORMAL), new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    try {
+                        newsAd = new NoteNewsInfo();
+                        newsAd.setNews(ParseUtil.parseBLNews(result));
+                        if(newsAd.isValid()){
+                            if(type == 0){
+                                dbModelList.add(newsAd);
+                            }else if(type ==1){
+                                dbModelList.add(position, newsAd);
+                            }
+                            timeRecyclerViewAdapter.notifyDataSetChanged();
+                            LogUtil.e(TAG, "显示新闻广告");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }else if(noteAdInfo.getUrl().equals(AdConfig.TYPE_NEWS_SOURCE_TT.getName())){
+            x.http().get(new RequestParams(Conts.URL_TT_NEWS), new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    try {
+                        newsAd = new NoteNewsInfo();
+                        newsAd.setNews(ParseUtil.parseTTNews(result,false));
+                        if(newsAd.isValid()){
+                            if(type == 0){
+                                dbModelList.add(newsAd);
+                            }else if(type ==1){
+                                dbModelList.add(position, newsAd);
+                            }
+                            timeRecyclerViewAdapter.notifyDataSetChanged();
+                            LogUtil.e(TAG, "显示新闻广告");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+
+                }
+
+                @Override
+                public void onCancelled(CancelledException cex) {
+
+                }
+
+                @Override
+                public void onFinished() {
+
+                }
+            });
+        }
     }
 
     private void init() {
@@ -396,6 +458,9 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(View view, final int position) {
                 if (editState == UNEDITED) {
                     dbModelList.get(position).click(getContext());
+                    if(dbModelList.get(position) instanceof NoteNewsInfo){
+                        initData();
+                    }
                 }
             }
         });
@@ -412,36 +477,6 @@ public class TimeFragment extends Fragment implements View.OnClickListener {
                 editState = EDITED;
             }
         });
-    }
-
-    private void adClick(final AdInfo info) {
-        if(info.getType().equals(AdConfig.TYPE_NEWS.getName())){
-            //待处理
-        }else if(info.getType().equals(AdConfig.TYPE_URL.getName())){
-            WebHelper.showAdDetail(getContext(), info.getName(), info.getUrl(), new WebHelper.SimpleWebLoadCallBack(){
-                @Override
-                public void loadComplete(String url) {
-
-                }
-            });
-        }else if(info.getType().equals(AdConfig.TYPE_APK.getName())){
-            DialogUtils.showDownloadHint(getContext(), info, new DialogUtils.DialogListener<AdInfo>() {
-                @Override
-                public void confirm(AdInfo info) {
-                    DownloadBean bean = new DownloadBean();
-                    bean.setUrl(info.getUrl());
-                    bean.setAppName(info.getName());
-                    DownloadManager.getInstance(getContext()).download(bean,DownloadManager.DOWNLOAD_STRATERY_SERVICE
-                            , new NotificationDownloadFeedback(getContext().getApplicationContext()));
-                }
-
-                @Override
-                public void cancel() {
-
-                }
-            });
-
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

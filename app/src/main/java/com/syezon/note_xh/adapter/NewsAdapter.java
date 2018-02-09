@@ -74,9 +74,9 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else if (holder instanceof SmallPicItemViewHolder) {
                 ((SmallPicItemViewHolder) holder).tvNewsContent.setText(newsInfo.getTitle());
                 if (newsInfo.getImages() != null && newsInfo.getImages().size() >= 3) {
-                    Glide.with(mContext).load(newsInfo.getImages().get(0)).into(((SmallPicItemViewHolder) holder).imgLeft);
-                    Glide.with(mContext).load(newsInfo.getImages().get(1)).into(((SmallPicItemViewHolder) holder).imgCenter);
-                    Glide.with(mContext).load(newsInfo.getImages().get(2)).into(((SmallPicItemViewHolder) holder).imgRight);
+                    Glide.with(mContext).load(newsInfo.getImages().get(0)).placeholder(R.mipmap.img_news_default).into(((SmallPicItemViewHolder) holder).imgLeft);
+                    Glide.with(mContext).load(newsInfo.getImages().get(1)).placeholder(R.mipmap.img_news_default).into(((SmallPicItemViewHolder) holder).imgCenter);
+                    Glide.with(mContext).load(newsInfo.getImages().get(2)).placeholder(R.mipmap.img_news_default).into(((SmallPicItemViewHolder) holder).imgRight);
                 }
 
                 if(newsInfo.getSource().contains("众联广告")){
@@ -107,7 +107,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((PicTextItemViewHolder) holder).tvNewsContent.setText(newsInfo.getTitle());
                 if (newsInfo.getImages() != null && newsInfo.getImages().size() > 0 ) {
                     String imgUrl = newsInfo.getImages().get(0);
-                    Glide.with(mContext).load(imgUrl).into(((PicTextItemViewHolder) holder).imgPic);
+                    Glide.with(mContext).load(imgUrl).placeholder(R.mipmap.img_news_default).into(((PicTextItemViewHolder) holder).imgPic);
                 }
 
                 if(newsInfo.getSource().contains("众联广告")){

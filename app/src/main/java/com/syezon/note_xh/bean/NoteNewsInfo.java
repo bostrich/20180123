@@ -15,22 +15,22 @@ import java.util.List;
  *
  */
 
-public class NewsNoteInfo extends BaseNoteBean {
+public class NoteNewsInfo extends BaseNoteBean {
 
-    private List<BLNewsBean> news = new ArrayList<>();
+    private List<BaseNewInfo> news = new ArrayList<>();
     private int position;
 
-    public NewsNoteInfo() { }
+    public NoteNewsInfo() { }
 
-    public NewsNoteInfo(List<BLNewsBean> news) {
+    public NoteNewsInfo(List<BaseNewInfo> news) {
         this.news = news;
     }
 
-    public List<BLNewsBean> getNews() {
+    public List<BaseNewInfo> getNews() {
         return news;
     }
 
-    public void setNews(List<BLNewsBean> news) {
+    public void setNews(List<BaseNewInfo> news) {
         this.news = news;
     }
 
@@ -45,7 +45,7 @@ public class NewsNoteInfo extends BaseNoteBean {
 
     @Override
     public String getWeather() {
-        return "tianqi";
+        return "note_new";
     }
 
     @Override
@@ -55,12 +55,12 @@ public class NewsNoteInfo extends BaseNoteBean {
 
     @Override
     public String getTitle() {
-        return news.get(position % news.size()).getTitle();
+        return news.get(position % news.size()).getSource();
     }
 
     @Override
     public String getDesc() {
-        return news.get(position % news.size()).getDescription();
+        return news.get(position % news.size()).getTitle();
     }
 
     @Override

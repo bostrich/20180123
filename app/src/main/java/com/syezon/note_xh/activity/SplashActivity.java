@@ -3,7 +3,6 @@ package com.syezon.note_xh.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,11 +11,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.syezon.note_xh.Config.AppConfig;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.application.NoteApplication;
-import com.syezon.note_xh.bean.AdInfo;
+import com.syezon.note_xh.bean.NoteAdInfo;
 import com.syezon.note_xh.db.MyDataBase;
 import com.syezon.note_xh.db.Note;
 import com.syezon.note_xh.db.NoteEntity;
@@ -34,14 +32,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SplashActivity extends AppCompatActivity {
     @BindView(R.id.img_icon)
     ImageView imgIcon;
     private Handler handler = new Handler();
     private boolean isClick;
-    private AdInfo adInfo;
+    private NoteAdInfo noteAdInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +99,8 @@ public class SplashActivity extends AppCompatActivity {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (adInfo != null && isClick) {
-                            WebHelper.showNoteNews(SplashActivity.this, adInfo.getName(), adInfo.getUrl()
+                        if (noteAdInfo != null && isClick) {
+                            WebHelper.showNoteNews(SplashActivity.this, noteAdInfo.getName(), noteAdInfo.getUrl()
                                     , new WebHelper.SimpleWebLoadCallBack() {
                                         @Override
                                         public void backClick() {
@@ -137,12 +134,12 @@ public class SplashActivity extends AppCompatActivity {
         String splashInfo = SharedPerferencesUtil.getSplashInfo(this);
         try {
             JSONObject obj = new JSONObject(splashInfo);
-            adInfo = new AdInfo();
-            adInfo.setUrl(obj.optString("url"));
-            adInfo.setName(obj.optString("name"));
-            adInfo.setPic(obj.optString("filepath"));
+            noteAdInfo = new NoteAdInfo();
+            noteAdInfo.setUrl(obj.optString("url"));
+            noteAdInfo.setName(obj.optString("name"));
+            noteAdInfo.setPic(obj.optString("filepath"));
             final int order = obj.optInt("order");
-            File file = new File(adInfo.getPic());
+            File file = new File(noteAdInfo.getPic());
             if (file.exists() && file.length() > 1000) { // 判断是否获取广告图成功
                 Bitmap bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
                 if (bmp != null && bmp.getWidth() > 0 && bmp.getHeight() > 0) {

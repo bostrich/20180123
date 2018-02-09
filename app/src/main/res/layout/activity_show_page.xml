@@ -44,8 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_below="@+id/relativeLayout"
-        android:layout_alignLeft="@+id/relativeLayout"
-        android:layout_alignStart="@+id/relativeLayout">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
         <RelativeLayout
             android:background="@color/activity_backGround"
             android:id="@+id/rl_showpage_time"
@@ -126,6 +126,48 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
                 android:id="@+id/tv_sort_arrow"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="@color/unselected_color"
+            android:id="@+id/rl_news"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_news_ima"
+                    android:text="@string/newsTag"
+                    android:textSize="18sp"
+                    android:textColor="?attr/theme_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_news"
+                    android:text="新闻"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerInParent="true"
+                    android:textSize="16sp"
+                    android:textColor="?attr/theme_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:text="@string/down"
+                android:textSize="14sp"
+                android:textColor="?attr/custom_actionbar_color"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:id="@+id/tv_news_arrow"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
-import com.syezon.note_xh.bean.AdInfo;
+import com.syezon.note_xh.bean.NoteAdInfo;
 import com.syezon.note_xh.utils.FileUtils;
 import com.syezon.note_xh.utils.LogUtil;
 import com.syezon.note_xh.utils.SharedPerferencesUtil;
@@ -34,8 +34,8 @@ public class AppConfig {
     public static boolean isGetParams = false;
     public static String CHANNEL = "";
     public static String version = "";
-    public static List<AdInfo> listAd = new ArrayList<>();
-    public static List<AdInfo> listSplash = new ArrayList<>();
+    public static List<NoteAdInfo> listAd = new ArrayList<>();
+    public static List<NoteAdInfo> listSplash = new ArrayList<>();
 
 
     public static void getParams(final Context context){
@@ -77,7 +77,7 @@ public class AppConfig {
             listAd.clear();
             for (int i = 0; i < aryMain.length(); i++) {
                 JSONObject temp = aryMain.optJSONObject(i);
-                AdInfo info = new AdInfo();
+                NoteAdInfo info = new NoteAdInfo();
                 info.setId(temp.optString("id"));
                 info.setName(temp.optString("name"));
                 info.setType(temp.optString("type"));
@@ -104,7 +104,7 @@ public class AppConfig {
             listSplash.clear();
             for (int i = 0; i < ary_splash.length(); i++) {
                 JSONObject temp = ary_splash.optJSONObject(i);
-                AdInfo info = new AdInfo();
+                NoteAdInfo info = new NoteAdInfo();
                 info.setId(temp.optString("id"));
                 info.setName(temp.optString("name"));
                 info.setType(temp.optString("type"));
@@ -114,16 +114,16 @@ public class AppConfig {
             }
             if(AppSwitch.showAdInNotes && listSplash.size() > 0){
                 int order = SharedPerferencesUtil.getSplashOrder(context.getApplicationContext());
-                AdInfo adInfo = listSplash.get(++order % listSplash.size());
+                NoteAdInfo noteAdInfo = listSplash.get(++order % listSplash.size());
                 LogUtil.e(TAG, "order:" + order);
-                String[] splits = adInfo.getPic().split("/");
+                String[] splits = noteAdInfo.getPic().split("/");
                 String fileName = Conts.FOLDER_SPLASH + splits[splits.length -1];
-                saveSplashPic(fileName, adInfo.getPic());
+                saveSplashPic(fileName, noteAdInfo.getPic());
                 JSONObject splash = new JSONObject();
                 splash.put("filepath", fileName);
-                splash.put("url", adInfo.getUrl());
-                splash.put("title", adInfo.getTitle());
-                splash.put("name", adInfo.getName());
+                splash.put("url", noteAdInfo.getUrl());
+                splash.put("title", noteAdInfo.getTitle());
+                splash.put("name", noteAdInfo.getName());
                 splash.put("order", order);
                 SharedPerferencesUtil.saveSplashInfo(context.getApplicationContext(), splash.toString());
             }else{

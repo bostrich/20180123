@@ -2,11 +2,10 @@ package com.syezon.note_xh.utils;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.syezon.note_xh.R;
-import com.syezon.note_xh.bean.AdInfo;
+import com.syezon.note_xh.bean.NoteAdInfo;
 import com.syezon.note_xh.view.CustomDialog;
 
 import java.io.File;
@@ -65,13 +64,13 @@ public class DialogUtils {
         dialog.show();
     }
 
-    public static void showDownloadHint(final Context context, final AdInfo adInfo, final DialogListener<AdInfo> listener){
+    public static void showDownloadHint(final Context context, final NoteAdInfo noteAdInfo, final DialogListener<NoteAdInfo> listener){
         final CustomDialog dialog = new CustomDialog(context, R.style.DialogTheme);
         dialog.setContentView(R.layout.dialog_download_hint);
         TextView tvName = (TextView) dialog.findViewById(R.id.tv_name);
         TextView tvCancel = (TextView) dialog.findViewById(R.id.tv_cancel);
         TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
-        tvName.setText("确定打开：“"+ adInfo.getName() + "”？");
+        tvName.setText("确定打开：“"+ noteAdInfo.getName() + "”？");
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +82,7 @@ public class DialogUtils {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                if(listener != null) listener.confirm(adInfo);
+                if(listener != null) listener.confirm(noteAdInfo);
             }
         });
         dialog.show();

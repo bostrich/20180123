@@ -17,7 +17,7 @@ import static com.syezon.note_xh.download.DownloadManager.DOWNLOAD_STRATERY_SERV
  *
  */
 
-public class AdInfo extends BaseNoteBean{
+public class NoteAdInfo extends BaseNoteBean{
     private String id;
     private String name;
     private String type;
@@ -26,9 +26,9 @@ public class AdInfo extends BaseNoteBean{
     private DbModel dbModel;
     private boolean hasImage;
 
-    public AdInfo() {}
+    public NoteAdInfo() {}
 
-    public AdInfo(String id, String name, String type, String url, String pic) {
+    public NoteAdInfo(String id, String name, String type, String url, String pic) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -91,7 +91,7 @@ public class AdInfo extends BaseNoteBean{
 
     @Override
     public String getWeather() {
-        return "tianqi";
+        return "note_new";
     }
 
     @Override
@@ -139,9 +139,9 @@ public class AdInfo extends BaseNoteBean{
                 }
             });
         }else if(type.equals(AdConfig.TYPE_APK.getName())){
-            DialogUtils.showDownloadHint(context, this, new DialogUtils.DialogListener<AdInfo>() {
+            DialogUtils.showDownloadHint(context, this, new DialogUtils.DialogListener<NoteAdInfo>() {
                 @Override
-                public void confirm(AdInfo bean) {
+                public void confirm(NoteAdInfo bean) {
                     DownloadBean downloadBean = new DownloadBean();
                     downloadBean.setAppName(bean.getTitle());
                     bean.setUrl(getUrl());

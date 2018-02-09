@@ -50,17 +50,19 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
-            <TextView
+            <com.syezon.note_xh.view.MarqueeTextView
                 android:textColor="@color/mydark"
                 android:textSize="13sp"
                 android:layout_marginBottom="3dp"
                 android:gravity="center"
-                android:layout_width="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="练习唱歌"
-                android:maxLength="5"
                 android:singleLine="true"
-                android:ellipsize="end"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:ellipsize="marquee"
                 android:id="@+id/gv_title_tv" />
 
             <ImageView

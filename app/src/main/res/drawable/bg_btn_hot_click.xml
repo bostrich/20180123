@@ -5,9 +5,9 @@
     <item android:drawable="@color/gray_btn" android:state_pressed="true" />
 
     <!-- disabled -->
-    <item android:drawable="@color/white" android:state_enabled="false" />
+    <item android:drawable="@color/activity_backGround" android:state_enabled="false" />
 
     <!-- default -->
-    <item android:drawable="@color/white" />
+    <item android:drawable="@color/activity_backGround" />
 
 </selector>

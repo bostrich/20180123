@@ -3,10 +3,11 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_centerInParent="true"
         android:background="@drawable/white_bg"
         android:layout_width="150dp"
-        android:layout_height="223dp">
+        android:layout_height="223dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
 
         <LinearLayout
             android:layout_marginRight="2dp"
@@ -59,17 +60,19 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
-            <TextView
+            <com.syezon.note_xh.view.MarqueeTextView
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/mydark"
                 android:textSize="13sp"
                 android:layout_marginBottom="3dp"
-                android:layout_width="wrap_content"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="练习唱歌"
-                android:maxLength="5"
                 android:singleLine="true"
-                android:ellipsize="end"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:ellipsize="marquee"
                 android:id="@+id/gv_title_tv" />
 
             <ImageView

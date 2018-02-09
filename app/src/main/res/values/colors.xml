@@ -34,4 +34,5 @@
     <color name="progress">#a19c9c</color>
     <color name="grade_text_color">#18B5ED</color>
     <color name="myTransparentBlack">#a4000000</color>
+    <color name="news_tag">#ff001f</color>
 </resources>
