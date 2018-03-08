@@ -27,6 +27,7 @@ public class MarkAdapter extends MyBaseAdapter<String> {
         mList.add("收藏");
         mList.add("取消收藏");
         mList.add("已完成");
+        mList.add("取消完成");
     }
 
     @Override

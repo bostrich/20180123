@@ -5,14 +5,18 @@ import android.text.TextUtils;
 
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
 import com.syezon.note_xh.BuildConfig;
-import com.syezon.note_xh.CrashHandler;
 import com.syezon.note_xh.db.NoteEntity;
+import com.syezon.note_xh.utils.LogUtil;
+import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.x;
+
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Note Application.
@@ -35,6 +39,29 @@ public class NoteApplication extends Application {
                      @Override
                      public void onUpgrade(DbManager db, int oldVersion, int newVersion) {
                          if(oldVersion!=newVersion){
+                             //针对1.0版本升级到2.0版本时时间没有精确到毫秒数据多次迁移BUG问题
+                             if(oldVersion <= 3){
+                                 try {
+                                     List<NoteEntity> all = db.findAll(NoteEntity.class);
+                                     for (NoteEntity entity :all) {
+                                         //从老版本升级时间戳修改
+                                         if(entity.getVersion() ==0 && entity.getTime().endsWith("000")) {
+                                             String stf = entity.getTime();
+                                             LogUtil.e("数据库升级：", "老版本时间：" + stf);
+
+                                             String currentTime = String.valueOf(System.currentTimeMillis());
+                                             stf = stf.substring(0, stf.length() - 3) + currentTime.substring(currentTime.length() - 3, currentTime.length());
+                                             LogUtil.e("数据库升级：", "升级后时间：" + stf);
+                                             entity.setTime(stf);
+                                             db.update(entity, "time");
+                                             LogUtil.e("数据库升级：", "更新时间成功");
+                                         }
+                                     }
+                                 } catch (Exception e) {
+                                     e.printStackTrace();
+                                     LogUtil.e("数据库升级：", "error:" + e.getMessage());
+                                 }
+                             }
                              switch (oldVersion){
                                  case 2:
                                      try {
@@ -77,8 +104,6 @@ public class NoteApplication extends Application {
 
         /** 设置是否对日志信息进行加密,默认false(不加密). */
         MobclickAgent.enableEncrypt(true);
-        //添加错误日志
-        CrashHandler.getInstance().init(this);
 
     }
 }

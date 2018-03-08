@@ -9,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.syezon.note_xh.Config.AppConfig;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.bean.BaseNewInfo;
 import com.syezon.note_xh.utils.DisplayUtils;
+import com.syezon.note_xh.utils.LogUtil;
+import com.syezon.note_xh.utils.StatisticUtils;
 import com.syezon.note_xh.utils.WebHelper;
 
 
@@ -133,6 +136,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private void goToWeb(Context context, BaseNewInfo info, int position){
+        StatisticUtils.report(context, StatisticUtils.ID_NEWS_CLICK, AppConfig.NEWS_SOURCE);
         WebHelper.showAdDetail(context, info.getTitle(), info.getUrl(), new WebHelper.SimpleWebLoadCallBack(){
             @Override
             public void loadComplete(String url) {

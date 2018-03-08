@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -95,8 +97,9 @@ public class PhotoUtils {
             }
             options.inSampleSize = scale;// 设置缩放比例
             bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri), null, options);
+            Bitmap bitmap1 = ThumbnailUtils.extractThumbnail(bitmap, 624, 328);
 //            Log.d("ssssss",""+bitmap);////////////////
-            return bitmap;
+            return bitmap1;
         } catch (Exception e) {
             e.printStackTrace();
 //            Log.d("ssssss","22"+e.getMessage());////////////////

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">简易便签</string>
     <string name="bianqian">便签</string>
+    <string name="bianqian2">Note</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <!--iconfont矢量图-->
@@ -34,6 +35,7 @@
     <string name="up">&#xe61d;</string>
     <string name="note_new">&#xe624;</string>
     <string name="newsTag">&#xe626;</string>
+    <string name="delete_icon">&#xe615;</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="aboutus">\©2014 Hangzhou Hodanet. All rights reserved</string>
@@ -52,7 +54,9 @@
     <string name="cancle">取消</string>
     <string name="save">保存</string>
     <string name="input_title">请输入标题...</string>
+    <string name="input_title2">标题</string>
     <string name="input_content">请输入内容...</string>
+    <string name="input_content2">记录一下吧！</string>
     <string name="choose_sort">选择分类</string>
     <string name="fenlei">分类</string>
     <string name="edit">编辑</string>
@@ -94,6 +98,7 @@
     <string name="data_import_file">文件</string>
     <string name="data_transfer_output">导出</string>
     <string name="output">导出</string>
+    <string name="connecting">连接设备中</string>
     <string name="output_note">请将目标手机导入功能开启</string>
     <string name="data_migration_wait">等待连接...</string>
     <string name="dialog_bluetooth_title">请选择要导入的设备</string>

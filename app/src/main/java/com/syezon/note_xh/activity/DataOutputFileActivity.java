@@ -6,7 +6,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +22,8 @@ import com.syezon.note_xh.adapter.FileFolderAdapter;
 import com.syezon.note_xh.utils.DataMigrationUtil;
 import com.syezon.note_xh.utils.DialogUtils;
 import com.syezon.note_xh.utils.LogUtil;
+import com.syezon.note_xh.utils.StatisticUtils;
+import com.syezon.note_xh.utils.ToastUtils;
 import com.syezon.note_xh.utils.ZipUtils;
 import com.syezon.note_xh.view.CustomDialog;
 import com.syezon.note_xh.view.refreshview.progressindicator.AVLoadingIndicatorView;
@@ -58,6 +59,7 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
     private Dialog dialogMigration;
     private TextView tvDialog;
     private AVLoadingIndicatorView avLoading;
+    private boolean overrideFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
         initHandler();
         initView();
         initData();
+        StatisticUtils.report(this, StatisticUtils.ID_MIGRATION, StatisticUtils.EVENT_SHOW, "output_file");
     }
 
     @Override
@@ -82,12 +85,31 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
             public void handleMessage(Message msg) {
                 switch(msg.what){
                     case MIGRATION_SUCCESS:
-                        tvDialog.setText("导出到文件夹成功");
+                        ToastUtils.showUniqueToast(DataOutputFileActivity.this, "导出成功");
+                        if(!overrideFile){
+                            try{
+                                File file = (File) msg.obj;
+                                if(files.size() > 1){
+                                    files.add(1, file);
+                                }else{
+                                    files.add(file);
+                                }
+                                adapter.notifyDataSetChanged();
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+
                         avLoading.setVisibility(View.INVISIBLE);
+                        dialogMigration.dismiss();
+
+                        StatisticUtils.report(DataOutputFileActivity.this, StatisticUtils.ID_MIGRATION
+                                , StatisticUtils.EVENT_MIGRATION_FILE, "output_success");
                         break;
                     case MIGRATION_FAILED:
-                        tvDialog.setText("导出到文件失败");
                         avLoading.setVisibility(View.INVISIBLE);
+                        dialogMigration.dismiss();
+                        ToastUtils.showUniqueToast(DataOutputFileActivity.this, "导出失败");
                         break;
                 }
             }
@@ -121,9 +143,7 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
                 File file = (File) v.getTag();
                 File[] folders = file.listFiles();
                 for (int i = 0; i < folders.length; i++) {
-                    if (folders[i].isDirectory()) {
-                        files.add(folders[i]);
-                    }
+                    files.add(folders[i]);
                 }
                 files.add(0, file);
                 adapter.notifyDataSetChanged();
@@ -151,37 +171,59 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
     private void initView() {
         adapter = new FileFolderAdapter(this, files, new FileFolderAdapter.FileItemClick() {
             @Override
-            public void click(File file, int position) {
-                File[] folders = file.listFiles();
-                boolean hasDirectory = false;
-                int firstPosition = 0;
-                for (int i = 0; i < folders.length; i++) {
-                    if (folders[i].isDirectory()) {
-                        if(!hasDirectory){
-                            firstPosition = i;
+            public void click(final File file, int position) {
+                if(file.isDirectory()){
+                    if(position != 0){
+                        files.clear();
+                        File[] folders = file.listFiles();
+                        for (int i = 0; i < folders.length; i++) {
+//                            if (folders[i].isDirectory()) {
+                                files.add(folders[i]);
+//                            }
                         }
-                        hasDirectory = true;
-                        if(firstPosition == i) files.clear();
-                        files.add(folders[i]);
+                        files.add(0,file);
+                        adapter.notifyDataSetChanged();
+                        addFolder(file, false);
+                    }else{
+                        overrideFile = false;
+                        DialogUtils.showMigrationConfirmFolder(DataOutputFileActivity.this, file, new DialogUtils.DialogListener<String>() {
+                            @Override
+                            public void confirm(String path) {
+                                File file = new File(path);
+                                if(file.exists()){
+                                    DialogUtils.showCoverOriginalFile(DataOutputFileActivity.this, path, new DialogUtils.DialogListener2<String>() {
+                                        @Override
+                                        public void confirm(String bean) {
+                                            overrideFile = true;
+                                            dataMigration(bean);
+                                        }
+
+                                        @Override
+                                        public void cancel(String bean) {
+                                            boolean reName = false;
+                                            int num = 1;
+                                            while(!reName){
+                                                String replacePath = bean.replace(".zip", "(" + num++ + ")" + ".zip");
+                                                File file = new File(replacePath);
+                                                if(!file.exists()) {
+                                                    reName = true;
+                                                    dataMigration(replacePath);
+                                                }
+                                            }
+                                        }
+                                    });
+                                }else{
+                                    dataMigration(path);
+                                }
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
+
                     }
-                }
-                if(hasDirectory && position != 0){
-                    files.add(0,file);
-                    adapter.notifyDataSetChanged();
-                    addFolder(file, false);
-                }else{
-                    DialogUtils.showMigrationConfirmFolder(DataOutputFileActivity.this, file, new DialogUtils.DialogListener<File>() {
-                        @Override
-                        public void confirm(File bean) {
-                            dataMigration(bean);
-                        }
-
-                        @Override
-                        public void cancel() {
-
-                        }
-                    });
-
                 }
             }
         });
@@ -194,9 +236,12 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
     }
 
 
-    private void dataMigration(final File file) {
+    private void dataMigration(final String path) {
         //显示压缩等待动画
-        if(!dialogMigration.isShowing()) dialogMigration.show();
+        if(!dialogMigration.isShowing()){
+            avLoading.setVisibility(View.VISIBLE);
+            dialogMigration.show();
+        }
         tvDialog.setText("正在导出...");
         new Thread(new Runnable() {
             @Override
@@ -204,16 +249,19 @@ public class DataOutputFileActivity extends BaseUmengAnalysisActivity {
                 if (DataMigrationUtil.migrationData()) {
                     try {
                         ZipUtils.zipFolder(Conts.FOLDER_COMPRESS
-                                , file.getAbsolutePath() + "/briefnote.zip");
+                                , path);
                         LogUtil.e(TAG, "文件压缩成功：");
                         //显示压缩成功动画
-                        mHandler.sendEmptyMessage(MIGRATION_SUCCESS);
+                        Message msg = mHandler.obtainMessage();
+                        File file = new File(path);
+                        if(file.exists()) msg.obj = file;
+                        msg.what = MIGRATION_SUCCESS;
+                        mHandler.sendMessage(msg);
                         return;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     mHandler.sendEmptyMessage(MIGRATION_FAILED);
-
                 }
             }
         }).start();

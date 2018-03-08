@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textSize="13sp"
-            android:textColor="#0285f0"
+            android:textColor="?attr/custom_actionbar_color"
             android:text="加载中..."
             android:layout_gravity="center_horizontal"/>
 

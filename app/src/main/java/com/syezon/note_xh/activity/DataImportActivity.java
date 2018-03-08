@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.syezon.note_xh.R;
+import com.syezon.note_xh.utils.StatisticUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,6 +27,7 @@ public class DataImportActivity extends BaseUmengAnalysisActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_import);
         ButterKnife.bind(this);
+        StatisticUtils.report(this, StatisticUtils.ID_MIGRATION, StatisticUtils.EVENT_SHOW, "import");
     }
 
     @OnClick({R.id.iv_cancel, R.id.ll_phone, R.id.ll_file})

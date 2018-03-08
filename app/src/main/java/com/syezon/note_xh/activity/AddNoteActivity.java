@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.application.NoteApplication;
 import com.syezon.note_xh.db.NoteEntity;
@@ -90,6 +91,8 @@ public class AddNoteActivity extends BaseActivity implements View.OnClickListene
     TextView tvDuoyun;
     @BindView(R.id.tv_qingtian)
     TextView tvQingtian;
+    @BindView(R.id.tv_yin)
+    TextView tvYin;
     @BindView(R.id.ll_weather)
     LinearLayout llWeather;//天气图标 LinearLayout
     @BindView(R.id.et_addnote_content)
@@ -100,8 +103,6 @@ public class AddNoteActivity extends BaseActivity implements View.OnClickListene
     TextView tvEdit;//编辑
     @BindView(R.id.tv_collect)
     TextView tvCollect;//收藏
-    @BindView(R.id.ll_weather_describe)
-    LinearLayout llWeatherDescribe;//对天气图标的描述
     @BindView(R.id.rl_addnote_top)
     RelativeLayout rlAddnoteTop;
     @BindView(R.id.rl_add_note)
@@ -187,7 +188,7 @@ public class AddNoteActivity extends BaseActivity implements View.OnClickListene
                     return PhotoUtils.getMyDrawable(bitmap);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    LogUtil.d("ssssss", e.getMessage());////////////////
+                    LogUtil.d("ssssss", "error: " + e.getMessage());////////////////
                     return null;
                 }
             } else {
@@ -309,6 +310,7 @@ public class AddNoteActivity extends BaseActivity implements View.OnClickListene
         tvXue.setTypeface(iconfont);
         tvDuoyun.setTypeface(iconfont);
         tvQingtian.setTypeface(iconfont);
+        tvYin.setTypeface(iconfont);
         tvAddpic.setTypeface(iconfont);
         tvEdit.setTypeface(iconfont);
         tvCollect.setTypeface(iconfont);
@@ -340,6 +342,7 @@ public class AddNoteActivity extends BaseActivity implements View.OnClickListene
             }
             disAllowEdit();//不允许编辑
             isUpdate = true;//处于更新便签状态
+            llWeather.setVisibility(View.GONE);
         } else {
             //新建便签
             tvEdit.setVisibility(View.GONE);
@@ -390,6 +393,7 @@ public class AddNoteActivity extends BaseActivity implements View.OnClickListene
         tvXue.setOnClickListener(this);
         tvDuoyun.setOnClickListener(this);
         tvQingtian.setOnClickListener(this);
+        tvYin.setOnClickListener(this);
 
         tvEdit.setOnClickListener(this);
         tvCollect.setOnClickListener(this);
@@ -578,11 +582,9 @@ public class AddNoteActivity extends BaseActivity implements View.OnClickListene
                 //控制天气选择栏的出现与隐藏
                 if (weatherTvTag == 1) {
                     llWeather.setVisibility(View.VISIBLE);
-                    llWeatherDescribe.setVisibility(View.VISIBLE);
                     weatherTvTag = 2;
                 } else {
                     llWeather.setVisibility(View.GONE);
-                    llWeatherDescribe.setVisibility(View.GONE);
                     weatherTvTag = 1;
                 }
                 break;
@@ -636,28 +638,26 @@ public class AddNoteActivity extends BaseActivity implements View.OnClickListene
             case R.id.tv_leidian:
                 tvWeather.setText(tvLeidian.getText());
                 llWeather.setVisibility(View.GONE);
-                llWeatherDescribe.setVisibility(View.GONE);
                 break;
             case R.id.tv_xiaoyu:
                 tvWeather.setText(tvXiaoyu.getText());
                 llWeather.setVisibility(View.GONE);
-                llWeatherDescribe.setVisibility(View.GONE);
                 break;
             case R.id.tv_xue:
                 tvWeather.setText(tvXue.getText());
                 llWeather.setVisibility(View.GONE);
-                llWeatherDescribe.setVisibility(View.GONE);
                 break;
             case R.id.tv_duoyun:
                 tvWeather.setText(tvDuoyun.getText());
                 llWeather.setVisibility(View.GONE);
-                llWeatherDescribe.setVisibility(View.GONE);
                 break;
             case R.id.tv_qingtian:
                 tvWeather.setText(tvQingtian.getText());
                 llWeather.setVisibility(View.GONE);
-                llWeatherDescribe.setVisibility(View.GONE);
                 break;
+            case R.id.tv_yin:
+                tvWeather.setText(tvYin.getText());
+                llWeather.setVisibility(View.GONE);
         }
     }
 

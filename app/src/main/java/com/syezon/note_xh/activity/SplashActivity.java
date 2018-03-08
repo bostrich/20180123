@@ -21,6 +21,7 @@ import com.syezon.note_xh.db.NoteEntity;
 import com.syezon.note_xh.utils.DateUtils;
 import com.syezon.note_xh.utils.PreferenceKeyUtils;
 import com.syezon.note_xh.utils.SharedPerferencesUtil;
+import com.syezon.note_xh.utils.StatisticUtils;
 import com.syezon.note_xh.utils.WebHelper;
 
 import org.json.JSONException;
@@ -110,6 +111,12 @@ public class SplashActivity extends AppCompatActivity {
                                                 skipToShowPageActivity();
                                             }
                                         }
+
+                                        @Override
+                                        public void loadComplete(String url) {
+                                            StatisticUtils.report(SplashActivity.this, StatisticUtils.ID_SPLASH
+                                                    , StatisticUtils.EVENT_CONTENT_SHOW, noteAdInfo.getName());
+                                        }
                                     });
                         } else {
                             if (!TextUtils.isEmpty(SharedPerferencesUtil.getStringData(SplashActivity.this, PreferenceKeyUtils.PASSWORD, ""))) {
@@ -149,8 +156,12 @@ public class SplashActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             isClick = true;
+                            StatisticUtils.report(SplashActivity.this, StatisticUtils.ID_SPLASH
+                                    , StatisticUtils.EVENT_CLICK, noteAdInfo.getName());
                         }
                     });
+                    StatisticUtils.report(SplashActivity.this, StatisticUtils.ID_SPLASH
+                            , StatisticUtils.EVENT_IMAGE_SHOW, noteAdInfo.getName());
                 }
             }
         } catch (JSONException e) {

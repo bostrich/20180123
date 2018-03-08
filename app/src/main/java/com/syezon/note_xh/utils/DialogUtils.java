@@ -2,6 +2,7 @@ package com.syezon.note_xh.utils;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.syezon.note_xh.R;
@@ -16,13 +17,32 @@ import java.io.File;
 
 public class DialogUtils {
 
-    public static void showMigrationConfirmFolder(Context context, final File file, final DialogListener<File> listener){
+    public static void showMigrationConfirmFolder(Context context, final File file, final DialogListener<String> listener){
         final CustomDialog dialog = new CustomDialog(context, R.style.DialogTheme);
-        dialog.setContentView(R.layout.dialog_download_hint);
+        dialog.setContentView(R.layout.dialog_output_file);
+        final EditText et = (EditText) dialog.findViewById(R.id.et);
+        TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
+        et.setText("notebackup.zip");
+        et.requestFocus();
+        tvOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                String name = et.getText().toString().trim();
+                if(!name.endsWith(".zip")) name = name + ".zip";
+                if(listener != null) listener.confirm(file.getAbsolutePath() + File.separator + name);
+            }
+        });
+        dialog.show();
+    }
+
+    public static void showMigrationImportFile(Context context, final File file, final DialogListener<File> listener){
+        final CustomDialog dialog = new CustomDialog(context, R.style.DialogTheme);
+        dialog.setContentView(R.layout.dialog_import_file);
         TextView tvName = (TextView) dialog.findViewById(R.id.tv_name);
         TextView tvCancel = (TextView) dialog.findViewById(R.id.tv_cancel);
         TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
-        tvName.setText("确定将文件保存在："+ file.getName());
+        tvName.setText(file.getName());
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,25 +60,26 @@ public class DialogUtils {
         dialog.show();
     }
 
-    public static void showMigrationImportFile(Context context, final File file, final DialogListener<File> listener){
+
+    public static void showCoverOriginalFile(Context context, final String path, final DialogListener2<String> listener){
         final CustomDialog dialog = new CustomDialog(context, R.style.DialogTheme);
-        dialog.setContentView(R.layout.dialog_download_hint);
+        dialog.setContentView(R.layout.dialog_override_file);
         TextView tvName = (TextView) dialog.findViewById(R.id.tv_name);
         TextView tvCancel = (TextView) dialog.findViewById(R.id.tv_cancel);
         TextView tvOk = (TextView) dialog.findViewById(R.id.tv_ok);
-        tvName.setText("是否确定将导入："+file.getName());
+        tvName.setText("是否覆盖原文件?");
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                if(listener != null) listener.cancel();
+                if(listener != null) listener.cancel(path);
             }
         });
         tvOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                if(listener != null) listener.confirm(file);
+                if(listener != null) listener.confirm(path);
             }
         });
         dialog.show();
@@ -93,5 +114,13 @@ public class DialogUtils {
         void confirm(T bean);
         void cancel();
     }
+
+
+    public interface DialogListener2<T>{
+        void confirm(T bean);
+        void cancel(T bean);
+    }
+
+
 
 }

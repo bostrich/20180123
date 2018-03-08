@@ -2,6 +2,7 @@ package com.syezon.note_xh.activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ import org.xutils.ex.DbException;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -149,6 +151,9 @@ public class SortActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
+        //popupwindow 中listView 无法响应点击事件
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) movePopWindow.setFocusable(true);
+
         markPopWindow=new MarkPopWindow(SortActivity.this, new MarkPopWindow.OnMarkPopItemClick() {
             @Override
             public void onItemClick(int position) {
@@ -204,8 +209,28 @@ public class SortActivity extends BaseActivity implements View.OnClickListener {
 //                                    Log.d("==f==",e.getMessage());
                                 }
                             }
-                            ToastUtils.showUniqueToast(SortActivity.this, "标记成功");
+                            ToastUtils.showUniqueToast(SortActivity.this, "取消标记成功");
                             selectedPositionList2.clear();
+                            EventBus.getDefault().post(new EditEvent());
+                        } else {
+                            ToastUtils.showUniqueToast(SortActivity.this,"请先勾选");
+                        }
+                        break;
+                    case 3:
+                        List<Integer> selectedPositionList3 = timeRecyclerViewAdapter.getSelectedPositionList();
+                        if (selectedPositionList3!=null&&selectedPositionList3.size()>0) {
+                            for (int selectedPosition : selectedPositionList3) {
+                                try {
+                                    NoteEntity noteEntity = NoteApplication.dbManager.findById(NoteEntity.class, dbModelList.get(selectedPosition).getInt("_id"));
+                                    noteEntity.setComplete(false);
+                                    NoteApplication.dbManager.update(noteEntity, "iscomplete");
+                                } catch (DbException e) {
+                                    e.printStackTrace();
+//                                    Log.d("==f==",e.getMessage());
+                                }
+                            }
+                            ToastUtils.showUniqueToast(SortActivity.this, "标记成功");
+                            selectedPositionList3.clear();
                             EventBus.getDefault().post(new EditEvent());
                         } else {
                             ToastUtils.showUniqueToast(SortActivity.this,"请先勾选");
@@ -214,6 +239,10 @@ public class SortActivity extends BaseActivity implements View.OnClickListener {
                 }
             }
         });
+        //popupwindow 中listView 无法响应点击事件
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) markPopWindow.setFocusable(true);
+
+
         dbModelList = new ArrayList<>();
         timeRecyclerViewAdapter = new TimeRecyclerViewAdapter(SortActivity.this, dbModelList);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -232,6 +261,12 @@ public class SortActivity extends BaseActivity implements View.OnClickListener {
             switch (sortName){
                 case "收藏":
                     List<DbModel> newDbModelList = NoteApplication.dbManager.findDbModelAll(new SqlInfo("select _id,time,briefcontent,title,hasimage,imagepath,weather,iscomplete,iscollect from note where iscollect = 1"));
+                    Collections.sort(newDbModelList, new Comparator<DbModel>() {
+                        @Override
+                        public int compare(DbModel o1, DbModel o2) {
+                            return o1.getString("time").compareTo(o2.getString("time"));
+                        }
+                    });
                     if (orderTag == DESCENDING) {
                         Collections.reverse(newDbModelList);
                     }
@@ -241,6 +276,12 @@ public class SortActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 case "未分类":
                     List<DbModel> newDbModelList1 = NoteApplication.dbManager.findDbModelAll(new SqlInfo("select _id,time,briefcontent,title,hasimage,imagepath,weather,iscomplete,iscollect from note where sortname = ''"));
+                    Collections.sort(newDbModelList1, new Comparator<DbModel>() {
+                        @Override
+                        public int compare(DbModel o1, DbModel o2) {
+                            return o1.getString("time").compareTo(o2.getString("time"));
+                        }
+                    });
                     if (orderTag == DESCENDING) {
                         Collections.reverse(newDbModelList1);
                     }
@@ -250,6 +291,12 @@ public class SortActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 default:
                     List<DbModel> newDbModelList2 = NoteApplication.dbManager.findDbModelAll(new SqlInfo("select _id,time,briefcontent,title,hasimage,imagepath,weather,iscomplete,iscollect from note where sortname ='"+sortName+"'"));
+                    Collections.sort(newDbModelList2, new Comparator<DbModel>() {
+                        @Override
+                        public int compare(DbModel o1, DbModel o2) {
+                            return o1.getString("time").compareTo(o2.getString("time"));
+                        }
+                    });
                     if (orderTag == DESCENDING) {
                         Collections.reverse(newDbModelList2);
                     }

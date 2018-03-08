@@ -218,7 +218,8 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
      */
     private void refreshNews(final int type, final boolean isFirstTime) {
         if(newsSource.equals(AdConfig.TYPE_NEWS_SOURCE_BL.getName())){
-            x.http().get(new RequestParams(Conts.URL_BL_NEWS + pageNum++), new Callback.CommonCallback<String>() {
+            String url = AppSwitch.showAdInNotes ? Conts.URL_BL_NEWS : Conts.URL_BL_NEWS_NORMAL;
+            x.http().get(new RequestParams(url + pageNum++), new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
                     List<BaseNewInfo> news = new ArrayList<>();
@@ -244,7 +245,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-
+                    displayNewsErrorView();
                 }
 
                 @Override
@@ -257,7 +258,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
 
                 }
             });
-        }else{
+        }else if(newsSource.equals(AdConfig.TYPE_NEWS_SOURCE_TT.getName())){
             String url = "";
             if(type == INIT){
                 url = Conts.URL_TT_NEWS;
@@ -290,7 +291,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener{
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-
+                    displayNewsErrorView();
                 }
 
                 @Override

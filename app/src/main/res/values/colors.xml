@@ -35,4 +35,11 @@
     <color name="grade_text_color">#18B5ED</color>
     <color name="myTransparentBlack">#a4000000</color>
     <color name="news_tag">#ff001f</color>
+    <color name="scan">#95e2d7</color>
+
+    <color name="note_time">#393939</color>
+    <color name="note_text">#b2b2b2</color>
+
+    <color name="note_title">#4d4d4d</color>
+    <color name="note_content">#898989</color>
 </resources>

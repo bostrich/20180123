@@ -14,7 +14,7 @@ import java.util.Locale;
  */
 public class DateUtils {
     /**
-     * 掉此方法输入所要转换的时间输入例如（"2014-06-14-16-09-00"，"yyyy-MM-dd-HH-mm-ss"）返回时间戳
+     * 调此方法输入所要转换的时间输入例如（"2014-06-14-16-09-00"，"yyyy-MM-dd-HH-mm-ss"）返回时间戳
      */
     public static String getTimeStamp(String time, String type) {
         SimpleDateFormat sdr = new SimpleDateFormat(type, Locale.CHINA);
@@ -25,6 +25,15 @@ public class DateUtils {
             long l = date.getTime();
             String stf = String.valueOf(l);
 //            times = stf.substring(0, 10);
+            LogUtil.e("数据库升级：", "老版本时间：" + stf);
+
+            if(stf.endsWith("000")){
+
+                String currentTime = String.valueOf(System.currentTimeMillis());
+                stf = stf.substring(0, stf.length() - 3) + currentTime.substring(currentTime.length() - 3, currentTime.length());
+                LogUtil.e("数据库升级：", "老版本修改后的时间：" + stf);
+            }
+
             times = stf;
         } catch (ParseException e) {
             e.printStackTrace();

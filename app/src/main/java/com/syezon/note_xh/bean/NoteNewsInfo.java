@@ -3,7 +3,10 @@ package com.syezon.note_xh.bean;
 import android.content.Context;
 import android.content.Intent;
 
+import com.syezon.note_xh.Config.AppConfig;
 import com.syezon.note_xh.activity.NewsActivity;
+import com.syezon.note_xh.fragment.NewsFragment;
+import com.syezon.note_xh.utils.StatisticUtils;
 import com.syezon.note_xh.utils.WebHelper;
 
 import org.xutils.db.table.DbModel;
@@ -19,6 +22,8 @@ public class NoteNewsInfo extends BaseNoteBean {
 
     private List<BaseNewInfo> news = new ArrayList<>();
     private int position;
+    private String source;
+    private boolean reportShow;
 
     public NoteNewsInfo() { }
 
@@ -28,6 +33,14 @@ public class NoteNewsInfo extends BaseNoteBean {
 
     public List<BaseNewInfo> getNews() {
         return news;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public void setNews(List<BaseNewInfo> news) {
@@ -50,7 +63,7 @@ public class NoteNewsInfo extends BaseNoteBean {
 
     @Override
     public String getPicUrl() {
-        return news.get(position++ % news.size()).getImages().get(0);
+        return news.get(position % news.size()).getImages().get(0);
     }
 
     @Override
@@ -75,6 +88,7 @@ public class NoteNewsInfo extends BaseNoteBean {
 
     @Override
     public boolean isCompleted() {
+        position ++;
         return false;
     }
 
@@ -85,13 +99,23 @@ public class NoteNewsInfo extends BaseNoteBean {
 
     @Override
     public void click(final Context context) {
+        StatisticUtils.report(context, StatisticUtils.ID_NOTE_NEWS, StatisticUtils.EVENT_CLICK, AppConfig.NEWS_SOURCE);
         WebHelper.showNoteNews(context, news.get((position -1) % news.size()).getTitle()
                 , news.get((position -1) % news.size()).getUrl(), new WebHelper.SimpleWebLoadCallBack(){
                     @Override
                     public void backClick() {
                         Intent intent = new Intent(context, NewsActivity.class);
+                        intent.putExtra(NewsFragment.NEWS_SOURCE, source);
                         context.startActivity(intent);
                     }
                 });
+    }
+
+    @Override
+    public void show(Context context) {
+        if(!reportShow) {
+            StatisticUtils.report(context, StatisticUtils.ID_NOTE_NEWS, StatisticUtils.EVENT_IMAGE_SHOW, AppConfig.NEWS_SOURCE);
+            reportShow = true;
+        }
     }
 }

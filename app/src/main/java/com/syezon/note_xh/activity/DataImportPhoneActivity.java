@@ -2,7 +2,6 @@ package com.syezon.note_xh.activity;
 
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -19,6 +18,7 @@ import com.syezon.note_xh.utils.ApMgr;
 import com.syezon.note_xh.utils.DataMigrationUtil;
 import com.syezon.note_xh.utils.FileUtils;
 import com.syezon.note_xh.utils.LogUtil;
+import com.syezon.note_xh.utils.StatisticUtils;
 import com.syezon.note_xh.utils.WifiMgr;
 import com.syezon.note_xh.utils.ZipUtils;
 
@@ -56,6 +56,7 @@ public class DataImportPhoneActivity extends BaseUmengAnalysisActivity {
         ButterKnife.bind(this);
         initHandler();
         initState();
+        StatisticUtils.report(this, StatisticUtils.ID_MIGRATION, StatisticUtils.EVENT_SHOW, "import_phone");
     }
 
     public void initHandler() {
@@ -157,13 +158,13 @@ public class DataImportPhoneActivity extends BaseUmengAnalysisActivity {
                             //解压文件
                             ZipUtils.unZipFolder(Conts.MIGRATION_ZIP_RECEIVED, Conts.FOLDER_DECOMPRESS);
                             //移动文件夹
-                            File decompression = new File (Conts.FOLDER_DECOMPRESS);
-                            File[] pics = decompression.listFiles();
-                            for (int i = 0; i < pics.length; i++) {
-                                if(pics[i].getName().endsWith(".jpg")){
-                                    FileUtils.copyFileToDir(pics[i].getAbsolutePath(), Conts.FOLDER_PIC, true);
-                                }
-                            }
+//                            File decompression = new File (Conts.FOLDER_DECOMPRESS);
+//                            File[] pics = decompression.listFiles();
+//                            for (int i = 0; i < pics.length; i++) {
+//                                if(pics[i].getName().endsWith(".jpg") || pics[i].getName().endsWith(".png")){
+//                                    FileUtils.copyFileToDir(pics[i].getAbsolutePath(), Conts.FOLDER_PIC, true);
+//                                }
+//                            }
 
                             LogUtil.e(TAG, "解压成功");
 
@@ -171,11 +172,12 @@ public class DataImportPhoneActivity extends BaseUmengAnalysisActivity {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    tvState.setText("导入成功...");
+                                    tvState.setText("导入成功");
                                 }
                             });
                             EventBus.getDefault().post(new EditEvent());
                             receivedData = true;
+                            StatisticUtils.report(DataImportPhoneActivity.this, StatisticUtils.ID_MIGRATION, StatisticUtils.EVENT_MIGRATION_PHONE, "import_success");
                         }catch(Exception e){
                             e.printStackTrace();
                             LogUtil.e(TAG, "error:" + e.getMessage());
@@ -200,6 +202,7 @@ public class DataImportPhoneActivity extends BaseUmengAnalysisActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_cancel:
+                finish();
                 break;
             case R.id.tv_state:
                 break;

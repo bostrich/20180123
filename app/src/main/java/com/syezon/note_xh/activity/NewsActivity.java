@@ -25,7 +25,7 @@ public class NewsActivity extends BaseUmengAnalysisActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         ButterKnife.bind(this);
-        Fragment fragment = NewsFragment.newInstance(AdConfig.TYPE_NEWS_SOURCE_BL.getName());
+        Fragment fragment = NewsFragment.newInstance(getIntent().getStringExtra(NewsFragment.NEWS_SOURCE));
         getSupportFragmentManager().beginTransaction().add(R.id.rl_content, fragment).show(fragment).commit();
     }
 

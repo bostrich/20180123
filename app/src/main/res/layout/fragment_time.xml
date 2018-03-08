@@ -14,9 +14,9 @@
         android:layout_height="match_parent"/>
 
     <ImageView
-        android:background="?attr/add_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:src="@mipmap/img_add"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginRight="25dp"
         android:layout_marginBottom="25dp"
         android:id="@+id/iv_add"
@@ -24,6 +24,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
 
+    <!-- 底部标题-->
     <LinearLayout
         android:background="#EDEBEC"
         android:visibility="gone"
@@ -40,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="删除"
+            android:text="@string/delete_icon"
             android:textSize="16sp"
             android:textColor="?attr/custom_actionbar_color"
             android:id="@+id/tv_delete" />
@@ -53,6 +54,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent">
             <TextView
+                android:id="@+id/tv_move"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -77,6 +79,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent">
             <TextView
+                android:id="@+id/tv_mark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

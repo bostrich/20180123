@@ -18,6 +18,7 @@ import com.syezon.note_xh.R;
 import com.syezon.note_xh.bean.BaseNoteBean;
 import com.syezon.note_xh.utils.DateUtils;
 import com.syezon.note_xh.utils.StringUtils;
+import com.syezon.note_xh.view.RoundCornerTransform;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -95,7 +96,6 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
         holder.gvTitleTv.setText(bean.getTitle());
         holder.gvContentTv.setText(bean.getDesc());
         holder.gvCollectTv.setVisibility(bean.isCollected() ? View.VISIBLE:View.GONE);
-        holder.completeIv.setVisibility(bean.isCollected() ? View.VISIBLE:View.GONE);
         if(bean.hasImage()){
             String url=bean.getPicUrl();
             if (!TextUtils.isEmpty(url)) {
@@ -103,6 +103,7 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
                 Glide.with(mContext).load(uri).crossFade().into(holder.picIv);
             }
         }
+        holder.completeIv.setVisibility(bean.isCompleted() ? View.VISIBLE:View.GONE);
         if(editState==EDITED){
             holder.shadowCb.setChecked(false);
             holder.shadowCb.setVisibility(View.VISIBLE);
@@ -133,6 +134,7 @@ public class TimeAndAdRecyclerViewAdapter extends RecyclerView.Adapter<TimeAndAd
             holder.checkedIv.setVisibility(View.GONE);
         }
         holder.itemView.setTag(position);
+        bean.show(mContext);
 
     }
 

@@ -17,14 +17,14 @@ import static com.syezon.note_xh.download.DownloadManager.DOWNLOAD_STRATERY_SERV
  *
  */
 
-public class NoteAdInfo extends BaseNoteBean{
+public class NoteAdInfo{
     private String id;
     private String name;
     private String type;
     private String url;
     private String pic;
-    private DbModel dbModel;
     private boolean hasImage;
+    private boolean reportShow;
 
     public NoteAdInfo() {}
 
@@ -84,77 +84,11 @@ public class NoteAdInfo extends BaseNoteBean{
         this.hasImage = hasImage;
     }
 
-    @Override
-    public String getTime() {
-        return System.currentTimeMillis() + "";
+    public boolean isReportShow() {
+        return reportShow;
     }
 
-    @Override
-    public String getWeather() {
-        return "note_new";
+    public void setReportShow(boolean reportShow) {
+        this.reportShow = reportShow;
     }
-
-    @Override
-    public String getPicUrl() {
-        return pic;
-    }
-
-    @Override
-    public String getTitle() {
-        return name;
-    }
-
-    @Override
-    public String getDesc() {
-        return name;
-    }
-
-    @Override
-    public boolean hasImage() {
-        return !pic.equals("");
-    }
-
-    @Override
-    public boolean isCollected() {
-        return false;
-    }
-
-    @Override
-    public boolean isCompleted() {
-        return false;
-    }
-
-    @Override
-    public DbModel getDbModel() {
-        return null;
-    }
-
-    @Override
-    public void click(final Context context) {
-        if(type.equals(AdConfig.TYPE_URL.getName())){
-            WebHelper.showAdDetail(context, getTitle(), getUrl(), new WebHelper.SimpleWebLoadCallBack(){
-                @Override
-                public void loadComplete(String url) {
-
-                }
-            });
-        }else if(type.equals(AdConfig.TYPE_APK.getName())){
-            DialogUtils.showDownloadHint(context, this, new DialogUtils.DialogListener<NoteAdInfo>() {
-                @Override
-                public void confirm(NoteAdInfo bean) {
-                    DownloadBean downloadBean = new DownloadBean();
-                    downloadBean.setAppName(bean.getTitle());
-                    bean.setUrl(getUrl());
-                    DownloadManager.getInstance(context).download(downloadBean, DOWNLOAD_STRATERY_SERVICE
-                            , new NotificationDownloadFeedback(context));
-                }
-                @Override
-                public void cancel() {
-
-                }
-            });
-
-        }
-    }
-
 }

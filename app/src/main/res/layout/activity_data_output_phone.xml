@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/activity_backGround"
+    android:background="@color/white"
     tools:context="com.syezon.note_xh.activity.DataOutputPhoneActivity">
 
     <RelativeLayout
@@ -49,35 +49,10 @@
             android:layout_height="200dp"
             android:layout_centerHorizontal="true">
 
-            <View
-                android:id="@+id/view_scale"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/bg_output_anim"/>
-
-            <ImageView
-                android:layout_centerInParent="true"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@mipmap/data_import_phone"/>
-
-            <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:background="@drawable/bg_migration_output_dot"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="40dp"/>
-
-
-            <View
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:background="@drawable/bg_migration_output_dot"
-                android:layout_marginTop="120dp"
-                android:layout_marginLeft="160dp"/>
-
-
+            <com.syezon.note_xh.view.RadarView
+                android:id="@+id/radarView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
 
         </RelativeLayout>
@@ -98,13 +73,19 @@
 
         <LinearLayout
             android:layout_below="@id/tv_output"
-            android:layout_marginTop="70dp"
-            android:gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:gravity="center_horizontal|center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/hint"/>
+
             <TextView
                 android:id="@+id/tv_desc"
+                android:layout_marginLeft="5dp"
                 android:text="@string/output_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -168,7 +149,7 @@
                     android:layout_marginTop="5dp"
                     android:id="@+id/pb"
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
+                    android:layout_height="6dp"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/pb_migration"
                     />

@@ -8,6 +8,7 @@ public class SharedPerferencesUtil {
     private static SharedPreferences sharedPreferences;
     private static final String SPLASH_ORDER = "splash_order";
     private static final String SPLASH_INFO = "splash_info";
+    private static final String NOTE_INFO = "note_info";
 
 
     public static void saveStringData(Context context, String key, String value) {
@@ -92,6 +93,20 @@ public class SharedPerferencesUtil {
             sharedPreferences = context.getSharedPreferences(CONFIG, Context.MODE_PRIVATE);
         }
         return sharedPreferences.getString(SPLASH_INFO,  "");
+    }
+
+    public static void saveNoateInfo(Context context, String jsonInfo) {
+        if (sharedPreferences == null) {
+            sharedPreferences = context.getSharedPreferences(CONFIG, Context.MODE_PRIVATE);
+        }
+        sharedPreferences.edit().putString(NOTE_INFO, jsonInfo).commit();
+    }
+
+    public static String getNoteInfo(Context context) {
+        if (sharedPreferences == null) {
+            sharedPreferences = context.getSharedPreferences(CONFIG, Context.MODE_PRIVATE);
+        }
+        return sharedPreferences.getString(NOTE_INFO,  "");
     }
 
 }

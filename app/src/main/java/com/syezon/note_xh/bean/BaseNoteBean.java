@@ -19,4 +19,5 @@ public abstract class BaseNoteBean {
     public abstract boolean isCompleted();
     public abstract DbModel getDbModel();
     public abstract void click(Context context);
+    public abstract void show(Context context);
 }

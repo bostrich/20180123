@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_main"
+    android:background="@color/activity_backGround"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.syezon.note_xh.activity.ShowPageActivity">
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ActionBarHeight"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout">
+        <TextView
+            android:text="@string/bianqian2"
+            android:textSize="@dimen/titlesize"
+            android:textColor="@color/note_time"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView9" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/caidan"
+            android:textSize="26sp"
+            android:textColor="@android:color/white"
+            android:id="@+id/tv_menu"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/showpage_ll"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <!-- 时间-->
+        <RelativeLayout
+            android:background="@color/activity_backGround"
+            android:id="@+id/rl_showpage_time"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:text="时间"
+                    android:textSize="16sp"
+                    android:textColor="@color/note_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:id="@+id/v_underline_time"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/note_time"
+                    android:layout_width="27dp"
+                    android:layout_height="2dp"/>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+        <!-- 分类 -->
+        <RelativeLayout
+            android:background="@color/activity_backGround"
+            android:id="@+id/rl_showpage_sort"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_sort"
+                    android:text="分类"
+                    android:textSize="16sp"
+                    android:textColor="@color/note_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:id="@+id/v_underline_sort"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/note_time"
+                    android:layout_width="27dp"
+                    android:layout_height="2dp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="@color/activity_backGround"
+            android:id="@+id/rl_news"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_news"
+                    android:text="热点"
+                    android:textSize="16sp"
+                    android:textColor="@color/note_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:id="@+id/v_underline_news"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/note_time"
+                    android:layout_width="27dp"
+                    android:layout_height="2dp"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/showpage_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/showpage_container" />
+
+
+</RelativeLayout>

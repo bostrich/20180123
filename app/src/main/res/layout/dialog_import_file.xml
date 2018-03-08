@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="240dp"
+    android:layout_height="150dp"
+    android:background="@drawable/bg_dialog_migration_file"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="是否导入"
+        android:textColor="#565656"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="文件名"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="#565656"
+        android:textSize="16sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="100dp"
+            android:layout_height="33dp"
+            android:background="@drawable/bg_cancel_n"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_width="100dp"
+            android:layout_height="33dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_btn"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

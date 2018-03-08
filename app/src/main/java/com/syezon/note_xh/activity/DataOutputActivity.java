@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.utils.LogUtil;
+import com.syezon.note_xh.utils.StatisticUtils;
 
 import java.io.File;
 
@@ -35,6 +35,7 @@ public class DataOutputActivity extends BaseUmengAnalysisActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_output);
         ButterKnife.bind(this);
+        StatisticUtils.report(this, StatisticUtils.ID_MIGRATION, StatisticUtils.EVENT_SHOW, "output");
     }
 
     @OnClick({R.id.iv_cancel, R.id.ll_phone, R.id.ll_file})

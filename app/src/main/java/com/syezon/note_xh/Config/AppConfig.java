@@ -5,10 +5,12 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import com.syezon.note_xh.bean.NoteAdInfo;
+import com.syezon.note_xh.event.NewsSourceEvent;
 import com.syezon.note_xh.utils.FileUtils;
 import com.syezon.note_xh.utils.LogUtil;
 import com.syezon.note_xh.utils.SharedPerferencesUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,33 +38,40 @@ public class AppConfig {
     public static String version = "";
     public static List<NoteAdInfo> listAd = new ArrayList<>();
     public static List<NoteAdInfo> listSplash = new ArrayList<>();
+    public static String NEWS_SOURCE = "";
 
 
     public static void getParams(final Context context){
         CHANNEL = getChannel(context);
+        if(!isGetParams){
+            RequestParams requestParams = new RequestParams("http://res.ipingke.com/adsw/note.html");
+            requestParams.setConnectTimeout(4000);
+            x.http().get(requestParams, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String result) {
+                    isGetParams = true;
+                    parseParams(context, result);
+                }
 
-        x.http().get(new RequestParams("http://res.ipingke.com/adsw/note.html"), new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                isGetParams = true;
-                parseParams(context, result);
-            }
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    SharedPerferencesUtil.saveSplashInfo(context.getApplicationContext(), "");
+                }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
+                @Override
+                public void onCancelled(CancelledException cex) {
 
-            }
+                }
 
-            @Override
-            public void onCancelled(CancelledException cex) {
+                @Override
+                public void onFinished() {
 
-            }
+                }
+            });
 
-            @Override
-            public void onFinished() {
+        }
 
-            }
-        });
+
     }
 
     /**
@@ -83,6 +92,10 @@ public class AppConfig {
                 info.setType(temp.optString("type"));
                 info.setPic(temp.optString("pic"));
                 info.setUrl(temp.optString("url"));
+                if(info.getId().equals("news")){
+                    NEWS_SOURCE = info.getUrl();
+                    EventBus.getDefault().post(new NewsSourceEvent(NEWS_SOURCE));
+                }
                 if(info.getPic().equals("")){
                     info.setHasImage(false);
                 }else{
@@ -122,7 +135,7 @@ public class AppConfig {
                 JSONObject splash = new JSONObject();
                 splash.put("filepath", fileName);
                 splash.put("url", noteAdInfo.getUrl());
-                splash.put("title", noteAdInfo.getTitle());
+                splash.put("title", noteAdInfo.getName());
                 splash.put("name", noteAdInfo.getName());
                 splash.put("order", order);
                 SharedPerferencesUtil.saveSplashInfo(context.getApplicationContext(), splash.toString());
@@ -204,6 +217,15 @@ public class AppConfig {
             e.printStackTrace();
             return "official";
         }
+    }
+
+    public static void onDestroy(){
+        isGetParams = false;
+        listAd.clear();
+        listSplash.clear();
+        NEWS_SOURCE = "";
+        AppSwitch.showAdInNotes = false;
+        listAd.clear();
     }
 
 }

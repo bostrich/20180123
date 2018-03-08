@@ -79,7 +79,7 @@
             <ImageView
                 android:layout_width="124dp"
                 android:layout_height="124dp"
-                android:src="@mipmap/data_transfer_output"/>
+                android:src="@mipmap/data_import_file"/>
 
             <TextView
                 android:layout_marginTop="15dp"

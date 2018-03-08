@@ -31,6 +31,7 @@ public class MovePopWindow extends PopupWindow {
     ListView lvClassify;
 
     List<NoteSortEntity > sortEntityList;
+    private MoveAdapter moveAdapter;
 
     public MovePopWindow(Context mContext, final OnMovePopItemClick onMovePopItemClick) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.popwindow_move, null);
@@ -38,7 +39,7 @@ public class MovePopWindow extends PopupWindow {
 
         try {
             sortEntityList= NoteApplication.dbManager.findAll(NoteSortEntity.class);
-            MoveAdapter moveAdapter=new MoveAdapter(sortEntityList,mContext);
+            moveAdapter=new MoveAdapter(sortEntityList,mContext);
             lvClassify.setAdapter(moveAdapter);
 
             lvClassify.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,6 +65,16 @@ public class MovePopWindow extends PopupWindow {
 
         // 设置弹出窗体显示时的动画，从底部向上弹出
         this.setAnimationStyle(R.style.pop_move_window_anim);
+    }
+
+    public void updateSort(){
+        try {
+            sortEntityList.clear();
+            sortEntityList.addAll(NoteApplication.dbManager.findAll(NoteSortEntity.class));
+            moveAdapter.notifyDataSetChanged();
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
     }
 
     public interface OnMovePopItemClick{

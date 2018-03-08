@@ -3,6 +3,7 @@ package com.syezon.note_xh.utils;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
@@ -149,7 +150,7 @@ public class DataMigrationUtil {
                     try{
                         obj_note.put(VERSION, model.getInt(VERSION));
                     }catch(Exception e){
-                        obj_note.put(VERSION, 1);
+                        obj_note.put(VERSION, 0);
                     }
                     array.put(obj_note);
                 }
@@ -214,17 +215,27 @@ public class DataMigrationUtil {
         if (ary_notes != null && ary_notes.length() > 0) {
             for (int i = 0; i < ary_notes.length(); i++) {
                 JSONObject obj = ary_notes.optJSONObject(i);
+                LogUtil.e(TAG, "原始数据：" + obj.toString());
                 NoteEntity noteEntity = new NoteEntity();
                 noteEntity.setSortName(obj.optString(SORTNAME));
                 noteEntity.setTime(obj.optString(TIME));
                 noteEntity.setBriefContent(obj.optString(BRIEFCONTENT));
-                noteEntity.setContent(obj.optString(CONTENT));
+                //重置图片地址防止SD卡位置不同
+                noteEntity.setContent(reSetContentPath(obj.optString(CONTENT)));
                 noteEntity.setTitle(obj.optString(TITLE));
                 noteEntity.setHasImage(obj.optBoolean(HASIMAGE));
-                noteEntity.setImagePath(obj.optString(IMAGEPATH));
+                //重新设置图片地址SD卡位置不同
+                String imgPath = obj.optString(IMAGEPATH);
+                LogUtil.e(TAG, "图片地址原始：" + imgPath);
+                String[] split = imgPath.split("/");
+                if(split.length > 1){
+                    imgPath = "file://" + Conts.FOLDER_PIC + "/" + split[split.length -1];
+                }
+                LogUtil.e(TAG, "图片地址修改后：" + imgPath);
+                noteEntity.setImagePath(imgPath);
                 noteEntity.setWeatherStr(obj.optString(WEATHER));
                 noteEntity.setCollect(obj.optBoolean(ISCOLLECT));
-                noteEntity.setComplete(obj.optBoolean(ISCOLLECT));
+                noteEntity.setComplete(obj.optBoolean(ISCOMPLETE));
                 noteEntity.setVersion(obj.optInt(VERSION));
                 //判断是否有重复数据
                 boolean isAdded = false;
@@ -235,7 +246,7 @@ public class DataMigrationUtil {
                         try{
                             version = dbModel.getInt(VERSION);
                         }catch(Exception e){
-                            version = 1;
+                            version = 0;
                         }
                         if (version < noteEntity.getVersion()) {
                             try {
@@ -318,6 +329,33 @@ public class DataMigrationUtil {
     public static boolean fileExists(String filePath) {
         File file = new File(filePath);
         return file.exists();
+    }
+
+    public static String reSetContentPath(final String changContent){
+        String result = changContent;
+        content = changContent;
+        Html.fromHtml(changContent, new Html.ImageGetter() {
+            @Override
+            public Drawable getDrawable(String source) {
+                String tag = source.substring(0, 1);
+                String url = source.substring(2);
+                if (tag.equals("1")) {
+                    String[] split = url.split("/");
+                    String path = "";
+                    if(split.length > 1){
+                        path = "file://" + Conts.FOLDER_PIC + "/" + split[split.length -1];
+                    }
+                    content = content.replace(url, path);
+                }
+                return null;
+            }
+        }, null);
+
+        if(content != null && !content.equals(changContent)){
+            return content;
+        }else{
+            return result;
+        }
     }
 
 }

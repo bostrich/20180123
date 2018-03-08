@@ -24,6 +24,8 @@ import com.syezon.note_xh.utils.DataMigrationUtil;
 import com.syezon.note_xh.utils.DialogUtils;
 import com.syezon.note_xh.utils.FileUtils;
 import com.syezon.note_xh.utils.LogUtil;
+import com.syezon.note_xh.utils.StatisticUtils;
+import com.syezon.note_xh.utils.ToastUtils;
 import com.syezon.note_xh.utils.ZipUtils;
 import com.syezon.note_xh.view.CustomDialog;
 
@@ -69,7 +71,7 @@ public class DataImportFileActivity extends BaseUmengAnalysisActivity {
         initHandler();
         initView();
         initData();
-
+        StatisticUtils.report(this, StatisticUtils.ID_MIGRATION, StatisticUtils.EVENT_SHOW, "import_file");
     }
 
     @Override
@@ -86,10 +88,15 @@ public class DataImportFileActivity extends BaseUmengAnalysisActivity {
                 switch(msg.what){
                     case MIGRATION_SUCCESS:
                         tvDialog.setText("导入成功");
+                        dialogMigration.dismiss();
+                        ToastUtils.showUniqueToast(DataImportFileActivity.this, "导入成功");
                         EventBus.getDefault().post(new EditEvent());
+                        StatisticUtils.report(DataImportFileActivity.this, StatisticUtils.ID_MIGRATION, StatisticUtils.EVENT_MIGRATION_FILE, "import_success");
                         break;
                     case MIGRATION_FAILED:
                         tvDialog.setText("导入失败");
+                        dialogMigration.dismiss();
+                        ToastUtils.showUniqueToast(DataImportFileActivity.this, "导入失败");
                         break;
                 }
             }

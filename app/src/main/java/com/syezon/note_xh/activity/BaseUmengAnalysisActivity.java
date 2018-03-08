@@ -2,6 +2,7 @@ package com.syezon.note_xh.activity;
 
 import android.os.Handler;
 
+import com.syezon.note_xh.utils.LogUtil;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -18,6 +19,7 @@ public class BaseUmengAnalysisActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getName());
+//        LogUtil.e("page", this.getClass().getName());
         MobclickAgent.onResume(this);
     }
 

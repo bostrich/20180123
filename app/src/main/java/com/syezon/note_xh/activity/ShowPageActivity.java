@@ -13,19 +13,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.syezon.note_xh.Config.AdConfig;
+import com.syezon.note_xh.Config.AppConfig;
 import com.syezon.note_xh.R;
 import com.syezon.note_xh.application.NoteApplication;
 import com.syezon.note_xh.db.NoteSortEntity;
 import com.syezon.note_xh.event.BySortEvent;
 import com.syezon.note_xh.event.ByTimeEvent;
+import com.syezon.note_xh.event.NewsSourceEvent;
 import com.syezon.note_xh.event.ThemeChangeEvent;
 import com.syezon.note_xh.fragment.NewsFragment;
 import com.syezon.note_xh.fragment.SortFragment;
 import com.syezon.note_xh.fragment.TimeFragment;
 import com.syezon.note_xh.utils.DisplayUtils;
 import com.syezon.note_xh.utils.MarketUtils;
+import com.syezon.note_xh.utils.NetWorkUtil;
 import com.syezon.note_xh.utils.PreferenceKeyUtils;
 import com.syezon.note_xh.utils.SharedPerferencesUtil;
+import com.syezon.note_xh.utils.StatisticUtils;
 import com.syezon.note_xh.utils.ToastUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -53,18 +57,24 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
     TextView tvSort;
     @BindView(R.id.tv_news)
     TextView tvNews;
-    @BindView(R.id.tv_time_ima)
-    TextView tvTimeIma;
-    @BindView(R.id.tv_sort_ima)
-    TextView tvSortIma;
-    @BindView(R.id.tv_news_ima)
-    TextView tvNewsIma;
-    @BindView(R.id.tv_time_arrow)
-    TextView tvTimeArrow;
-    @BindView(R.id.tv_sort_arrow)
-    TextView tvSortArrow;
-    @BindView(R.id.tv_news_arrow)
-    TextView tvNewsArrow;
+//    @BindView(R.id.tv_time_ima)
+//    TextView tvTimeIma;
+//    @BindView(R.id.tv_sort_ima)
+//    TextView tvSortIma;
+//    @BindView(R.id.tv_news_ima)
+//    TextView tvNewsIma;
+//    @BindView(R.id.tv_time_arrow)
+//    TextView tvTimeArrow;
+//    @BindView(R.id.tv_sort_arrow)
+//    TextView tvSortArrow;
+//    @BindView(R.id.tv_news_arrow)
+//    TextView tvNewsArrow;
+    @BindView(R.id.v_underline_news)
+    View vUnderlineNews;
+    @BindView(R.id.v_underline_sort)
+    View vUnderlineSort;
+    @BindView(R.id.v_underline_time)
+    View vUnderlineTime;
     @BindView(R.id.tv_menu)
     TextView tvMenu;
 
@@ -149,22 +159,23 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_page);
+        setContentView(R.layout.activity_show_page2);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         setListener();
 
         Typeface iconfont = Typeface.createFromAsset(getAssets(), "iconfont.ttf");
-        tvTimeIma.setTypeface(iconfont);
-        tvSortIma.setTypeface(iconfont);
-        tvNewsIma.setTypeface(iconfont);
-        tvTimeArrow.setTypeface(iconfont);
-        tvSortArrow.setTypeface(iconfont);
+//        tvTimeIma.setTypeface(iconfont);
+//        tvSortIma.setTypeface(iconfont);
+//        tvNewsIma.setTypeface(iconfont);
+//        tvTimeArrow.setTypeface(iconfont);
+//        tvSortArrow.setTypeface(iconfont);
         tvMenu.setTypeface(iconfont);
         //默认按时间排序
         fragmentManager = getSupportFragmentManager();
         timeFragment = new TimeFragment();
 //        sortFragment=new SortFragment();
+        initView();
         fragmentManager.beginTransaction().add(R.id.showpage_container, timeFragment).commit();
         //如果是首次进入应用，就先往类别数据库中添加几个默认的类别
         if (SharedPerferencesUtil.getBooleanData(this, PreferenceKeyUtils.ISFIRST, true)) {
@@ -182,6 +193,26 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
         }
 
         tvMenu.setOnClickListener(this);
+
+        //判断网络状态是否显示热点模块
+        rlNews.setVisibility(View.GONE);
+        if(NetWorkUtil.isNetworkAvailable(this)){
+            if(AppConfig.NEWS_SOURCE.equals(AdConfig.TYPE_NEWS_SOURCE_BL.getName())
+                    || (AppConfig.NEWS_SOURCE.equals(AdConfig.TYPE_NEWS_SOURCE_TT.getName()))){
+                rlNews.setVisibility(View.VISIBLE);
+            }else{
+                AppConfig.getParams(this);
+            }
+        }
+    }
+
+    private void initView() {
+        tvTime.setTextColor(getResources().getColor(R.color.note_time));
+        tvSort.setTextColor(getResources().getColor(R.color.note_text));
+        tvNews.setTextColor(getResources().getColor(R.color.note_text));
+        vUnderlineTime.setVisibility(View.VISIBLE);
+        vUnderlineSort.setVisibility(View.INVISIBLE);
+        vUnderlineNews.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -208,6 +239,7 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
             gradeDialog.dismiss();
             gradeDialog=null;
         }
+        AppConfig.onDestroy();
     }
 
 
@@ -219,8 +251,8 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
     private void setListener() {
         rlShowpageTime.setOnClickListener(this);
         rlShowpageSort.setOnClickListener(this);
-        tvTimeArrow.setOnClickListener(this);
-        tvSortArrow.setOnClickListener(this);
+//        tvTimeArrow.setOnClickListener(this);
+//        tvSortArrow.setOnClickListener(this);
         rlNews.setOnClickListener(this);
     }
 
@@ -235,18 +267,25 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
                     hideFragment(fragmentTransaction);
                     fragmentTransaction.show(timeFragment).commit();
                     //改变背景颜色
-                    rlShowpageTime.setBackgroundColor(getResources().getColor(R.color.activity_backGround));
-                    rlShowpageSort.setBackgroundColor(getResources().getColor(R.color.unselected_color));
-                    rlNews.setBackgroundColor(getResources().getColor(R.color.unselected_color));
-                    tvTimeArrow.setVisibility(View.VISIBLE);
-                    tvSortArrow.setVisibility(View.INVISIBLE);
+//                    rlShowpageTime.setBackgroundColor(getResources().getColor(R.color.activity_backGround));
+//                    rlShowpageSort.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+//                    rlNews.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+//                    tvTimeArrow.setVisibility(View.VISIBLE);
+//                    tvSortArrow.setVisibility(View.INVISIBLE);
+//
+//                    tvTimeIma.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
+//                    tvTime.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
+//                    tvSortIma.setTextColor(getResources().getColor(themeColorSourceId));
+//                    tvNewsIma.setTextColor(getResources().getColor(themeColorSourceId));
+//                    tvSort.setTextColor(getResources().getColor(themeColorSourceId));
+//                    tvNews.setTextColor(getResources().getColor(themeColorSourceId));
+                    tvTime.setTextColor(getResources().getColor(R.color.note_time));
+                    tvSort.setTextColor(getResources().getColor(R.color.note_text));
+                    tvNews.setTextColor(getResources().getColor(R.color.note_text));
+                    vUnderlineTime.setVisibility(View.VISIBLE);
+                    vUnderlineSort.setVisibility(View.INVISIBLE);
+                    vUnderlineNews.setVisibility(View.INVISIBLE);
 
-                    tvTimeIma.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
-                    tvTime.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
-                    tvSortIma.setTextColor(getResources().getColor(themeColorSourceId));
-                    tvNewsIma.setTextColor(getResources().getColor(themeColorSourceId));
-                    tvSort.setTextColor(getResources().getColor(themeColorSourceId));
-                    tvNews.setTextColor(getResources().getColor(themeColorSourceId));
 
                 } else {
                     timeOrderChange();
@@ -265,18 +304,24 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
                         fragmentTransaction1.add(R.id.showpage_container, sortFragment).commit();
                     }
                     //改变背景颜色
-                    rlShowpageSort.setBackgroundColor(getResources().getColor(R.color.activity_backGround));
-                    rlShowpageTime.setBackgroundColor(getResources().getColor(R.color.unselected_color));
-                    rlNews.setBackgroundColor(getResources().getColor(R.color.unselected_color));
-                    tvSortArrow.setVisibility(View.VISIBLE);
-                    tvTimeArrow.setVisibility(View.INVISIBLE);
-
-                    tvTimeIma.setTextColor(getResources().getColor(themeColorSourceId));
-                    tvNewsIma.setTextColor(getResources().getColor(themeColorSourceId));
-                    tvTime.setTextColor(getResources().getColor(themeColorSourceId));
-                    tvNews.setTextColor(getResources().getColor(themeColorSourceId));
-                    tvSortIma.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
-                    tvSort.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
+//                    rlShowpageSort.setBackgroundColor(getResources().getColor(R.color.activity_backGround));
+//                    rlShowpageTime.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+//                    rlNews.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+//                    tvSortArrow.setVisibility(View.VISIBLE);
+//                    tvTimeArrow.setVisibility(View.INVISIBLE);
+//
+//                    tvTimeIma.setTextColor(getResources().getColor(themeColorSourceId));
+//                    tvNewsIma.setTextColor(getResources().getColor(themeColorSourceId));
+//                    tvTime.setTextColor(getResources().getColor(themeColorSourceId));
+//                    tvNews.setTextColor(getResources().getColor(themeColorSourceId));
+//                    tvSortIma.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
+//                    tvSort.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
+                    tvTime.setTextColor(getResources().getColor(R.color.note_text));
+                    tvSort.setTextColor(getResources().getColor(R.color.note_time));
+                    tvNews.setTextColor(getResources().getColor(R.color.note_text));
+                    vUnderlineTime.setVisibility(View.INVISIBLE);
+                    vUnderlineSort.setVisibility(View.VISIBLE);
+                    vUnderlineNews.setVisibility(View.INVISIBLE);
 
                 } else {
                     sortOrderChange();
@@ -289,24 +334,30 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
                 if (newsFragment != null && newsFragment.isAdded()) {
                     fragmentTransaction1.show(newsFragment).commit();
                 } else {
-                    newsFragment = NewsFragment.newInstance(AdConfig.TYPE_NEWS_SOURCE_TT.getName());
+                    newsFragment = NewsFragment.newInstance(AppConfig.NEWS_SOURCE);
                     fragmentTransaction1.add(R.id.showpage_container, newsFragment).commit();
                 }
-                rlShowpageSort.setBackgroundColor(getResources().getColor(R.color.unselected_color));
-                rlShowpageTime.setBackgroundColor(getResources().getColor(R.color.unselected_color));
-                rlNews.setBackgroundColor(getResources().getColor(R.color.activity_backGround));
-
-                tvSortArrow.setVisibility(View.INVISIBLE);
-                tvTimeArrow.setVisibility(View.INVISIBLE);
-
-                tvTimeIma.setTextColor(getResources().getColor(themeColorSourceId));
-                tvTime.setTextColor(getResources().getColor(themeColorSourceId));
-                tvSortIma.setTextColor(getResources().getColor(themeColorSourceId));
-                tvSort.setTextColor(getResources().getColor(themeColorSourceId));
-                tvNewsIma.setTextColor(getResources().getColor(R.color.news_tag));
-
-                tvNews.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
-
+//                rlShowpageSort.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+//                rlShowpageTime.setBackgroundColor(getResources().getColor(R.color.unselected_color));
+//                rlNews.setBackgroundColor(getResources().getColor(R.color.activity_backGround));
+//
+//                tvSortArrow.setVisibility(View.INVISIBLE);
+//                tvTimeArrow.setVisibility(View.INVISIBLE);
+//
+//                tvTimeIma.setTextColor(getResources().getColor(themeColorSourceId));
+//                tvTime.setTextColor(getResources().getColor(themeColorSourceId));
+//                tvSortIma.setTextColor(getResources().getColor(themeColorSourceId));
+//                tvSort.setTextColor(getResources().getColor(themeColorSourceId));
+//                tvNewsIma.setTextColor(getResources().getColor(R.color.news_tag));
+//
+//                tvNews.setTextColor(getResources().getColor(customactionbarBackGroundSorceId));
+                tvTime.setTextColor(getResources().getColor(R.color.note_text));
+                tvSort.setTextColor(getResources().getColor(R.color.note_text));
+                tvNews.setTextColor(getResources().getColor(R.color.note_time));
+                vUnderlineTime.setVisibility(View.INVISIBLE);
+                vUnderlineSort.setVisibility(View.INVISIBLE);
+                vUnderlineNews.setVisibility(View.VISIBLE);
+                StatisticUtils.report(this, StatisticUtils.ID_TAB_NEWS_CLICK);
                 break;
             case R.id.tv_time_arrow:
                 timeOrderChange();
@@ -326,13 +377,13 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
     private void sortOrderChange() {
         if (tag == BY_SORT) {
             //动画效果
-            if (sorttag == DOWN) {
-                tvSortArrow.setText(getResources().getString(R.string.up));
-                sorttag = UP;
-            } else {
-                tvSortArrow.setText(getResources().getString(R.string.down));
-                sorttag = DOWN;
-            }
+//            if (sorttag == DOWN) {
+//                tvSortArrow.setText(getResources().getString(R.string.up));
+//                sorttag = UP;
+//            } else {
+//                tvSortArrow.setText(getResources().getString(R.string.down));
+//                sorttag = DOWN;
+//            }
             //给sortfragment发送更新消息
             EventBus.getDefault().post(new BySortEvent());
         }
@@ -341,13 +392,13 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
     //按时间排的改变箭头指向
     private void timeOrderChange() {
         if (tag == BY_TIME) {
-            if (timetag == DOWN) {
-                tvTimeArrow.setText(getResources().getString(R.string.up));
-                timetag = UP;
-            } else {
-                tvTimeArrow.setText(getResources().getString(R.string.down));
-                timetag = DOWN;
-            }
+//            if (timetag == DOWN) {
+//                tvTimeArrow.setText(getResources().getString(R.string.up));
+//                timetag = UP;
+//            } else {
+//                tvTimeArrow.setText(getResources().getString(R.string.down));
+//                timetag = DOWN;
+//            }
             EventBus.getDefault().post(new ByTimeEvent());
         }
     }
@@ -370,4 +421,20 @@ public class ShowPageActivity extends BaseActivity implements View.OnClickListen
     protected void onSaveInstanceState(Bundle outState) {
 //        super.onSaveInstanceState(outState);
     }
+
+
+    /**
+     * 重新获取配置参数，更新页面
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void showNewsPage(NewsSourceEvent event){
+        if(event.getSource().equals(AdConfig.TYPE_NEWS_SOURCE_BL.getName())
+                || (event.getSource().equals(AdConfig.TYPE_NEWS_SOURCE_TT.getName()))){
+            if(!rlNews.isShown()){
+                rlNews.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
 }
